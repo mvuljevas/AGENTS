@@ -65,6 +65,8 @@ git diff --check
 - `docs/CONVENTIONS.md`: template and preset conventions.
 - `docs/WORKFLOWS.md`: shared workflow rules.
 - `presets/lean-context/`: reusable preset for lean context loading.
+- `presets/lean-context/docs/RECOMMENDATION_FLOW.md`: guide for recommending a
+  template and preset combination before adoption.
 
 ## Current Decisions
 
@@ -73,6 +75,7 @@ git diff --check
 - Project templates will live under `templates/<project-type>/`.
 - Reusable workflow layers live under `presets/<preset-name>/`.
 - `lean-context` is both stored as a preset and applied to this repository.
+- Agents should recommend templates and presets before copying or applying them.
 - Pushes remain explicit; local commits and tags may be created during closed
   versioned iterations.
 

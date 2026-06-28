@@ -62,6 +62,19 @@ For an existing project, do not overwrite current workflow files. Add the lean
 context documents incrementally, preserve existing conventions, then create an
 adoption snapshot.
 
+## Recommendation Before Adoption
+
+Before downloading, copying, or applying a template, agents should recommend the
+smallest useful template and preset combination based on the user's app idea.
+
+Use `docs/RECOMMENDATION_FLOW.md` to decide:
+
+- Which template fits the requested product.
+- Whether the project is new or already in progress.
+- Which presets are useful.
+- Which MCP, compression, tracking, or GitHub workflow capabilities are
+  optional.
+
 ## Language
 
 Reusable technical documentation should be written in concise English. Spanish

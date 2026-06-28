@@ -44,6 +44,18 @@ What should we work on next?
 If the repository is already in progress, the agent should propose how to adopt
 or align the workflow without overwriting existing conventions.
 
+## Template and Preset Recommendation
+
+Before downloading, copying, or applying a template, recommend the smallest
+useful template and preset combination from the user's project description.
+
+- Use `docs/RECOMMENDATION_FLOW.md` when available.
+- Recommend one primary template.
+- Recommend `lean-context` by default when the user wants AI quota efficiency,
+  MCP guidance, GitHub workflow help, or search-first agent behavior.
+- Treat MCPs, compression, and tracking tools as optional capabilities.
+- For existing projects, propose an adoption path instead of overwriting files.
+
 ## Optional MCPs
 
 - Treat MCP servers as optional accelerators, not required dependencies.

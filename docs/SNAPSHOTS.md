@@ -255,3 +255,37 @@ Next suggested step:
 
 - Push `v0.3.0` and `v0.4.0` when remote publication is approved, then create
   the first concrete template.
+
+## 2026-06-28 - Block 007: Template Recommendation Flow
+
+Branch:
+
+- `main`
+
+Current state:
+
+- `lean-context` now includes a pre-download recommendation flow for selecting
+  templates and presets from the user's application idea.
+- The flow distinguishes new projects from existing projects and recommends
+  adoption paths instead of overwriting existing repositories.
+- Root AI context and search docs now point agents to the recommendation flow.
+- Repository version has been updated to `0.5.0`.
+
+Decisions:
+
+- Agents should recommend one primary template and a small preset set before
+  copying or applying files.
+- MCPs, compression, tracking, labels, and GitHub Projects remain optional
+  capabilities selected by the user.
+- If no template fits, agents should recommend `docs-only` plus `lean-context`
+  and record the gap as a future template candidate.
+
+Risks:
+
+- Concrete template directories are still planned but not created.
+- Recommendation quality depends on the template catalog staying current.
+
+Next suggested step:
+
+- Push pending local versions when approved, then create the first concrete
+  template using the recommendation flow.

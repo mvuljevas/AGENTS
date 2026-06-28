@@ -82,8 +82,8 @@ All templates in this repository should share:
 ## Presets
 
 - [lean-context](presets/lean-context/README.md): context-loading, MCP,
-  compression, usage tracking, and GitHub workflow rules for maximizing useful
-  AI quota.
+  compression, usage tracking, template/preset recommendation, and GitHub
+  workflow rules for maximizing useful AI quota.
 
 ## Documentation Map
 

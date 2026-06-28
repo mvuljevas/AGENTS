@@ -16,6 +16,7 @@ Use this file to locate the smallest useful context before opening files.
 ```bash
 rg --files
 rg "lean-context|templates|presets" README.md AGENTS.md docs presets
+rg "recommend|Recommendation|template and preset" README.md AGENTS.md docs presets
 rg "Versioning|vX.Y.Z|VERSION" README.md AGENTS.md docs
 rg "GitHub|labels|Projects|signed commits" docs presets
 rg "MCP|Resources|Roots|Tools" docs presets
@@ -55,4 +56,5 @@ Use slices instead of complete files when possible:
 sed -n '1,140p' docs/WORKFLOWS.md
 sed -n '140,260p' docs/WORKFLOWS.md
 sed -n '1,180p' presets/lean-context/README.md
+sed -n '1,200p' presets/lean-context/docs/RECOMMENDATION_FLOW.md
 ```

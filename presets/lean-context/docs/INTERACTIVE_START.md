@@ -42,6 +42,23 @@ Does this repository already have a GitHub Project? Should I create or link one?
 If the user accepts, prepare labels, project fields, and initial issues before
 implementation work starts.
 
+## Pre-Download Recommendation Flow
+
+When the user describes an application before a template has been downloaded or
+copied, the agent should recommend a template and preset combination first.
+
+Use `RECOMMENDATION_FLOW.md` to produce:
+
+- One primary template.
+- Recommended presets.
+- A short rationale.
+- Optional capabilities such as MCPs, compression, usage tracking, labels, and
+  GitHub Projects.
+- Questions that must be answered before applying anything.
+
+Do not download, copy, or apply template files until the user approves the
+recommendation.
+
 ## Existing Project Flow
 
 When a project already has code or documentation:
