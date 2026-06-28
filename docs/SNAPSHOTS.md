@@ -394,3 +394,32 @@ Next suggested step:
 
 - Use the roadmap-driven fallback to choose between project-context MCP work,
   technical debt automation, or further template refinement.
+
+## 2026-06-28 - Block 011: Root Roadmap And Technical Debt
+
+Branch:
+
+- `main`
+
+Current state:
+
+- The repository now has root `docs/ROADMAP.md` and `docs/TECHDEBT.md`.
+- The next-step fallback rule now applies to this repository with real roadmap
+  and technical debt sources.
+- Open technical debt entries are linked to GitHub issues.
+- Repository version has been updated to `0.9.0`.
+
+Decisions:
+
+- `docs/ROADMAP.md` is the primary source for AGENTS next-step suggestions.
+- `docs/TECHDEBT.md` is the fallback source and durable local debt index.
+- GitHub issues remain the operational board items for actionable debt.
+
+Risks:
+
+- Roadmap and technical debt must be kept aligned with GitHub Project state.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: validate the recommendation flow with real
+  new-project prompts.

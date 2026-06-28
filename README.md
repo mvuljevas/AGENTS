@@ -55,8 +55,10 @@ docs/
   CATALOG.md
   CONVENTIONS.md
   NAMING.md
+  ROADMAP.md
   WORKFLOWS.md
   SNAPSHOTS.md
+  TECHDEBT.md
 ```
 
 Future reusable project templates should live under `templates/`, grouped by
@@ -102,8 +104,10 @@ All templates in this repository should share:
 - [Catalog](docs/CATALOG.md)
 - [Conventions](docs/CONVENTIONS.md)
 - [Naming](docs/NAMING.md)
+- [Roadmap](docs/ROADMAP.md)
 - [Workflows](docs/WORKFLOWS.md)
 - [Snapshots](docs/SNAPSHOTS.md)
+- [Technical Debt](docs/TECHDEBT.md)
 
 ## License
 

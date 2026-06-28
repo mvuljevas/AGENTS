@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.7.0.
+- Current version: 0.9.0.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -33,7 +33,9 @@ This file is the compact project summary for agents working in this repository.
 │   ├── CATALOG.md
 │   ├── CONVENTIONS.md
 │   ├── NAMING.md
+│   ├── ROADMAP.md
 │   ├── SNAPSHOTS.md
+│   ├── TECHDEBT.md
 │   └── WORKFLOWS.md
 ├── presets/
 │   └── lean-context/
@@ -69,7 +71,10 @@ git diff --check
 - `VERSION`: authoritative version source for this repository.
 - `docs/CATALOG.md`: source of truth for available and planned templates and
   presets.
+- `docs/ROADMAP.md`: primary source for next-step suggestions.
 - `docs/SNAPSHOTS.md`: chronological project memory.
+- `docs/TECHDEBT.md`: fallback source for next-step suggestions and debt
+  automation.
 - `docs/CONVENTIONS.md`: template and preset conventions.
 - `docs/WORKFLOWS.md`: shared workflow rules.
 - `presets/lean-context/`: reusable preset for lean context loading.
@@ -93,7 +98,7 @@ git diff --check
 
 ## Current Risks
 
-- First concrete templates are available.
+- Root roadmap and technical debt docs now exist.
 - `project-context-mcp` is documented as a design guide but not implemented.
 - Third-party MCP, tracking, and compression tools can change quickly and should
   be rechecked before automation is added.

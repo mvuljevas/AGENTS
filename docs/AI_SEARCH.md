@@ -22,6 +22,8 @@ rg "recommend|Recommendation|template and preset" README.md AGENTS.md docs prese
 rg "Versioning|vX.Y.Z|VERSION" README.md AGENTS.md docs
 rg "GitHub|labels|Projects|signed commits" docs presets
 rg "MCP|Resources|Roots|Tools" docs presets
+rg "Next Milestones|Completed Milestones" docs/ROADMAP.md
+rg "TD-|Open|Resolved" docs/TECHDEBT.md
 rg "Next suggested step|Risks|Decisions" docs/SNAPSHOTS.md
 rg "Next-Step Fallback|ROADMAP|TECHDEBT" AGENTS.md docs presets templates
 ```
