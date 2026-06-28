@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.6.0.
+- Current version: 0.7.0.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -35,8 +35,13 @@ This file is the compact project summary for agents working in this repository.
 │   ├── NAMING.md
 │   ├── SNAPSHOTS.md
 │   └── WORKFLOWS.md
-└── presets/
-    └── lean-context/
+├── presets/
+│   └── lean-context/
+└── templates/
+    ├── chrome-extension-vanilla/
+    ├── docs-only/
+    ├── laravel-react/
+    └── react-vite-spa/
 ```
 
 ## Key Commands
@@ -68,6 +73,7 @@ git diff --check
 - `docs/CONVENTIONS.md`: template and preset conventions.
 - `docs/WORKFLOWS.md`: shared workflow rules.
 - `presets/lean-context/`: reusable preset for lean context loading.
+- `templates/`: available project templates.
 - `presets/lean-context/docs/RECOMMENDATION_FLOW.md`: guide for recommending a
   template and preset combination before adoption.
 
@@ -85,7 +91,7 @@ git diff --check
 
 ## Current Risks
 
-- Concrete project templates are currently planned but not available.
+- First concrete templates are available.
 - `project-context-mcp` is documented as a design guide but not implemented.
 - Third-party MCP, tracking, and compression tools can change quickly and should
   be rechecked before automation is added.

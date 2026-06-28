@@ -323,3 +323,42 @@ Next suggested step:
 
 - Create `templates/react-vite-spa/` or `templates/docs-only/` so recommendation
   output can point to an available concrete template.
+
+## 2026-06-28 - Block 009: Available Template Set
+
+Branch:
+
+- `main`
+
+Current state:
+
+- The four initial templates now exist and are marked `available` in
+  `docs/CATALOG.md`.
+- Available templates are `docs-only`, `react-vite-spa`, `laravel-react`, and
+  `chrome-extension-vanilla`.
+- Each template includes active AGENTS rules, lean-context docs, ignore files,
+  snapshots, roadmap, and technical debt tracking.
+- `react-vite-spa` and `chrome-extension-vanilla` include minimal runnable
+  starter files.
+- Repository version has been updated to `0.7.0`.
+
+Decisions:
+
+- `docs-only` is the fallback template when no more specific available template
+  fits.
+- `laravel-react` is a workflow foundation intended to be applied after creating
+  or identifying a Laravel app.
+- `react-vite-spa` uses `package.json` as its authoritative version source.
+- `chrome-extension-vanilla` uses `manifest.json` as its authoritative version
+  source.
+
+Risks:
+
+- Template quality should be validated through real project adoption.
+- `laravel-react` intentionally does not include a full Laravel application
+  tree.
+
+Next suggested step:
+
+- Test the recommendation flow again with a new app idea and verify that it
+  recommends an available template.

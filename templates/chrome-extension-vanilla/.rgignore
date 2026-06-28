@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.env
+.env.*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.log
+*.map

@@ -1,0 +1,9 @@
+# Local and generated files
+.env
+.env.*
+*.log
+repomix-output.md
+.cache/
+dist/
+build/
+coverage/

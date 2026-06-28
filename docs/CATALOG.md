@@ -1,7 +1,6 @@
 # Catalog
 
-This catalog is the source of truth for available and planned AGENTS templates
-and presets.
+This catalog is the source of truth for AGENTS templates and presets.
 
 Agents must check this file before recommending a template or preset.
 
@@ -17,10 +16,10 @@ Agents must check this file before recommending a template or preset.
 
 | Name | Path | Status | Use When |
 | --- | --- | --- | --- |
-| `docs-only` | `templates/docs-only/` | planned | Documentation, workflow, governance, or planning repositories. |
-| `react-vite-spa` | `templates/react-vite-spa/` | planned | React SPA, Vite, or PWA applications. |
-| `laravel-react` | `templates/laravel-react/` | planned | Laravel applications with a React-capable frontend or Inertia-style UI. |
-| `chrome-extension-vanilla` | `templates/chrome-extension-vanilla/` | planned | Chrome extensions built with vanilla HTML, CSS, and JavaScript. |
+| `docs-only` | `templates/docs-only/` | available | Documentation, workflow, governance, or planning repositories. |
+| `react-vite-spa` | `templates/react-vite-spa/` | available | React SPA, Vite, or PWA applications. |
+| `laravel-react` | `templates/laravel-react/` | available | Laravel applications with a React-capable frontend or Inertia-style UI. |
+| `chrome-extension-vanilla` | `templates/chrome-extension-vanilla/` | available | Chrome extensions built with vanilla HTML, CSS, and JavaScript. |
 
 ## Presets
 
@@ -32,23 +31,15 @@ Agents must check this file before recommending a template or preset.
 
 - Recommend only one primary template.
 - If the best-fit template is `planned`, say it is planned but not available.
-- If no available template fits, recommend a temporary `docs-only` plus
-  `lean-context` adoption path.
-- If `docs-only` itself is still planned, say that no concrete template is
-  available yet and recommend applying `lean-context` directly.
+- If no available template fits, recommend `docs-only` plus `lean-context` and
+  document the gap as a future template candidate.
 - Recommend `lean-context` by default for AI-assisted projects unless the user
   explicitly wants no AI workflow layer.
 - Do not claim that a planned template can be copied until its directory exists.
 
-## Current Practical Fallback
+## Existing Project Fallback
 
-Until concrete templates are created, the practical fallback for new projects is:
-
-```text
-Apply `lean-context` directly and create a minimal documentation foundation.
-```
-
-For existing projects:
+For existing projects without a direct template match:
 
 ```text
 Keep the existing structure, apply `lean-context` incrementally, and map current

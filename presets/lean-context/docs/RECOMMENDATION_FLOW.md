@@ -59,8 +59,7 @@ docs/CATALOG.md
 The catalog is the source of truth for whether a template is available,
 planned, draft, or deprecated.
 
-These are current catalog targets. Some may be planned before their directories
-exist.
+These are current catalog targets.
 
 | User intent | Recommended template |
 | --- | --- |
@@ -91,10 +90,7 @@ exist.
   optional capability.
 - For existing projects, recommend adoption steps instead of copying a full
   template over the project.
-- If no available template fits, recommend `docs-only` plus `lean-context` as a
-  temporary adoption path.
-- If `docs-only` is also planned and not available, recommend applying
-  `lean-context` directly with a minimal documentation foundation.
+- If no available template fits, recommend `docs-only` plus `lean-context`.
 - Document catalog gaps as future template candidates.
 
 ## New Project Response Template

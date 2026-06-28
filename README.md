@@ -86,6 +86,13 @@ All templates in this repository should share:
   compression, usage tracking, template/preset recommendation, and GitHub
   workflow rules for maximizing useful AI quota.
 
+## Templates
+
+- [docs-only](templates/docs-only/README.md)
+- [react-vite-spa](templates/react-vite-spa/README.md)
+- [laravel-react](templates/laravel-react/README.md)
+- [chrome-extension-vanilla](templates/chrome-extension-vanilla/README.md)
+
 ## Documentation Map
 
 - [Agent rules](AGENTS.md)

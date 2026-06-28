@@ -1,0 +1,13 @@
+node_modules/
+vendor/
+public/build/
+storage/framework/
+storage/logs/
+bootstrap/cache/
+.env
+.env.*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+composer.lock
+*.log
