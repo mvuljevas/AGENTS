@@ -222,3 +222,36 @@ Risks:
 Next suggested step:
 
 - Create the first concrete template and integrate `lean-context` into it.
+
+## 2026-06-28 - Block 006: Apply Lean Context To Repository
+
+Branch:
+
+- `main`
+
+Current state:
+
+- The repository now consumes its own `lean-context` preset.
+- Active root agent rules include lean context loading and optional MCP
+  guardrails.
+- Root AI context, search, and token budget documents have been added under
+  `docs/`.
+- Root `.aiignore` and `.rgignore` have been added.
+- Repository version has been updated to `0.4.0`.
+
+Decisions:
+
+- Keep the preset source under `presets/lean-context/`.
+- Keep the repository self-contained by copying the active lean context files to
+  root-level docs and ignore files.
+- Use `VERSION` as the authoritative version source.
+
+Risks:
+
+- Root AI docs must stay synchronized with major repository structure changes.
+- No concrete template consumes `lean-context` yet.
+
+Next suggested step:
+
+- Push `v0.3.0` and `v0.4.0` when remote publication is approved, then create
+  the first concrete template.

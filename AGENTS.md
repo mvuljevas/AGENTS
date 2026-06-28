@@ -50,6 +50,34 @@ What should we work on next?
 If the repository already contains an application, the agent should also propose
 how to adopt the template rules without disrupting existing conventions.
 
+## Lean Context Loading
+
+This repository uses the `lean-context` preset as an active workflow layer.
+
+- Retrieve context before reading context.
+- Do not read the whole repository unless the user explicitly asks for a full
+  audit.
+- Start with `README.md`, `AGENTS.md`, `docs/AI_CONTEXT.md`, and recent entries
+  in `docs/SNAPSHOTS.md`.
+- Use `docs/AI_SEARCH.md` to locate the relevant files before opening them.
+- Use `rg` before opening files.
+- Prefer small file slices over complete files.
+- Respect `.aiignore` and `.rgignore` unless the user explicitly asks to
+  inspect ignored material.
+- Avoid generated output, dependency folders, build artifacts, caches, secrets,
+  and lockfiles unless they are directly relevant.
+- Update `docs/AI_CONTEXT.md` when architecture, commands, stack, or important
+  project boundaries change.
+
+## Optional MCPs
+
+- Treat MCP servers as optional accelerators, not required dependencies.
+- Prefer read-only MCP resources before invoking tools.
+- Use MCP Roots or equivalent filesystem restrictions when available.
+- Do not expose secrets, `.env` files, dependency folders, build output, or
+  private credentials through MCP resources.
+- Keep MCP outputs bounded and summarize large results.
+
 ## Block Workflow
 
 Each work block should include:

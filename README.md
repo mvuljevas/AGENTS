@@ -49,6 +49,9 @@ LICENSE
 VERSION
 
 docs/
+  AI_CONTEXT.md
+  AI_SEARCH.md
+  AI_TOKEN_BUDGET.md
   CONVENTIONS.md
   NAMING.md
   WORKFLOWS.md
@@ -85,6 +88,9 @@ All templates in this repository should share:
 ## Documentation Map
 
 - [Agent rules](AGENTS.md)
+- [AI Context](docs/AI_CONTEXT.md)
+- [AI Search](docs/AI_SEARCH.md)
+- [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
 - [Conventions](docs/CONVENTIONS.md)
 - [Naming](docs/NAMING.md)
 - [Workflows](docs/WORKFLOWS.md)
