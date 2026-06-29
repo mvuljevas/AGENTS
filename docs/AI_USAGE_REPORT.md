@@ -209,3 +209,67 @@ Notes:
 
 - Local raw outputs are stored under `.ai-runs/20260629T233258Z/` and remain ignored.
 - Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-06-29 - Automated AI Tool Run 20260629T234209Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex today.
+- Tokscale submit: submitted: codex today.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 112 files, 76,931 tokens, 304,558 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260629T234209Z/tokscale-report.txt` when enabled. |
+| Tokscale submit | submitted: codex today. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260629T234209Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-06-29 - Automated AI Tool Run 20260629T234347Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex today.
+- Tokscale submit: skipped: off.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 112 files, 77,447 tokens, 306,584 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260629T234347Z/tokscale-report.txt` when enabled. |
+| Tokscale submit | skipped: off. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260629T234347Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.

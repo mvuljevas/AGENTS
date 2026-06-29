@@ -604,6 +604,39 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
   so context can be exposed through bounded read-only resources.
 
+## 2026-06-29 - Block 021: Tokscale Dashboard Submission
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Tokscale login succeeded locally as `mvuljevas`.
+- `scripts/ai-tools.sh run` successfully submitted Codex usage for
+  2026-06-29.
+- Submitted scope: `codex`, `today`, 23,830,062 tokens, $23.20.
+- `docs/AI_USAGE_REPORT.md` records the successful submission.
+- Repository version has been updated to `0.17.1`.
+
+Decisions:
+
+- Keep raw Tokscale submit output ignored under `.ai-runs/`.
+- Commit only the aggregate report and project memory update.
+- Avoid re-submitting during this documentation commit to prevent duplicate
+  external submissions.
+
+Risks:
+
+- Tokscale dashboard timing may lag after successful CLI submission.
+- Future client coverage still depends on each client's readable local data or
+  Tokscale integration cache.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
+  so context can be exposed through bounded read-only resources.
+
 ## 2026-06-29 - Block 020: Tokscale Submission Control
 
 Branch:

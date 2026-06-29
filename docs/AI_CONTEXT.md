@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.17.0.
+- Current version: 0.17.1.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -133,6 +133,8 @@ git diff --check
   `AGENTS_TOKSCALE_SUBMIT=off|dry-run|on`; templates default to `off`.
 - Tokscale coverage is client-dependent and must be checked with
   `npx -y tokscale@latest clients` when users switch agents or IDEs.
+- Tokscale is authenticated locally for this repository and a successful Codex
+  submission was recorded for 2026-06-29.
 - Tokscale is treated as observability only; Repomix compression and MCP
   optimization layers are treated as optional token-reduction tools.
 - At iteration close, agents must suggest the next step from roadmap first,
