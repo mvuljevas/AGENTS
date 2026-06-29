@@ -109,6 +109,9 @@ All templates in this repository should share:
 - [Snapshots](docs/SNAPSHOTS.md)
 - [Technical Debt](docs/TECHDEBT.md)
 
+Each available template also includes `docs/AI_TOOLS.md` with optional MCP,
+usage-tracking, and token-reduction guidance for that project type.
+
 ## License
 
 This repository is licensed under the MIT License.

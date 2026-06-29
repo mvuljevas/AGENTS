@@ -1,10 +1,14 @@
 {
+  "$schema": "https://repomix.com/schemas/latest/schema.json",
   "output": {
     "filePath": "repomix-output.md",
     "style": "markdown",
+    "compress": true,
     "removeComments": false,
-    "removeEmptyLines": false,
-    "showLineNumbers": true
+    "removeEmptyLines": true,
+    "showLineNumbers": true,
+    "tokenCountTree": true,
+    "tokenBudget": 120000
   },
   "include": [
     "README.md",
@@ -34,5 +38,11 @@
       "composer.lock",
       "*.log"
     ]
+  },
+  "security": {
+    "enableSecurityCheck": true
+  },
+  "tokenCount": {
+    "encoding": "o200k_base"
   }
 }

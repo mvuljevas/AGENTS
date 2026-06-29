@@ -13,6 +13,8 @@ This roadmap is the primary source for next-step suggestions in this repository.
   - `chrome-extension-vanilla`
 - GitHub Project, labels, project fields, and initial issue automation are in
   place.
+- Available templates include optional MCP, Tokscale, and token-reduction
+  guidance in `docs/AI_TOOLS.md`.
 
 ## Next Milestones
 
@@ -32,3 +34,4 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Initial available template catalog.
 - Next-step fallback rule.
 - Root roadmap and technical debt docs.
+- Template-level MCP, tracking, and token-reduction guidance.

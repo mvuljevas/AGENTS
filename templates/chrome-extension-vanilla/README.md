@@ -31,6 +31,7 @@ The authoritative version source is `manifest.json`.
 - [AI Context](docs/AI_CONTEXT.md)
 - [AI Search](docs/AI_SEARCH.md)
 - [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
+- [AI Tools](docs/AI_TOOLS.md)
 - [Compliance](docs/COMPLIANCE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Snapshots](docs/SNAPSHOTS.md)

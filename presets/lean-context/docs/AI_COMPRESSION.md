@@ -36,6 +36,39 @@ Avoid full-repository packs by default.
 
 Reference: https://repomix.com/
 
+Token reduction features to consider:
+
+- `--compress` for structure-focused code extraction.
+- `--token-count-tree` before packing large repositories.
+- `--remove-comments` and `--remove-empty-lines` only when comments and spacing
+  are not needed for the task.
+- `--stdin` with `rg --files` or `git ls-files` for narrow file selection.
+
+When available, Repomix MCP can expose packing tools to an MCP-compatible
+client. Keep it opt-in and run estimates before returning packed output.
+
+Reference: https://repomix.com/guide/mcp-server
+
+## MCP Tool Compression
+
+If a user enables multiple MCP servers, tool descriptions can become a
+significant input-token cost before any file is read.
+
+Recommended optional tools:
+
+- `mcp-compressor` for reducing MCP tool-description overhead.
+- ToolHive MCP Optimizer or equivalent tool routers when the user manages many
+  MCP servers and wants only relevant tools exposed per request.
+
+Use these only after the user confirms they want an MCP optimization layer. They
+add moving parts and should be measured with the same usage-tracking workflow as
+other optimizations.
+
+References:
+
+- https://github.com/atlassian-labs/mcp-compressor
+- https://docs.stacklok.com/toolhive
+
 ## Caveman Mode
 
 Caveman Mode means asking the agent to respond tersely and skip nonessential
@@ -72,4 +105,5 @@ The preferred sequence is:
 1. Ignore irrelevant paths.
 2. Search locally.
 3. Select the smallest relevant context.
-4. Summarize or encode only that context.
+4. Estimate token impact.
+5. Summarize, compress, or encode only that context.

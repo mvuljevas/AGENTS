@@ -41,6 +41,8 @@ What should we work on next?
 - Respect `.aiignore` and `.rgignore`.
 - Avoid generated files, secrets, dependencies, caches, and lockfiles unless
   directly needed.
+- Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
+  compression. Ask the user before enabling any external tool.
 
 ## Versioning
 

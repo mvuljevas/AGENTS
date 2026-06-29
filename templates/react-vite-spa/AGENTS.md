@@ -21,6 +21,8 @@ This React/Vite project uses the AGENTS workflow and `lean-context`.
 - Respect `.aiignore` and `.rgignore`.
 - Avoid `node_modules`, `dist`, caches, lockfiles, and generated output unless
   directly needed.
+- Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
+  compression. Ask the user before enabling any external tool.
 
 ## Versioning
 

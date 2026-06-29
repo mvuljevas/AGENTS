@@ -455,3 +455,39 @@ Next suggested step:
 
 - Follow `docs/ROADMAP.md`: measure whether `lean-context` reduces token usage
   in real sessions.
+
+## 2026-06-29 - Block 013: Template AI Tool Guidance
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Each available template now includes `docs/AI_TOOLS.md`.
+- Template README and AGENTS rules now point agents to optional AI tool setup
+  guidance.
+- The preset now distinguishes token usage tracking from token reduction:
+  Tokscale is observability, while Repomix compression and MCP optimization
+  layers are optional reduction tools.
+- The root repository version has been updated to `0.10.0`.
+- Template versions have been updated to `0.2.0` because reusable template
+  behavior changed.
+
+Decisions:
+
+- MCP, Tokscale, Repomix, and MCP optimization layers remain opt-in.
+- Agents must ask before enabling or changing external tool configuration.
+- Template-specific MCP recommendations should guide users without requiring any
+  third-party service.
+
+Risks:
+
+- Third-party MCP and token tooling can change quickly, so install commands and
+  capabilities must be rechecked before automation.
+- Tokscale can prove usage patterns but does not reduce tokens by itself.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: measure whether `lean-context` reduces token usage
+  in real sessions.

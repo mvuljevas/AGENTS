@@ -20,6 +20,8 @@ This Chrome extension project uses AGENTS and `lean-context`.
 - Search before opening files.
 - Prefer slices over complete files.
 - Avoid generated output, caches, secrets, and lockfiles unless directly needed.
+- Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
+  compression. Ask the user before enabling any external tool.
 
 ## Versioning
 

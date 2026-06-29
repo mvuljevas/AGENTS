@@ -29,6 +29,17 @@ Recommended use:
 - Finding high-cost workflows.
 - Monitoring repeated context waste.
 
+Policy:
+
+- Treat Tokscale as optional project observability.
+- Explain to the user that it measures usage and cost; it does not reduce
+  tokens by itself.
+- Configure it per project when the tool supports project-level grouping.
+- Do not commit personal dashboards, tokens, account identifiers, or private
+  cost logs unless the user explicitly asks.
+- Use measurements to decide whether `lean-context`, MCPs, or compression are
+  actually reducing total context.
+
 ### Browser Token Trackers
 
 Browser extensions can help track usage in web AI products when the user works
@@ -47,7 +58,9 @@ Projects may keep a lightweight local log when the user wants quota visibility:
 Date:
 Tool:
 Task:
+Project:
 Context source:
+Context mode:
 Approximate token/cost:
 Waste noticed:
 Action to reduce next time:

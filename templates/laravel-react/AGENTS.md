@@ -20,6 +20,8 @@ This Laravel React project uses the AGENTS workflow and `lean-context`.
 - Prefer slices over complete files.
 - Avoid `vendor`, `node_modules`, build output, caches, secrets, and lockfiles
   unless directly relevant.
+- Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
+  compression. Ask the user before enabling any external tool.
 
 ## Versioning
 

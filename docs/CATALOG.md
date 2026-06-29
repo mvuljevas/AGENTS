@@ -21,6 +21,10 @@ Agents must check this file before recommending a template or preset.
 | `laravel-react` | `templates/laravel-react/` | available | Laravel applications with a React-capable frontend or Inertia-style UI. |
 | `chrome-extension-vanilla` | `templates/chrome-extension-vanilla/` | available | Chrome extensions built with vanilla HTML, CSS, and JavaScript. |
 
+All available templates include `docs/AI_TOOLS.md` with optional project-specific
+MCP recommendations, Tokscale usage-tracking guidance, and token-reduction
+guidance.
+
 ## Presets
 
 | Name | Path | Status | Use When |

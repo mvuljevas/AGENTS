@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.9.0.
+- Current version: 0.10.0.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -81,6 +81,8 @@ git diff --check
 - `templates/`: available project templates.
 - `presets/lean-context/docs/RECOMMENDATION_FLOW.md`: guide for recommending a
   template and preset combination before adoption.
+- Template `docs/AI_TOOLS.md` files: optional project-specific MCP,
+  usage-tracking, and token-reduction guidance.
 
 ## Current Decisions
 
@@ -91,6 +93,10 @@ git diff --check
 - `lean-context` is both stored as a preset and applied to this repository.
 - Agents should recommend templates and presets before copying or applying them.
 - Agents must check `docs/CATALOG.md` before claiming a template can be copied.
+- Templates recommend optional MCPs and tracking tools, but agents must ask
+  before enabling them.
+- Tokscale is treated as observability only; Repomix compression and MCP
+  optimization layers are treated as optional token-reduction tools.
 - At iteration close, agents must suggest the next step from roadmap first,
   technical debt second, and user preference third.
 - Pushes remain explicit; local commits and tags may be created during closed
@@ -98,8 +104,8 @@ git diff --check
 
 ## Current Risks
 
-- Root roadmap and technical debt docs now exist.
 - `project-context-mcp` is documented as a design guide but not implemented.
+- `lean-context` has not yet proven token savings with real measurements.
 - Third-party MCP, tracking, and compression tools can change quickly and should
   be rechecked before automation is added.
 
