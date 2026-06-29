@@ -11,13 +11,34 @@ submission workflows without user approval.
 When a user starts with an analysis prompt such as `Analiza el repo.`, the agent
 should include an AI tooling check after reading the project docs:
 
-1. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
-2. Detect the active client when possible.
-3. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
-4. Ask before writing local config, adding secrets, generating
+1. Check `.agents.env` when present.
+2. If `AGENTS_CONTEXT_MODE=baseline`, report that optional AI tooling is
+   disabled for measurement and skip setup.
+3. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
+4. Detect the active client when possible.
+5. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
+6. Ask before writing local config, adding secrets, generating
    `repomix-output.md`, starting MCP servers, logging in, or submitting usage
    data.
-5. Continue normal project analysis even when optional tooling is missing.
+7. Continue normal project analysis even when optional tooling is missing.
+
+## Measurement Mode
+
+Use `.agents.env` for non-secret experiment flags:
+
+```bash
+cp .agents.env.example .agents.env
+cp .ai-usage-log.example.md .ai-usage-log.md
+```
+
+Supported modes:
+
+- `AGENTS_CONTEXT_MODE=baseline`: skip optional `lean-context` accelerators and
+  AI tool bootstrap unless the user explicitly asks.
+- `AGENTS_CONTEXT_MODE=lean-context`: use the normal template workflow and ask
+  before enabling optional tools.
+
+See `docs/AI_MEASUREMENT.md` for the full A/B workflow.
 
 ## Local Secret Policy
 

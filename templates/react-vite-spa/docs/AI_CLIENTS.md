@@ -86,13 +86,16 @@ Use Repomix MCP only when the client supports MCP and the user approves:
 
 When the user asks the agent to analyze the repository, the agent should:
 
-1. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md`
+1. Check `.agents.env` when present.
+2. If `AGENTS_CONTEXT_MODE=baseline`, report that optional tool setup is
+   disabled for this measurement run.
+3. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md`
    when present.
-2. Detect the active client when possible.
-3. Check whether local example files exist for MCP and environment setup.
-4. Report which tools are available, missing, or require restart/login.
-5. Ask before writing secrets, enabling MCP servers, generating packs, or
+4. Detect the active client when possible.
+5. Check whether local example files exist for MCP and environment setup.
+6. Report which tools are available, missing, or require restart/login.
+7. Ask before writing secrets, enabling MCP servers, generating packs, or
    submitting usage data.
-6. Offer a minimal setup path for the detected client.
+8. Offer a minimal setup path for the detected client.
 
 The agent should not block project work if optional AI tooling is not configured.

@@ -1,6 +1,6 @@
 # AI Tool Setup
 
-This template supports optional AI tooling for current documentation lookup,
+This repository supports optional AI tooling for current documentation lookup,
 usage tracking, and bounded context packing.
 
 These tools are opt-in. Do not configure external tools, API keys, telemetry, or
@@ -11,45 +11,79 @@ submission workflows without user approval.
 When a user starts with an analysis prompt such as `Analiza el repo.`, the agent
 should include an AI tooling check after reading the project docs:
 
-1. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
-2. Detect the active client when possible.
-3. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
-4. Ask before writing local config, adding secrets, generating
+1. Check `.agents.env` when present.
+2. If `AGENTS_CONTEXT_MODE=baseline`, report that optional AI tooling is
+   disabled for measurement and skip setup.
+3. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
+4. Detect the active client when possible.
+5. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
+6. Ask before writing local config, adding secrets, generating
    `repomix-output.md`, starting MCP servers, logging in, or submitting usage
    data.
-5. Continue normal project analysis even when optional tooling is missing.
+7. Continue normal project analysis even when optional tooling is missing.
+
+## Measurement Mode
+
+Use `.agents.env` for non-secret experiment flags:
+
+```bash
+cp .agents.env.example .agents.env
+cp .ai-usage-log.example.md .ai-usage-log.md
+```
+
+Supported modes:
+
+- `AGENTS_CONTEXT_MODE=baseline`: skip optional `lean-context` accelerators and
+  AI tool bootstrap unless the user explicitly asks.
+- `AGENTS_CONTEXT_MODE=lean-context`: use the normal template workflow and ask
+  before enabling optional tools.
+
+See `docs/AI_MEASUREMENT.md` for the full A/B workflow.
+
+## Local Secret Policy
+
+- Store real keys only in ignored local files or the user's tool-specific secret
+  store.
+- Never commit `.env`, `.codex/config.toml`, personal usage logs, or generated
+  token reports.
+- Rotate any API key that was pasted into a chat, ticket, commit, or shared log.
 
 ## Context7
 
 Use Context7 when the agent needs current framework, package, SDK, API, or CLI
 documentation.
 
-Project setup examples:
+Recommended local setup for this repository:
 
 ```bash
 cp .env.example .env
 cp .codex/config.example.toml .codex/config.toml
-cp .cursor/mcp.example.json .cursor/mcp.json
-cp .mcp.example.json .mcp.json
 ```
 
-Use only the config file for the active client.
+Then edit the local files and set `CONTEXT7_API_KEY`.
 
 Alternative setup through the Context7 CLI:
 
 ```bash
 npx -y ctx7@latest setup --codex --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
-npx -y ctx7@latest setup --cursor --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
-npx -y ctx7@latest setup --claude --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
-npx -y ctx7@latest setup --gemini --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
-npx -y ctx7@latest setup --antigravity --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
-npx -y ctx7@latest setup --opencode --mcp --project --stdio --api-key "<CONTEXT7_API_KEY>"
 ```
+
+Validation:
+
+```bash
+CONTEXT7_API_KEY="<CONTEXT7_API_KEY>" \
+  npx -y ctx7@latest docs /vitejs/vite "How to configure the dev server port?"
+```
+
+The Context7 setup may also install `.agents/skills/context7-mcp/SKILL.md`.
+Keep the skill versioned when it contains reusable behavior, but never version a
+file containing the real API key.
 
 ## Tokscale
 
-Tokscale is usage observability. It can help compare baseline sessions against
-`lean-context` sessions, but it does not reduce token usage by itself.
+Tokscale is usage observability. It can show local Codex usage and help compare
+baseline sessions against `lean-context` sessions, but it does not reduce token
+usage by itself.
 
 Local commands:
 
@@ -59,24 +93,32 @@ npx -y tokscale@latest --client codex --today models
 npx -y tokscale@latest --client codex --today report
 ```
 
-Change `--client codex` to the active client when Tokscale supports it. Run
-login or submission commands only after user approval.
+Remote Tokscale login and submission are optional:
+
+```bash
+npx -y tokscale@latest login
+npx -y tokscale@latest submit
+```
+
+Only run submission commands after the user approves sharing usage data.
 
 ## Repomix
 
 Repomix is the default token-reduction tool for bounded repository context
 packs. Use it after local search identifies relevant paths.
 
+Example:
+
 ```bash
-rg --files README.md AGENTS.md docs src app routes tests package.json composer.json manifest.json \
-  | npx -y repomix@latest --stdin --config repomix.config.json
+rg --files README.md AGENTS.md docs presets templates \
+  | npx -y repomix@latest --stdin --config presets/lean-context/files/repomix.config.json
 ```
 
-For local models or agents without MCP support, provide the generated
-`repomix-output.md` as bounded context.
+Use `--token-count-tree` or the configured token count tree before sharing large
+context packs.
 
 ## MCP Tool Overhead
 
-If many MCP servers are enabled, MCP tool descriptions can increase prompt input
-before project files are read. Consider `mcp-compressor` or a tool router only
-after measuring that MCP overhead is material.
+If many MCP servers are enabled, MCP tool descriptions can increase the prompt
+input before the agent reads project files. Consider `mcp-compressor` or a tool
+router only after measuring that MCP overhead is material.

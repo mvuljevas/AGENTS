@@ -456,6 +456,43 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: measure whether `lean-context` reduces token usage
   in real sessions.
 
+## 2026-06-29 - Block 016: Context Mode Measurement Switch
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Root, preset, and templates include `.agents.env.example` for non-secret
+  baseline vs `lean-context` experiment flags.
+- Root, preset, and templates include `.ai-usage-log.example.md` and
+  `docs/AI_MEASUREMENT.md`.
+- Analysis prompts now check `.agents.env` when present before deciding whether
+  to run baseline or `lean-context` behavior.
+- Repository version has been updated to `0.13.0`.
+- Template versions have been updated to `0.5.0`.
+
+Decisions:
+
+- `.agents.env` is ignored and reserved for non-secret experiment flags.
+- `.env` remains reserved for secrets such as API keys.
+- `AGENTS_CONTEXT_MODE=baseline` disables optional AI tooling bootstrap for
+  measurement unless the user explicitly asks.
+- `AGENTS_CONTEXT_MODE=lean-context` keeps the normal template workflow active.
+
+Risks:
+
+- Agents cannot enforce perfect experimental parity across different clients,
+  so logs must record client, model, prompt, and tool state.
+- Baseline mode still runs inside a template repository, so results should be
+  interpreted as practical workflow comparison rather than a laboratory control.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: run the first baseline vs `lean-context`
+  measurement pair.
+
 ## 2026-06-29 - Block 015: Multi-Client Tool Bootstrap
 
 Branch:

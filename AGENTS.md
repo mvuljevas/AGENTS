@@ -38,14 +38,20 @@ The agent must:
 2. Inspect the project structure and current git state.
 3. Identify whether this is a new project or an existing project adopting the
    template.
-4. Check optional AI tooling guidance in `docs/AI_TOOLS.md`,
+4. Check `.agents.env` when present. This file is reserved for non-secret local
+   experiment flags.
+5. If `AGENTS_CONTEXT_MODE=baseline`, run the baseline analysis path and skip
+   optional `lean-context` accelerators unless the user explicitly asks.
+6. If `AGENTS_CONTEXT_MODE=lean-context` or the file is missing, use the normal
+   template workflow.
+7. Check optional AI tooling guidance in `docs/AI_TOOLS.md`,
    `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md` when present.
-5. Detect the active AI client when possible and report whether Context7,
+8. Detect the active AI client when possible and report whether Context7,
    Tokscale, Repomix CLI, and MCP configuration appear available.
-6. Ask before enabling tools, writing secrets, creating local config, generating
+9. Ask before enabling tools, writing secrets, creating local config, generating
    context packs, or submitting usage data.
-7. Summarize the current state.
-8. Ask a project-start question such as:
+10. Summarize the current state.
+11. Ask a project-start question such as:
 
 ```text
 ¿Que vamos a construir hoy?
@@ -60,6 +66,15 @@ how to adopt the template rules without disrupting existing conventions.
 
 When optional AI tool files exist, the agent should offer a minimal setup path
 for the user's current client.
+
+Skip this bootstrap when `.agents.env` sets:
+
+```text
+AGENTS_CONTEXT_MODE=baseline
+```
+
+In baseline mode, only report that optional tooling is available but disabled
+for measurement.
 
 Default checks:
 

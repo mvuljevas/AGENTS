@@ -3,10 +3,12 @@ dist/
 .env
 .env.*
 !.env.example
+.agents.env
 .codex/config.toml
 .cursor/mcp.json
 .mcp.json
 .ai-usage-log.md
+!.ai-usage-log.example.md
 *.log
 .DS_Store
 coverage/

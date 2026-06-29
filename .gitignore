@@ -8,6 +8,7 @@ Thumbs.db
 !.env.local.example
 
 # Local AI tool configuration
+.agents.env
 .codex/config.toml
 !.codex/config.example.toml
 .cursor/mcp.json
@@ -15,6 +16,7 @@ Thumbs.db
 .mcp.json
 !.mcp.example.json
 .ai-usage-log.md
+!.ai-usage-log.example.md
 
 # Generated AI context packs and reports
 repomix-output.md

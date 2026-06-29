@@ -77,3 +77,6 @@ Do not invent a next step when neither roadmap nor technical debt provides one.
 - During repository analysis, check `docs/AI_TOOLS.md` and
   `docs/AI_CLIENTS.md` when present, then ask before enabling MCPs, writing
   secrets, generating context packs, or submitting usage data.
+- During repository analysis, check `.agents.env` when present. If
+  `AGENTS_CONTEXT_MODE=baseline`, skip optional `lean-context` accelerators for
+  measurement unless the user explicitly asks.

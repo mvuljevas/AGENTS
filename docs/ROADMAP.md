@@ -20,6 +20,8 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Analysis prompts now trigger an optional multi-client AI tool setup check.
 - Available templates include Codex, Cursor, generic MCP, Context7, Tokscale,
   and Repomix setup examples.
+- Available templates include baseline vs `lean-context` measurement flags and
+  log examples.
 
 ## Next Milestones
 
@@ -43,3 +45,4 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Local and reusable AI tool setup examples.
 - Multi-client AI setup guidance for Codex, Cursor, Claude, Gemini,
   Antigravity, OpenCode, and local-model workflows.
+- Baseline vs `lean-context` measurement workflow.

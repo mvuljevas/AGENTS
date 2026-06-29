@@ -24,15 +24,18 @@ When a project appears to be newly generated from a template:
 1. Read `README.md`, `AGENTS.md`, `docs/AI_CONTEXT.md`, and recent snapshots.
 2. Inspect git state and authoritative version source.
 3. Identify stack, commands, and workflow documents.
-4. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md`
+4. Check `.agents.env` when present.
+5. If `AGENTS_CONTEXT_MODE=baseline`, use the baseline analysis path and skip
+   optional AI tooling setup unless the user explicitly asks.
+6. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md`
    when present.
-5. Detect the active AI client when possible.
-6. Report optional tool status for Context7, Tokscale, Repomix CLI, and MCP
+7. Detect the active AI client when possible.
+8. Report optional tool status for Context7, Tokscale, Repomix CLI, and MCP
    config examples.
-7. Ask before enabling tools, writing secrets, generating context packs, or
+9. Ask before enabling tools, writing secrets, generating context packs, or
    submitting usage data.
-8. Summarize the project state.
-9. Ask:
+10. Summarize the project state.
+11. Ask:
 
 ```text
 ¿Que vamos a construir hoy?

@@ -26,6 +26,8 @@ MCP recommendations, Tokscale usage-tracking guidance, and token-reduction
 guidance. They also include `.env.example`, `.codex/config.example.toml`, and
 `repomix.config.json`, `.cursor/mcp.example.json`, and `.mcp.example.json` so
 users can opt in without writing setup files from scratch.
+They also include `.agents.env.example`, `.ai-usage-log.example.md`, and
+`docs/AI_MEASUREMENT.md` for baseline vs `lean-context` comparisons.
 Agents must read `docs/AI_CLIENTS.md` during analysis to adapt setup for Codex,
 Cursor, Claude, Gemini, Antigravity, OpenCode, DeepSeek, Ollama, or another
 client.
