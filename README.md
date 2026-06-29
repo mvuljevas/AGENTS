@@ -104,6 +104,7 @@ All templates in this repository should share:
 - [AI Measurement](docs/AI_MEASUREMENT.md)
 - [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
 - [AI Tool Setup](docs/AI_TOOL_SETUP.md)
+- [AI Usage Report](docs/AI_USAGE_REPORT.md)
 - [Catalog](docs/CATALOG.md)
 - [Conventions](docs/CONVENTIONS.md)
 - [Naming](docs/NAMING.md)

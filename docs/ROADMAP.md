@@ -22,6 +22,7 @@ This roadmap is the primary source for next-step suggestions in this repository.
   and Repomix setup examples.
 - Available templates include baseline vs `lean-context` measurement flags and
   log examples.
+- AGENTS has an initial local `lean-context` usage report.
 
 ## Next Milestones
 
@@ -46,3 +47,4 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Multi-client AI setup guidance for Codex, Cursor, Claude, Gemini,
   Antigravity, OpenCode, and local-model workflows.
 - Baseline vs `lean-context` measurement workflow.
+- Initial AGENTS `lean-context` usage measurement.

@@ -493,6 +493,45 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: run the first baseline vs `lean-context`
   measurement pair.
 
+## 2026-06-29 - Block 017: Local Usage Measurement Enabled
+
+Branch:
+
+- `main`
+
+Current state:
+
+- The AGENTS repository has local ignored measurement files active:
+  `.agents.env`, `.ai-usage-log.md`, `.env`, and `.codex/config.toml`.
+- `AGENTS_CONTEXT_MODE=lean-context` is active locally.
+- Context7 CLI validation succeeded using local ignored configuration.
+- Tokscale local reporting is available and grouped one AGENTS task at
+  approximately 1.9M tokens and $30.28.
+- Repomix generated a broad bounded repository pack of 48,012 tokens across 106
+  files with no suspicious files detected.
+- `docs/AI_USAGE_REPORT.md` now records aggregate, non-sensitive usage
+  observations.
+- Repository version has been updated to `0.14.0`.
+
+Decisions:
+
+- Keep raw usage logs and credentials local and ignored.
+- Commit only aggregate, non-sensitive usage observations.
+- Treat Tokscale task grouping as approximate until a baseline comparison is
+  run.
+
+Risks:
+
+- Tokscale local reports can include other repositories and clients if filters
+  are too broad.
+- The current measurement does not prove token savings until compared with a
+  matching baseline run.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: run a baseline clone with
+  `AGENTS_CONTEXT_MODE=baseline` and compare against this `lean-context` run.
+
 ## 2026-06-29 - Block 015: Multi-Client Tool Bootstrap
 
 Branch:
