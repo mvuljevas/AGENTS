@@ -1,7 +1,7 @@
 # AI Tools
 
 This template can work without external AI tools. The tools below are optional
-and must be enabled only after the user approves them.
+and must be enabled only after the user approves them. Use `docs/AI_CLIENTS.md` to adapt setup to Codex, Cursor, Claude, Gemini, Antigravity, OpenCode, DeepSeek, Ollama, or another client.
 
 ## Recommended MCP
 

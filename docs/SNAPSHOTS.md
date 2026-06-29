@@ -456,6 +456,44 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: measure whether `lean-context` reduces token usage
   in real sessions.
 
+## 2026-06-29 - Block 015: Multi-Client Tool Bootstrap
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Analysis prompts now trigger an optional AI tooling check.
+- `docs/AI_CLIENTS.md` documents setup paths for Codex, Cursor, Claude, Gemini,
+  Antigravity, OpenCode, DeepSeek, Ollama, and local-model workflows.
+- Root, preset, and templates include Cursor MCP and generic MCP example files
+  in addition to Codex examples.
+- Templates include `docs/AI_CLIENTS.md` and updated AGENTS rules so
+  `Analiza el repo.` can guide tool setup before implementation work.
+- Repository version has been updated to `0.12.0`.
+- Template versions have been updated to `0.4.0`.
+
+Decisions:
+
+- Multi-client setup is guided during analysis, but still opt-in.
+- Agents must continue project analysis even if optional tooling is not
+  configured.
+- Context7, Repomix MCP, Tokscale login, and Tokscale submission require user
+  approval before activation.
+
+Risks:
+
+- Different clients may change MCP configuration formats, so CLI setup commands
+  should be preferred when available.
+- Local model workflows may not support MCP natively and may rely on Repomix
+  output instead.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: measure whether `lean-context` reduces token usage
+  in real sessions.
+
 ## 2026-06-29 - Block 014: Local AI Tool Setup
 
 Branch:

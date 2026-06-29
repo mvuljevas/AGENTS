@@ -38,8 +38,14 @@ The agent must:
 2. Inspect the project structure and current git state.
 3. Identify whether this is a new project or an existing project adopting the
    template.
-4. Summarize the current state.
-5. Ask a project-start question such as:
+4. Check optional AI tooling guidance in `docs/AI_TOOLS.md`,
+   `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md` when present.
+5. Detect the active AI client when possible and report whether Context7,
+   Tokscale, Repomix CLI, and MCP configuration appear available.
+6. Ask before enabling tools, writing secrets, creating local config, generating
+   context packs, or submitting usage data.
+7. Summarize the current state.
+8. Ask a project-start question such as:
 
 ```text
 ¿Que vamos a construir hoy?
@@ -49,6 +55,26 @@ What should we work on next?
 
 If the repository already contains an application, the agent should also propose
 how to adopt the template rules without disrupting existing conventions.
+
+## AI Tool Bootstrap
+
+When optional AI tool files exist, the agent should offer a minimal setup path
+for the user's current client.
+
+Default checks:
+
+1. Confirm whether `.env.example`, `repomix.config.json`, and MCP config
+   examples exist.
+2. Detect likely client files such as `.codex/`, `.cursor/`, `.mcp.json`,
+   `.gemini/`, `.agent/`, or client-specific global config when visible.
+3. Prefer Context7 for current library documentation.
+4. Prefer Repomix CLI for immediate context reduction.
+5. Use Tokscale only for measurement unless the user approves remote login or
+   submission.
+6. Keep MCP setup opt-in and read-only by default.
+
+If tools are not configured, continue the repository analysis and ask whether
+the user wants the recommended setup applied.
 
 ## Lean Context Loading
 

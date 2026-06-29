@@ -24,8 +24,11 @@ Agents must check this file before recommending a template or preset.
 All available templates include `docs/AI_TOOLS.md` with optional project-specific
 MCP recommendations, Tokscale usage-tracking guidance, and token-reduction
 guidance. They also include `.env.example`, `.codex/config.example.toml`, and
-`repomix.config.json` so users can opt in without writing setup files from
-scratch.
+`repomix.config.json`, `.cursor/mcp.example.json`, and `.mcp.example.json` so
+users can opt in without writing setup files from scratch.
+Agents must read `docs/AI_CLIENTS.md` during analysis to adapt setup for Codex,
+Cursor, Claude, Gemini, Antigravity, OpenCode, DeepSeek, Ollama, or another
+client.
 
 ## Presets
 

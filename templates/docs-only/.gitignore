@@ -4,6 +4,8 @@ Thumbs.db
 .env.*
 !.env.example
 .codex/config.toml
+.cursor/mcp.json
+.mcp.json
 .ai-usage-log.md
 *.log
 repomix-output.md

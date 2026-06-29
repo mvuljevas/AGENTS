@@ -14,6 +14,13 @@ This React/Vite project uses the AGENTS workflow and `lean-context`.
 - Update docs when commands, routes, architecture, roadmap, or debt changes.
 - Do not push commits or tags without explicit user approval.
 
+## Interactive Start
+
+When the user asks to analyze the repository, read `docs/AI_TOOLS.md` and
+`docs/AI_CLIENTS.md` when present. Report whether Context7, Tokscale, Repomix
+CLI, and MCP config examples are available, then ask before enabling tools,
+writing secrets, generating context packs, or submitting usage data.
+
 ## Lean Context Loading
 
 - Search before opening files.

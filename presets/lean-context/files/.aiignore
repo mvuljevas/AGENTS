@@ -30,6 +30,10 @@ logs/
 .env.*
 !.env.example
 !.env.local.example
+.codex/config.toml
+.cursor/mcp.json
+.mcp.json
+.ai-usage-log.md
 *.pem
 *.key
 *.p12

@@ -63,6 +63,8 @@ cp .codex/config.example.toml .codex/config.toml
 
 Then set `CONTEXT7_API_KEY` in local ignored configuration.
 
+For other clients, see `AI_CLIENTS.md`.
+
 ### CodeGraphContext
 
 Use for local code graph retrieval and relationship lookup when available.

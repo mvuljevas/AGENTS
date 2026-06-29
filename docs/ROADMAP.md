@@ -17,6 +17,9 @@ This roadmap is the primary source for next-step suggestions in this repository.
   guidance in `docs/AI_TOOLS.md`.
 - This repository has local Context7 MCP configuration and reusable setup
   examples without committed secrets.
+- Analysis prompts now trigger an optional multi-client AI tool setup check.
+- Available templates include Codex, Cursor, generic MCP, Context7, Tokscale,
+  and Repomix setup examples.
 
 ## Next Milestones
 
@@ -38,3 +41,5 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Root roadmap and technical debt docs.
 - Template-level MCP, tracking, and token-reduction guidance.
 - Local and reusable AI tool setup examples.
+- Multi-client AI setup guidance for Codex, Cursor, Claude, Gemini,
+  Antigravity, OpenCode, and local-model workflows.

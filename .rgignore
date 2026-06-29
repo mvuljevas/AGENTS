@@ -18,6 +18,8 @@ target/
 .env
 .env.*
 .codex/config.toml
+.cursor/mcp.json
+.mcp.json
 .ai-usage-log.md
 *.log
 package-lock.json

@@ -6,6 +6,19 @@ usage tracking, and bounded context packing.
 These tools are opt-in. Do not configure external tools, API keys, telemetry, or
 submission workflows without user approval.
 
+## Trigger During Repository Analysis
+
+When a user starts with an analysis prompt such as `Analiza el repo.`, the agent
+should include an AI tooling check after reading the project docs:
+
+1. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
+2. Detect the active client when possible.
+3. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
+4. Ask before writing local config, adding secrets, generating
+   `repomix-output.md`, starting MCP servers, logging in, or submitting usage
+   data.
+5. Continue normal project analysis even when optional tooling is missing.
+
 ## Local Secret Policy
 
 - Store real keys only in ignored local files or the user's tool-specific secret

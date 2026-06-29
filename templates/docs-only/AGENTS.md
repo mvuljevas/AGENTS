@@ -33,6 +33,11 @@ What are we building today?
 What should we work on next?
 ```
 
+During analysis, also check `docs/AI_TOOLS.md` and `docs/AI_CLIENTS.md` when
+present. Report whether Context7, Tokscale, Repomix CLI, and MCP config examples
+are available, then ask before enabling tools, writing secrets, generating
+context packs, or submitting usage data.
+
 ## Lean Context Loading
 
 - Retrieve context before reading context.

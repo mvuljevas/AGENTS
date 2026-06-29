@@ -10,6 +10,10 @@ Thumbs.db
 # Local AI tool configuration
 .codex/config.toml
 !.codex/config.example.toml
+.cursor/mcp.json
+!.cursor/mcp.example.json
+.mcp.json
+!.mcp.example.json
 .ai-usage-log.md
 
 # Generated AI context packs and reports

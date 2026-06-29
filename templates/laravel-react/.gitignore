@@ -6,6 +6,8 @@
 /.env.*
 !/.env.example
 /.codex/config.toml
+/.cursor/mcp.json
+/.mcp.json
 /.ai-usage-log.md
 Homestead.json
 Homestead.yaml

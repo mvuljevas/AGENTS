@@ -24,8 +24,15 @@ When a project appears to be newly generated from a template:
 1. Read `README.md`, `AGENTS.md`, `docs/AI_CONTEXT.md`, and recent snapshots.
 2. Inspect git state and authoritative version source.
 3. Identify stack, commands, and workflow documents.
-4. Summarize the project state.
-5. Ask:
+4. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md`
+   when present.
+5. Detect the active AI client when possible.
+6. Report optional tool status for Context7, Tokscale, Repomix CLI, and MCP
+   config examples.
+7. Ask before enabling tools, writing secrets, generating context packs, or
+   submitting usage data.
+8. Summarize the project state.
+9. Ask:
 
 ```text
 ¿Que vamos a construir hoy?
@@ -77,6 +84,10 @@ When a project already has code or documentation:
 
 - Do not create GitHub Projects without user approval.
 - Do not create issues from technical debt without user approval.
+- Do not configure Context7, Tokscale, Repomix MCP, or client MCP files without
+  user approval.
+- Do not write API keys into versioned files.
+- Do not submit Tokscale data without user approval.
 - Do not overwrite existing docs without mapping old content.
 - Do not push commits or tags without explicit approval.
 

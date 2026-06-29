@@ -18,9 +18,11 @@ then ask what should be built or documented next.
 ## Documentation
 
 - [Agent rules](AGENTS.md)
+- [AI Clients](docs/AI_CLIENTS.md)
 - [AI Context](docs/AI_CONTEXT.md)
 - [AI Search](docs/AI_SEARCH.md)
 - [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
+- [AI Tool Setup](docs/AI_TOOL_SETUP.md)
 - [AI Tools](docs/AI_TOOLS.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Snapshots](docs/SNAPSHOTS.md)
