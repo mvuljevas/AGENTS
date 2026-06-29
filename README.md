@@ -117,7 +117,9 @@ Each available template also includes `docs/AI_TOOLS.md` with optional MCP,
 usage-tracking, and token-reduction guidance for that project type.
 
 Use `scripts/ai-tools.sh run` to execute the configured local AI tools and
-append aggregate usage summaries when enabled.
+append aggregate usage summaries when enabled. Use
+`scripts/ai-tools.sh install-hooks` with `AGENTS_AUTO_RUN_ON_COMMIT=on` to run
+active tools automatically before each iteration commit.
 
 ## License
 

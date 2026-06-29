@@ -569,6 +569,41 @@ Next suggested step:
   `AGENTS_CONTEXT_MODE=baseline` and compare against automated
   `lean-context` runs.
 
+## 2026-06-29 - Block 019: Iteration Hook Automation
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Root, preset, and templates include `.githooks/pre-commit`.
+- `scripts/ai-tools.sh` now supports `run-and-stage` and `install-hooks`.
+- `.agents.env.example` includes `AGENTS_AUTO_RUN_ON_COMMIT=off`.
+- This repository can enable commit-time tool execution with
+  `scripts/ai-tools.sh install-hooks` and local
+  `AGENTS_AUTO_RUN_ON_COMMIT=on`.
+- Repository version has been updated to `0.16.0`.
+- Template versions have been updated to `0.7.0`.
+
+Decisions:
+
+- Commit-time automation is opt-in through local `.agents.env`.
+- The hook runs only local active tools and stages only the aggregate usage
+  report target when enabled.
+- Raw outputs remain ignored under `.ai-runs/`.
+- Pushes, remote submissions, and MCP mutation remain approval-only.
+
+Risks:
+
+- Commit-time automation can slow commits when network-backed tools are active.
+- Frequent report sections may require later pruning or rollup.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
+  so context can be exposed through bounded read-only resources.
+
 ## 2026-06-29 - Block 015: Multi-Client Tool Bootstrap
 
 Branch:

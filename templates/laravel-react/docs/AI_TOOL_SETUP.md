@@ -58,6 +58,7 @@ AGENTS_CONTEXT7=on
 AGENTS_REPOMIX=on
 AGENTS_TOKSCALE=on
 AGENTS_MCP=ask
+AGENTS_AUTO_RUN_ON_COMMIT=off
 AGENTS_USAGE_REPORT=on
 AGENTS_USAGE_REPORT_TARGET=docs/AI_USAGE_REPORT.md
 ```
@@ -70,6 +71,31 @@ Outputs:
 Agents should run `scripts/ai-tools.sh run` at the end of an iteration when
 tools are active. Raw logs remain ignored; only aggregate summaries should be
 committed.
+
+## Commit Hook Automation
+
+Use the repository hook when each committed iteration should automatically run
+the active tools:
+
+```bash
+scripts/ai-tools.sh install-hooks
+```
+
+Then set this local flag:
+
+```text
+AGENTS_AUTO_RUN_ON_COMMIT=on
+```
+
+When enabled, `.githooks/pre-commit` runs:
+
+```bash
+scripts/ai-tools.sh run-and-stage
+```
+
+This executes active tools, writes raw outputs to `.ai-runs/`, appends the
+aggregate usage report when enabled, and stages the report target. The hook does
+not push commits, tags, reports, or raw logs.
 
 ## Local Secret Policy
 

@@ -99,6 +99,12 @@ When `scripts/ai-tools.sh` exists:
   relevant.
 - Run `scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
   marks one or more tools as `on`.
+- When `.githooks/pre-commit` exists and the user wants automatic iteration
+  closure, run `scripts/ai-tools.sh install-hooks` once and set
+  `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`.
+- With commit automation enabled, the pre-commit hook must run
+  `scripts/ai-tools.sh run-and-stage` so active tools execute before the
+  iteration commit and the aggregate usage report is staged automatically.
 - Keep raw outputs under `.ai-runs/`; they are local and ignored.
 - Commit only aggregate, non-sensitive summaries such as
   `docs/AI_USAGE_REPORT.md`.
@@ -145,8 +151,9 @@ Each work block should include:
 6. Technical debt update when debt is created, changed, accepted, or resolved.
 7. README update when setup, usage, commands, or project scope changes.
 8. Version-file update when the iteration changes the project state.
-9. Matching git tag creation for the new version when the iteration is closed.
-10. Suggested next logical step.
+9. AI tool automation run when configured.
+10. Matching git tag creation for the new version when the iteration is closed.
+11. Suggested next logical step.
 
 ## Next-Step Fallback
 

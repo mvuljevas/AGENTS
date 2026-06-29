@@ -51,6 +51,7 @@ AI tool automation
 - Repomix: ${AGENTS_REPOMIX}
 - Tokscale: ${AGENTS_TOKSCALE}
 - MCP: ${AGENTS_MCP}
+- auto run on commit: ${AGENTS_AUTO_RUN_ON_COMMIT}
 - usage report: ${AGENTS_USAGE_REPORT}
 - report target: ${AGENTS_USAGE_REPORT_TARGET}
 EOF
@@ -230,11 +231,44 @@ write_summary() {
 EOF
 }
 
+run_active_tools() {
+  print_config
+  if [ "$AGENTS_CONTEXT_MODE" = "baseline" ]; then
+    echo "Baseline mode active. Optional accelerators run only when their flags are set to on."
+  fi
+  bool_on "$AGENTS_CONTEXT7" && run_context7 || CONTEXT7_STATUS="skipped: ${AGENTS_CONTEXT7}"
+  bool_on "$AGENTS_TOKSCALE" && run_tokscale || TOKSCALE_STATUS="skipped: ${AGENTS_TOKSCALE}"
+  bool_on "$AGENTS_REPOMIX" && run_repomix || REPOMIX_STATUS="skipped: ${AGENTS_REPOMIX}"
+  write_summary
+  append_usage_report
+  echo "AI tool run complete: ${RUN_DIR}"
+}
+
+install_hooks() {
+  if [ ! -d ".git" ]; then
+    echo "Git hooks can only be installed from the repository root." >&2
+    exit 1
+  fi
+  if [ ! -x ".githooks/pre-commit" ]; then
+    echo ".githooks/pre-commit is missing or not executable." >&2
+    exit 1
+  fi
+  git config core.hooksPath .githooks
+  echo "Git hooks installed: core.hooksPath=.githooks"
+}
+
+stage_usage_report() {
+  if bool_on "$AGENTS_USAGE_REPORT" && [ -f "$AGENTS_USAGE_REPORT_TARGET" ]; then
+    git add "$AGENTS_USAGE_REPORT_TARGET"
+  fi
+}
+
 AGENTS_CONTEXT_MODE="$(value_for AGENTS_CONTEXT_MODE "lean-context")"
 AGENTS_CONTEXT7="$(value_for AGENTS_CONTEXT7 "ask")"
 AGENTS_REPOMIX="$(value_for AGENTS_REPOMIX "ask")"
 AGENTS_TOKSCALE="$(value_for AGENTS_TOKSCALE "ask")"
 AGENTS_MCP="$(value_for AGENTS_MCP "ask")"
+AGENTS_AUTO_RUN_ON_COMMIT="$(value_for AGENTS_AUTO_RUN_ON_COMMIT "off")"
 AGENTS_USAGE_REPORT="$(value_for AGENTS_USAGE_REPORT "off")"
 AGENTS_USAGE_REPORT_TARGET="$(value_for AGENTS_USAGE_REPORT_TARGET "docs/AI_USAGE_REPORT.md")"
 AGENTS_EXPERIMENT_ID="$(value_for AGENTS_EXPERIMENT_ID "")"
@@ -255,19 +289,17 @@ case "$COMMAND" in
     echo "- repomix config: $(repomix_config)"
     ;;
   run)
-    print_config
-    if [ "$AGENTS_CONTEXT_MODE" = "baseline" ]; then
-      echo "Baseline mode active. Optional accelerators run only when their flags are set to on."
-    fi
-    bool_on "$AGENTS_CONTEXT7" && run_context7 || CONTEXT7_STATUS="skipped: ${AGENTS_CONTEXT7}"
-    bool_on "$AGENTS_TOKSCALE" && run_tokscale || TOKSCALE_STATUS="skipped: ${AGENTS_TOKSCALE}"
-    bool_on "$AGENTS_REPOMIX" && run_repomix || REPOMIX_STATUS="skipped: ${AGENTS_REPOMIX}"
-    write_summary
-    append_usage_report
-    echo "AI tool run complete: ${RUN_DIR}"
+    run_active_tools
+    ;;
+  run-and-stage)
+    run_active_tools
+    stage_usage_report
+    ;;
+  install-hooks)
+    install_hooks
     ;;
   *)
-    echo "Usage: scripts/ai-tools.sh [check|run]" >&2
+    echo "Usage: scripts/ai-tools.sh [check|run|run-and-stage|install-hooks]" >&2
     exit 2
     ;;
 esac

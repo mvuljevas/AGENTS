@@ -82,3 +82,8 @@ Do not invent a next step when neither roadmap nor technical debt provides one.
   measurement unless the user explicitly asks.
 - When `scripts/ai-tools.sh` exists, run `scripts/ai-tools.sh run` at the end of
   an iteration when `.agents.env` marks one or more tools as `on`.
+- When `.githooks/pre-commit` exists and the user wants automatic iteration
+  closure, run `scripts/ai-tools.sh install-hooks` once and set
+  `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`.
+- With commit automation enabled, the pre-commit hook runs
+  `scripts/ai-tools.sh run-and-stage` before the iteration commit.

@@ -190,9 +190,30 @@ Use this checklist when a versioned iteration is ready to close:
 3. Update the authoritative version file.
 4. Update release notes or changelog when the project has one.
 5. Run project verification.
-6. Commit the iteration changes.
-7. Create local tag `vX.Y.Z`.
-8. Push commit and tag only after explicit approval.
+6. Run AI tool automation when configured.
+7. Commit the iteration changes.
+8. Create local tag `vX.Y.Z`.
+9. Push commit and tag only after explicit approval.
+
+## AI Tool Automation
+
+When `.agents.env` marks AI tools as active, each meaningful iteration should
+run the configured tool flow before the closing commit:
+
+```bash
+scripts/ai-tools.sh run
+```
+
+For this repository and templates that include `.githooks/pre-commit`, the
+iteration close can be automated:
+
+```bash
+scripts/ai-tools.sh install-hooks
+```
+
+Then set `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`. The hook runs
+`scripts/ai-tools.sh run-and-stage` before each commit, keeps raw outputs under
+`.ai-runs/`, and stages only the aggregate usage report target when enabled.
 
 ## Iteration Tagging
 

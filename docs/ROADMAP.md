@@ -24,6 +24,8 @@ This roadmap is the primary source for next-step suggestions in this repository.
   log examples.
 - AGENTS has an initial local `lean-context` usage report.
 - Active AI tools can be automated through `scripts/ai-tools.sh`.
+- Iteration commits can run active tools automatically through the optional
+  `.githooks/pre-commit` flow.
 - Root, preset, and templates include the AI tool automation script.
 
 ## Next Milestones

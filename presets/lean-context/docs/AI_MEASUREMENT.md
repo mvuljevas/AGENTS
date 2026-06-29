@@ -74,6 +74,16 @@ scripts/ai-tools.sh run
 Set `AGENTS_USAGE_REPORT=on` to append an aggregate summary to
 `docs/AI_USAGE_REPORT.md`.
 
+For automatic iteration closure, install the versioned pre-commit hook:
+
+```bash
+scripts/ai-tools.sh install-hooks
+```
+
+Then set `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`. Each commit runs
+`scripts/ai-tools.sh run-and-stage` before the commit is created, so the active
+tool run and aggregate report are captured with the iteration.
+
 ## Suggested Prompt
 
 ```text
