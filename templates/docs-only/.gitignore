@@ -10,6 +10,7 @@ Thumbs.db
 .ai-usage-log.md
 !.ai-usage-log.example.md
 *.log
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

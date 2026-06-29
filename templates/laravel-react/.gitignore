@@ -16,6 +16,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .DS_Store
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

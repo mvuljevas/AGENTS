@@ -532,6 +532,43 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: run a baseline clone with
   `AGENTS_CONTEXT_MODE=baseline` and compare against this `lean-context` run.
 
+## 2026-06-29 - Block 018: AI Tool Automation
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Root, preset, and templates include `scripts/ai-tools.sh`.
+- The script reads `.agents.env`, runs tools marked `on`, writes raw local
+  outputs to `.ai-runs/`, and appends aggregate summaries to
+  `docs/AI_USAGE_REPORT.md` when `AGENTS_USAGE_REPORT=on`.
+- `.ai-runs/` is ignored in git, AI context, and local search ignores.
+- Root `.agents.env` has local automation enabled for Context7, Repomix, and
+  Tokscale.
+- Repository version has been updated to `0.15.0`.
+- Template versions have been updated to `0.6.0`.
+
+Decisions:
+
+- Automate only local, user-configured tools.
+- Treat `ask` as available but not executed by automation.
+- Keep raw logs and generated packs ignored under `.ai-runs/`.
+- Commit only aggregate, non-sensitive usage summaries.
+
+Risks:
+
+- Tokscale task grouping is approximate and still needs baseline comparison.
+- Automation can append frequent report sections if run after every iteration;
+  periodic cleanup may be needed later.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: run a baseline clone with
+  `AGENTS_CONTEXT_MODE=baseline` and compare against automated
+  `lean-context` runs.
+
 ## 2026-06-29 - Block 015: Multi-Client Tool Bootstrap
 
 Branch:

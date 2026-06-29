@@ -91,6 +91,20 @@ Default checks:
 If tools are not configured, continue the repository analysis and ask whether
 the user wants the recommended setup applied.
 
+## AI Tool Automation
+
+When `scripts/ai-tools.sh` exists:
+
+- Run `scripts/ai-tools.sh check` during repository analysis when AI tooling is
+  relevant.
+- Run `scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
+  marks one or more tools as `on`.
+- Keep raw outputs under `.ai-runs/`; they are local and ignored.
+- Commit only aggregate, non-sensitive summaries such as
+  `docs/AI_USAGE_REPORT.md`.
+- Do not run Tokscale submission, remote sharing, or MCP mutation commands
+  unless the user explicitly approves them.
+
 ## Lean Context Loading
 
 This repository uses the `lean-context` preset as an active workflow layer.

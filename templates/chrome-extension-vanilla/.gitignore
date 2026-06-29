@@ -12,6 +12,7 @@ build/
 !.ai-usage-log.example.md
 *.log
 .DS_Store
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

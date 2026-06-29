@@ -21,6 +21,7 @@ target/
 .cursor/mcp.json
 .mcp.json
 .ai-usage-log.md
+.ai-runs/
 *.log
 package-lock.json
 pnpm-lock.yaml

@@ -28,6 +28,8 @@ guidance. They also include `.env.example`, `.codex/config.example.toml`, and
 users can opt in without writing setup files from scratch.
 They also include `.agents.env.example`, `.ai-usage-log.example.md`, and
 `docs/AI_MEASUREMENT.md` for baseline vs `lean-context` comparisons.
+They include `scripts/ai-tools.sh` to automate every active local tool declared
+in `.agents.env`.
 Agents must read `docs/AI_CLIENTS.md` during analysis to adapt setup for Codex,
 Cursor, Claude, Gemini, Antigravity, OpenCode, DeepSeek, Ollama, or another
 client.

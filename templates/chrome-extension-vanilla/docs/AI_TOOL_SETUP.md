@@ -40,6 +40,37 @@ Supported modes:
 
 See `docs/AI_MEASUREMENT.md` for the full A/B workflow.
 
+## Automation
+
+Use the local automation script to run every active tool:
+
+```bash
+scripts/ai-tools.sh check
+scripts/ai-tools.sh run
+```
+
+The script reads `.agents.env` and runs only tools marked as `on`.
+
+Supported flags:
+
+```text
+AGENTS_CONTEXT7=on
+AGENTS_REPOMIX=on
+AGENTS_TOKSCALE=on
+AGENTS_MCP=ask
+AGENTS_USAGE_REPORT=on
+AGENTS_USAGE_REPORT_TARGET=docs/AI_USAGE_REPORT.md
+```
+
+Outputs:
+
+- Raw local logs: `.ai-runs/<timestamp>/`.
+- Optional aggregate report: `docs/AI_USAGE_REPORT.md`.
+
+Agents should run `scripts/ai-tools.sh run` at the end of an iteration when
+tools are active. Raw logs remain ignored; only aggregate summaries should be
+committed.
+
 ## Local Secret Policy
 
 - Store real keys only in ignored local files or the user's tool-specific secret

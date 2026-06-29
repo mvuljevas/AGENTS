@@ -65,6 +65,15 @@ Expected behavior:
 7. Compare total tokens, output quality, repeated context, and time to useful
    result.
 
+To automate active tools in each repository:
+
+```bash
+scripts/ai-tools.sh run
+```
+
+Set `AGENTS_USAGE_REPORT=on` to append an aggregate summary to
+`docs/AI_USAGE_REPORT.md`.
+
 ## Suggested Prompt
 
 ```text

@@ -47,6 +47,7 @@ composer.lock
 Gemfile.lock
 
 # Generated assets
+.ai-runs/
 *.min.js
 *.map
 *.snap

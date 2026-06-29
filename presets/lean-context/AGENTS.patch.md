@@ -80,3 +80,5 @@ Do not invent a next step when neither roadmap nor technical debt provides one.
 - During repository analysis, check `.agents.env` when present. If
   `AGENTS_CONTEXT_MODE=baseline`, skip optional `lean-context` accelerators for
   measurement unless the user explicitly asks.
+- When `scripts/ai-tools.sh` exists, run `scripts/ai-tools.sh run` at the end of
+  an iteration when `.agents.env` marks one or more tools as `on`.

@@ -116,6 +116,9 @@ All templates in this repository should share:
 Each available template also includes `docs/AI_TOOLS.md` with optional MCP,
 usage-tracking, and token-reduction guidance for that project type.
 
+Use `scripts/ai-tools.sh run` to execute the configured local AI tools and
+append aggregate usage summaries when enabled.
+
 ## License
 
 This repository is licensed under the MIT License.

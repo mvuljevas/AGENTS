@@ -23,6 +23,8 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Available templates include baseline vs `lean-context` measurement flags and
   log examples.
 - AGENTS has an initial local `lean-context` usage report.
+- Active AI tools can be automated through `scripts/ai-tools.sh`.
+- Root, preset, and templates include the AI tool automation script.
 
 ## Next Milestones
 
@@ -48,3 +50,4 @@ This roadmap is the primary source for next-step suggestions in this repository.
   Antigravity, OpenCode, and local-model workflows.
 - Baseline vs `lean-context` measurement workflow.
 - Initial AGENTS `lean-context` usage measurement.
+- Automated local AI tool execution for active tools.

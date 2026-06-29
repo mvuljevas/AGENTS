@@ -16,6 +16,7 @@ pnpm-lock.yaml
 yarn.lock
 *.log
 *.map
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

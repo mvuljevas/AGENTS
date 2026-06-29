@@ -6,6 +6,7 @@
 .mcp.json
 .ai-usage-log.md
 *.log
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

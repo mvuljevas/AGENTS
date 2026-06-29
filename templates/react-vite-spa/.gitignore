@@ -12,6 +12,7 @@ dist/
 *.log
 .DS_Store
 coverage/
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md

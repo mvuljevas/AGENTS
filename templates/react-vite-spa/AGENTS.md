@@ -31,6 +31,15 @@ writing secrets, generating context packs, or submitting usage data.
 - Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
   compression. Ask the user before enabling any external tool.
 
+## AI Tool Automation
+
+- Run `scripts/ai-tools.sh check` during repository analysis when AI tooling is
+  relevant.
+- Run `scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
+  marks one or more tools as `on`.
+- Keep raw outputs under `.ai-runs/`; commit only aggregate, non-sensitive
+  summaries.
+
 ## Versioning
 
 - Use Semantic Versioning: `X.Y.Z`.

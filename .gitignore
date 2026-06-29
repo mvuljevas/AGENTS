@@ -19,6 +19,7 @@ Thumbs.db
 !.ai-usage-log.example.md
 
 # Generated AI context packs and reports
+.ai-runs/
 repomix-output.md
 tokscale-*.json
 tokscale-*.md
