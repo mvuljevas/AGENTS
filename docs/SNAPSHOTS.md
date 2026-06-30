@@ -792,6 +792,39 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
   project using `npm pack` or local link.
 
+## 2026-06-30 - Block 029: Technical Debt Issue Automation
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Technical debt issue creation has been approved for this repository.
+- Created GitHub issues for `TD-004`, `TD-005`, and `TD-006`.
+- Added the new issues to the `AGENTS` GitHub Project.
+- Set Project fields for the new debt items: Status, Priority, Type, Area, and
+  Target Version.
+- Updated `docs/TECHDEBT.md` with issue links.
+- Repository version has been updated to `0.20.3`.
+
+Decisions:
+
+- New accepted technical debt should be mirrored to GitHub issues and linked
+  back from `docs/TECHDEBT.md`.
+- Project card creation is part of the approved technical debt workflow when
+  GitHub CLI auth and project access are available.
+
+Risks:
+
+- Technical debt issue creation is approved for this repository, but templates
+  still need reusable setup guidance for projects that want the same automation.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
+  project using `npm pack` or local link.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:
