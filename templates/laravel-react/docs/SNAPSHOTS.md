@@ -75,3 +75,29 @@ Risks:
 Next suggested step:
 
 - Run `npm run agents:doctor` after creating a project from this template.
+
+## 2026-06-30 - Block 004: CLI Documentation Cleanup
+
+Branch:
+
+- `main`
+
+Current state:
+
+- CLI documentation lists only supported `agents` commands.
+- Unsupported flag variants are no longer documented as a user-facing concept.
+- Template version has been updated to `0.11.1`.
+
+Decisions:
+
+- Keep generated project documentation focused on valid commands and setup
+  paths.
+
+Risks:
+
+- `@mvuljevas/agents` must be published or linked before package install works
+  from a clean external project.
+
+Next suggested step:
+
+- Run `npm run agents:doctor` after creating a project from this template.

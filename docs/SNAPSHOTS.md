@@ -715,7 +715,7 @@ Current state:
 
 Decisions:
 
-- `agents` is the public command and flags are lowercase only.
+- `agents` is the public command for setup, dashboard, and project governance.
 - Tools remain optional; local-safe options can be preselected by the wizard but
   still require confirmation before installation or config changes.
 - Existing repositories receive additive wrappers such as `agents:dev`; normal
@@ -733,6 +733,34 @@ Next suggested step:
 
 - Follow `docs/ROADMAP.md`: publish or locally pack `@mvuljevas/agents` and
   test installation in a clean external project.
+
+## 2026-06-30 - Block 027: CLI Documentation Cleanup
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Public CLI documentation now lists the supported lowercase commands without
+  documenting unsupported variants as a user-facing concept.
+- The reusable preset and templates received the same CLI documentation cleanup.
+- Repository version has been updated to `0.20.1`.
+- Template versions have been updated to `0.11.1`.
+
+Decisions:
+
+- Keep CLI documentation focused on supported commands and avoid documenting
+  negative flag examples.
+- Keep parser validation internal to the CLI implementation.
+
+Risks:
+
+- The npm package still needs a clean install test before publishing.
+
+Next suggested step:
+
+- Test the package from a clean external project with `npm pack` or local link.
 
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 

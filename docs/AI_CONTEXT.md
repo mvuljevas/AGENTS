@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.20.0.
+- Current version: 0.20.1.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -165,7 +165,7 @@ git diff --check
   technical debt second, and user preference third.
 - Pushes remain explicit; local commits and tags may be created during closed
   versioned iterations.
-- `agents` is the public CLI command. Flags are lowercase only.
+- `agents` is the public CLI command.
 - The CLI is the preferred setup and dashboard path; `scripts/ai-tools.sh`
   remains a compatibility backend.
 - Existing repositories should receive additive scripts such as `agents:dev`,

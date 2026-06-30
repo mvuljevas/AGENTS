@@ -18,8 +18,6 @@ agents --suggest
 agents --mcp-create
 ```
 
-Flags are lowercase only. Uppercase variants are invalid.
-
 ## Safe Defaults
 
 - Tools are optional.

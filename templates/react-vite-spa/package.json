@@ -1,7 +1,7 @@
 {
   "name": "react-vite-spa",
   "private": true,
-  "version": "0.11.0",
+  "version": "0.11.1",
   "type": "module",
   "scripts": {
     "agents": "agents --help",
@@ -21,6 +21,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@mvuljevas/agents": "^0.20.0"
+    "@mvuljevas/agents": "^0.20.1"
   }
 }

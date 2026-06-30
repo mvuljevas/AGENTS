@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.20.0";
+const VERSION = "0.20.1";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -175,7 +175,6 @@ Usage:
   agents --mcp-create [--dry-run]
 
 Rules:
-  - Flags are lowercase only.
   - Tools are optional and reversible.
   - Existing repositories are changed only after preview and confirmation.
 `);
