@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.18.1.
+- Current version: 0.18.2.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -140,6 +140,8 @@ git diff --check
 - Template `.agents.env.example` files include ready-to-use profiles for
   local-only automation, commit hooks, multi-client tracking, and dashboard
   publication.
+- A blind non-Codex coverage probe showed that unsupported local agents can run
+  successfully while Tokscale records only supported local client data.
 - Tokscale is treated as observability only; Repomix compression and MCP
   optimization layers are treated as optional token-reduction tools.
 - At iteration close, agents must suggest the next step from roadmap first,

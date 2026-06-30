@@ -604,6 +604,42 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
   so context can be exposed through bounded read-only resources.
 
+## 2026-06-30 - Block 024: Blind Agent Coverage Probe
+
+Branch:
+
+- `main`
+
+Current state:
+
+- A non-Codex local agent was invoked with a minimal marker prompt.
+- The AI tool workflow was run with `AGENTS_TOKSCALE_SUBMIT=off` to avoid
+  publishing probe data.
+- Tokscale recorded a new synthetic zero-cost session in the selected client
+  report, but did not attribute usage to unsupported local Ollama execution.
+- Cursor Agent is installed but not logged in.
+- Tokscale Cursor integration is not authenticated.
+- Antigravity sync runs but still detects no sessions.
+- Repository version has been updated to `0.18.2`.
+
+Decisions:
+
+- Treat this as a coverage limitation, not a script failure.
+- Keep unsupported local runtimes documented as outside direct Tokscale client
+  coverage unless another supported agent writes measurable session data.
+
+Risks:
+
+- Blind agent probes can produce synthetic zero-cost records that prove session
+  discovery but not token/cost attribution.
+- Cursor and Antigravity remain incomplete until their own authentication or
+  runtime cache requirements are satisfied.
+
+Next suggested step:
+
+- Authenticate Cursor Agent and Tokscale Cursor integration, then rerun the
+  same coverage probe with `cursor` included in `AGENTS_TOKSCALE_CLIENTS`.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:
