@@ -122,7 +122,9 @@ append aggregate usage summaries when enabled. Use
 active tools automatically before each iteration commit. Tokscale dashboard
 submission is available through `AGENTS_TOKSCALE_SUBMIT=off|dry-run|on` and is
 disabled by default in templates. Multi-client measurement is available through
-`AGENTS_TOKSCALE_CLIENTS`.
+`AGENTS_TOKSCALE_CLIENTS`. Each template includes ready-to-use
+`.agents.env.example` profiles for local-only automation, commit-time runs,
+multi-client tracking, and dashboard publication.
 
 ## License
 

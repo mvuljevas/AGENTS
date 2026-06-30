@@ -51,6 +51,23 @@ scripts/ai-tools.sh run
 
 The script reads `.agents.env` and runs only tools marked as `on`.
 
+Execution order:
+
+1. Load `.agents.env`, `.env`, and process-level overrides.
+2. Validate Context7 only when enabled.
+3. Scan Tokscale client coverage.
+4. Run client-specific Tokscale sync steps for Cursor and Antigravity when
+   selected and enabled.
+5. Generate Tokscale local reports for the selected clients.
+6. Submit Tokscale data only when `AGENTS_TOKSCALE_SUBMIT=on`.
+7. Generate the bounded Repomix pack after tracking steps complete.
+8. Write local run summaries and append the aggregate usage report.
+
+This order favors measurement integrity: client caches are refreshed before
+Tokscale reports, external submission happens only after the local report path
+works, and Repomix runs near the end because it is the most repository-context
+heavy step.
+
 Supported flags:
 
 ```text

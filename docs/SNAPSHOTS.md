@@ -604,6 +604,48 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
   so context can be exposed through bounded read-only resources.
 
+## 2026-06-30 - Block 023: AI Tool Script Structure Audit
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Root, preset, and templates have synchronized `scripts/ai-tools.sh`,
+  `.githooks/pre-commit`, and `.agents.env.example` files.
+- The AI tool script no longer depends on `rg` for internal Tokscale client
+  selection; shell matching handles selected clients.
+- `.agents.env.example` includes ready-to-use sample profiles for local-only
+  automation, commit-time automation, multi-client tracking, and dashboard
+  publication.
+- `docs/AI_TOOL_SETUP.md` documents the execution order:
+  configuration loading, Context7 validation, Tokscale coverage/sync/report,
+  optional Tokscale submission, Repomix, and aggregate reporting.
+- Repository version has been updated to `0.18.1`.
+- Template versions have been updated to `0.9.1`.
+
+Decisions:
+
+- Keep one canonical script copied into each template for immediate download
+  usability.
+- Keep submission disabled in samples by default and expose explicit
+  `dry-run`/`on` profiles.
+- Run Repomix after usage tracking so token/cost reporting is based on refreshed
+  client caches before context packing.
+
+Risks:
+
+- Script copies can drift if future changes are not synchronized across root,
+  preset, and templates.
+- Tokscale client integration behavior can change, so CLI help should be
+  rechecked before adding new client-specific sync steps.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
+  so context can be exposed through bounded read-only resources.
+
 ## 2026-06-29 - Block 022: Multi-Client Tokscale Automation
 
 Branch:

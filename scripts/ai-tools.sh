@@ -43,6 +43,13 @@ bool_on() {
   [ "$1" = "on" ] || [ "$1" = "true" ] || [ "$1" = "1" ]
 }
 
+client_selected() {
+  case ",$AGENTS_TOKSCALE_CLIENTS," in
+    *",$1,"*|*,all,*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 print_config() {
   cat <<EOF
 AI tool automation
@@ -110,13 +117,13 @@ run_tokscale() {
     TOKSCALE_COVERAGE_STATUS="failed: see ${RUN_DIR}/tokscale-clients-before.err"
   fi
 
-  if printf '%s' "$clients" | rg -q '(^|,)(cursor|all)(,|$)'; then
+  if client_selected "cursor"; then
     npx -y tokscale@latest cursor status > "$RUN_DIR/tokscale-cursor-status.raw" 2> "$RUN_DIR/tokscale-cursor-status.err" || true
     strip_ansi < "$RUN_DIR/tokscale-cursor-status.raw" > "$RUN_DIR/tokscale-cursor-status.txt" 2>/dev/null || true
     if bool_on "$AGENTS_TOKSCALE_CURSOR_SYNC"; then
       if npx -y tokscale@latest cursor sync > "$RUN_DIR/tokscale-cursor-sync.raw" 2> "$RUN_DIR/tokscale-cursor-sync.err"; then
         strip_ansi < "$RUN_DIR/tokscale-cursor-sync.raw" > "$RUN_DIR/tokscale-cursor-sync.txt"
-        if rg -q "Sync failed|Not authenticated|No saved Cursor accounts" "$RUN_DIR/tokscale-cursor-sync.txt" "$RUN_DIR/tokscale-cursor-status.txt" 2>/dev/null; then
+        if grep -Eq "Sync failed|Not authenticated|No saved Cursor accounts" "$RUN_DIR/tokscale-cursor-sync.txt" "$RUN_DIR/tokscale-cursor-status.txt" 2>/dev/null; then
           TOKSCALE_CURSOR_STATUS="sync failed: Cursor not authenticated"
         else
           TOKSCALE_CURSOR_STATUS="sync ok"
@@ -132,13 +139,13 @@ run_tokscale() {
     TOKSCALE_CURSOR_STATUS="not selected"
   fi
 
-  if printf '%s' "$clients" | rg -q '(^|,)(antigravity|all)(,|$)'; then
+  if client_selected "antigravity"; then
     npx -y tokscale@latest antigravity status > "$RUN_DIR/tokscale-antigravity-status.raw" 2> "$RUN_DIR/tokscale-antigravity-status.err" || true
     strip_ansi < "$RUN_DIR/tokscale-antigravity-status.raw" > "$RUN_DIR/tokscale-antigravity-status.txt" 2>/dev/null || true
     if bool_on "$AGENTS_TOKSCALE_ANTIGRAVITY_SYNC"; then
       if npx -y tokscale@latest antigravity sync > "$RUN_DIR/tokscale-antigravity-sync.raw" 2> "$RUN_DIR/tokscale-antigravity-sync.err"; then
         strip_ansi < "$RUN_DIR/tokscale-antigravity-sync.raw" > "$RUN_DIR/tokscale-antigravity-sync.txt"
-        if rg -q "cached sessions after sync:[[:space:]]+0|detected sessions:[[:space:]]+0" "$RUN_DIR/tokscale-antigravity-sync.txt" 2>/dev/null; then
+        if grep -Eq "cached sessions after sync:[[:space:]]+0|detected sessions:[[:space:]]+0" "$RUN_DIR/tokscale-antigravity-sync.txt" 2>/dev/null; then
           TOKSCALE_ANTIGRAVITY_STATUS="sync ok: no sessions detected"
         else
           TOKSCALE_ANTIGRAVITY_STATUS="sync ok"
@@ -184,7 +191,7 @@ run_tokscale() {
     on|true|1)
       if npx -y tokscale@latest whoami > "$RUN_DIR/tokscale-whoami.raw" 2> "$RUN_DIR/tokscale-whoami.err"; then
         strip_ansi < "$RUN_DIR/tokscale-whoami.raw" > "$RUN_DIR/tokscale-whoami.txt"
-        if rg -q "Not logged in" "$RUN_DIR/tokscale-whoami.txt"; then
+        if grep -q "Not logged in" "$RUN_DIR/tokscale-whoami.txt"; then
           TOKSCALE_SUBMIT_STATUS="submit failed: not logged in"
         elif npx -y tokscale@latest submit --client "$clients" "$period_arg" > "$RUN_DIR/tokscale-submit.raw" 2> "$RUN_DIR/tokscale-submit.err"; then
           strip_ansi < "$RUN_DIR/tokscale-submit.raw" > "$RUN_DIR/tokscale-submit.txt"
