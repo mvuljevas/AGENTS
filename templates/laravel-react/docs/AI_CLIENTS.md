@@ -12,7 +12,8 @@ local, and measure before claiming token savings.
 | Cursor | `.cursor/mcp.json` from `.cursor/mcp.example.json` or Context7 CLI setup | Use project MCP config when possible. |
 | Claude Code | `.mcp.json` from `.mcp.example.json` or Context7 CLI setup | Keep real keys out of committed files. |
 | Gemini CLI | Context7 CLI setup | Prefer CLI setup because config shape may vary by Gemini version. |
-| Antigravity | Context7 CLI setup | Context7 can install Antigravity-oriented skills. |
+| Antigravity | Context7 CLI setup | Context7 can install Antigravity-oriented skills. Tokscale can sync running language-server sessions. |
+| Warp | Tokscale global install or `npx -y tokscale@latest` | Use `tokscale warp login` and `tokscale warp sync` for supported Warp or Oz usage. |
 | OpenCode | Context7 CLI setup | Use MCP when supported; otherwise use CLI tools. |
 | DeepSeek local | Repomix CLI output | Use bounded `repomix-output.md`; MCP support depends on the wrapper. |
 | Ollama local | Repomix CLI output | Use bounded `repomix-output.md`; MCP support depends on the wrapper. |
@@ -47,8 +48,24 @@ baseline sessions against `lean-context` sessions.
 
 ```bash
 npx -y tokscale@latest clients
+npx -y tokscale@latest whoami
+npx -y tokscale@latest tui --today
+npx -y tokscale@latest graph --client codex --today --output .ai-runs/tokscale-graph.json
 npx -y tokscale@latest --client codex --today models
 npx -y tokscale@latest --client codex --today report
+```
+
+The automation uses `npx -y tokscale@latest` internally, so it does not require
+a global `tokscale` command. A global install is recommended when the user wants
+Tokscale to work directly from Warp, zsh, or any shell:
+
+```bash
+npm install -g tokscale
+# or
+bun install -g tokscale
+
+command -v tokscale
+tokscale --help
 ```
 
 Change `--client codex` to the active client when Tokscale supports it.
@@ -60,18 +77,25 @@ configured.
 Use `AGENTS_TOKSCALE_CLIENTS` for multi-client projects:
 
 ```text
-AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude
+AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude,gemini,warp
 AGENTS_TOKSCALE_CURSOR_SYNC=on
 AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=on
+AGENTS_TOKSCALE_WARP_SYNC=on
+AGENTS_TOKSCALE_SUBMIT=on
 ```
 
-Cursor requires a one-time `npx -y tokscale@latest cursor login`. Antigravity
-requires a running Antigravity language server for `antigravity sync` to
-discover sessions. Claude Code is transcript-based. Ollama is not a Tokscale
-client in the current CLI; measure it through the invoking agent or another
-observability tool.
+Cursor requires `cursor agent login`, a one-time
+`npx -y tokscale@latest cursor login`, and then
+`npx -y tokscale@latest cursor sync`. Warp requires
+`npx -y tokscale@latest warp login` and
+`npx -y tokscale@latest warp sync`. Antigravity requires a running Antigravity
+language server for `antigravity sync` to discover sessions. Claude Code is
+transcript-based. Gemini coverage depends on readable local CLI logs. Ollama is
+not a Tokscale client in the current CLI; measure it through the invoking agent
+or another observability tool.
 
-Do not run upload or social sharing commands unless the user approves:
+Tokscale submit defaults to `on` in templates so usage can appear in the user's
+Tokscale account after login. The user can opt down before running automation:
 
 ```bash
 npx -y tokscale@latest login
@@ -79,12 +103,12 @@ npx -y tokscale@latest submit --client codex --today --dry-run
 npx -y tokscale@latest submit --client codex --today
 ```
 
-Templates use `AGENTS_TOKSCALE_SUBMIT=off` by default. Project owners may set
-`dry-run` first, then `on` after confirming what will be uploaded.
+Use `AGENTS_TOKSCALE_SUBMIT=dry-run` to validate the upload set without
+submitting it, or `AGENTS_TOKSCALE_SUBMIT=off` for local-only reports.
 
 Long-running sessions are measured from the client's local usage data at the
 time Tokscale runs. The commit hook captures what is visible at commit time; for
-ongoing terminals, run `scripts/ai-tools.sh run` manually when a measurement
+ongoing terminals, run `bash scripts/ai-tools.sh run` manually when a measurement
 checkpoint is needed.
 
 ## Repomix Bootstrap
@@ -120,9 +144,12 @@ When the user asks the agent to analyze the repository, the agent should:
    when present.
 4. Detect the active client when possible.
 5. Check whether local example files exist for MCP and environment setup.
-6. Report which tools are available, missing, or require restart/login.
-7. Ask before writing secrets, enabling MCP servers, generating packs, or
-   submitting usage data.
-8. Offer a minimal setup path for the detected client.
+6. Run `bash scripts/ai-tools.sh check` when present.
+7. Report which tools are available, missing, or require restart/login.
+8. Offer `bash scripts/ai-tools.sh setup-machine` when global Tokscale, login, or
+   selected client syncs are missing.
+9. Ask before writing secrets, enabling MCP servers, or changing machine-wide
+   client integrations.
+10. Run active tools when configured and append usage and optimization reports.
 
 The agent should not block project work if optional AI tooling is not configured.

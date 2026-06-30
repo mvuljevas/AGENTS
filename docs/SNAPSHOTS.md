@@ -581,7 +581,7 @@ Current state:
 - `scripts/ai-tools.sh` now supports `run-and-stage` and `install-hooks`.
 - `.agents.env.example` includes `AGENTS_AUTO_RUN_ON_COMMIT=off`.
 - This repository can enable commit-time tool execution with
-  `scripts/ai-tools.sh install-hooks` and local
+  `bash scripts/ai-tools.sh install-hooks` and local
   `AGENTS_AUTO_RUN_ON_COMMIT=on`.
 - Repository version has been updated to `0.16.0`.
 - Template versions have been updated to `0.7.0`.
@@ -639,6 +639,56 @@ Next suggested step:
 
 - Authenticate Cursor Agent and Tokscale Cursor integration, then rerun the
   same coverage probe with `cursor` included in `AGENTS_TOKSCALE_CLIENTS`.
+
+## 2026-06-30 - Block 025: Tokscale Global Coverage Defaults
+
+Branch:
+
+- `main`
+
+Current state:
+
+- `scripts/ai-tools.sh` now uses a portable Tokscale wrapper based on
+  `npx -y tokscale@latest`.
+- The automation supports `check`, `setup-machine`, `run`, `run-and-stage`,
+  `install-hooks`, and `dashboard`.
+- Tokscale coverage now includes guided setup and sync checks for Codex, Cursor,
+  Antigravity, Claude, Gemini, and Warp.
+- `.agents.env.example` defaults to Context7, Repomix, Tokscale, usage reports,
+  optimization reports, multi-client tracking, client syncs, and Tokscale
+  submit enabled.
+- Users can opt down with `AGENTS_TOKSCALE_SUBMIT=dry-run` or
+  `AGENTS_TOKSCALE_SUBMIT=off`.
+- `docs/AI_OPTIMIZATION_REPORT.md` records measured usage, bounded context
+  size, client coverage, and savings notes without claiming savings until
+  matched baseline and optimized runs exist.
+- Root, preset, and templates contain synchronized AI tool scripts, environment
+  samples, setup docs, client docs, and optimization report placeholders.
+- Repository version has been updated to `0.19.0`.
+- Template versions have been updated to `0.10.0`.
+
+Decisions:
+
+- Prefer Tokscale's built-in TUI and graph export as the first local dashboard.
+- Keep scripts portable through `npx`; document global install only as a
+  convenience for Warp and regular shells.
+- Treat Ollama as outside direct Tokscale coverage until Tokscale exposes an
+  Ollama client or a separate telemetry layer is selected.
+
+Risks:
+
+- Tokscale client integrations can change and should be rechecked against the
+  upstream CLI before extending client-specific sync logic.
+- Default submit requires users to be intentional about opt-down mode when they
+  want local-only measurement.
+- Real savings remain unproven until matched baseline and optimized runs are
+  captured for the same task.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: run a baseline clone with
+  `AGENTS_CONTEXT_MODE=baseline` and compare against automated
+  `lean-context` runs.
 
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
@@ -731,7 +781,7 @@ Branch:
 Current state:
 
 - Tokscale login succeeded locally as `mvuljevas`.
-- `scripts/ai-tools.sh run` successfully submitted Codex usage for
+- `bash scripts/ai-tools.sh run` successfully submitted Codex usage for
   2026-06-29.
 - Submitted scope: `codex`, `today`, 23,830,062 tokens, $23.20.
 - `docs/AI_USAGE_REPORT.md` records the successful submission.

@@ -46,12 +46,16 @@ The agent must:
    template workflow.
 7. Check optional AI tooling guidance in `docs/AI_TOOLS.md`,
    `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md` when present.
-8. Detect the active AI client when possible and report whether Context7,
-   Tokscale, Repomix CLI, and MCP configuration appear available.
-9. Ask before enabling tools, writing secrets, creating local config, generating
-   context packs, or submitting usage data.
-10. Summarize the current state.
-11. Ask a project-start question such as:
+8. Run `bash scripts/ai-tools.sh check` when present.
+9. Detect the active AI client when possible and report whether Context7,
+   Tokscale, Repomix CLI, MCP configuration, Tokscale login, global Tokscale
+   command access, and selected client syncs appear available.
+10. Offer `bash scripts/ai-tools.sh setup-machine` when machine-wide Tokscale or
+   client setup is missing.
+11. Ask before writing secrets, creating local config, enabling MCP servers, or
+   changing machine-wide integrations.
+12. Summarize the current state.
+13. Ask a project-start question such as:
 
 ```text
 ¿Que vamos a construir hoy?
@@ -84,9 +88,11 @@ Default checks:
    `.gemini/`, `.agent/`, or client-specific global config when visible.
 3. Prefer Context7 for current library documentation.
 4. Prefer Repomix CLI for immediate context reduction.
-5. Use Tokscale only for measurement unless the user approves remote login or
-   submission.
-6. Keep MCP setup opt-in and read-only by default.
+5. Use Tokscale for measurement and dashboard submission according to
+   `AGENTS_TOKSCALE_SUBMIT=on|dry-run|off`.
+6. Check Cursor, Antigravity, and Warp sync state when those clients are
+   selected.
+7. Keep MCP setup opt-in and read-only by default.
 
 If tools are not configured, continue the repository analysis and ask whether
 the user wants the recommended setup applied.
@@ -95,22 +101,28 @@ the user wants the recommended setup applied.
 
 When `scripts/ai-tools.sh` exists:
 
-- Run `scripts/ai-tools.sh check` during repository analysis when AI tooling is
+- Run `bash scripts/ai-tools.sh check` during repository analysis when AI tooling is
   relevant.
-- Run `scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
+- Run `bash scripts/ai-tools.sh setup-machine` when the user wants guided global
+  Tokscale and client setup.
+- Run `bash scripts/ai-tools.sh dashboard` when the user wants local dashboard
+  commands or report locations.
+- Run `bash scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
   marks one or more tools as `on`.
 - When `.githooks/pre-commit` exists and the user wants automatic iteration
-  closure, run `scripts/ai-tools.sh install-hooks` once and set
+  closure, run `bash scripts/ai-tools.sh install-hooks` once and set
   `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`.
 - With commit automation enabled, the pre-commit hook must run
-  `scripts/ai-tools.sh run-and-stage` so active tools execute before the
+  `bash scripts/ai-tools.sh run-and-stage` so active tools execute before the
   iteration commit and the aggregate usage report is staged automatically.
 - Keep raw outputs under `.ai-runs/`; they are local and ignored.
 - Commit only aggregate, non-sensitive summaries such as
-  `docs/AI_USAGE_REPORT.md`.
-- Do not run Tokscale submission, remote sharing, or MCP mutation commands
-  unless the user explicitly approves them. Tokscale submission must be
-  controlled by `AGENTS_TOKSCALE_SUBMIT=off|dry-run|on`.
+  `docs/AI_USAGE_REPORT.md` and `docs/AI_OPTIMIZATION_REPORT.md`.
+- Tokscale submission must be controlled by
+  `AGENTS_TOKSCALE_SUBMIT=on|dry-run|off`. Templates default to `on`; use
+  `dry-run` or `off` when the user wants validation or local-only runs.
+- Do not run remote sharing commands outside Tokscale submit, write secrets, or
+  run MCP mutation commands unless the user explicitly approves them.
 
 ## Lean Context Loading
 

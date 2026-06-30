@@ -1,10 +1,12 @@
 # AI Tool Setup
 
-This repository supports optional AI tooling for current documentation lookup,
-usage tracking, and bounded context packing.
+This repository supports AI tooling for current documentation lookup, usage
+tracking, bounded context packing, and local optimization reporting.
 
-These tools are opt-in. Do not configure external tools, API keys, telemetry, or
-submission workflows without user approval.
+Template defaults turn Context7, Repomix, Tokscale, usage reporting, optimization
+reporting, and Tokscale submit on. Users may opt down to `dry-run` or `off`.
+Credentials, browser login, MCP mutation, and machine-wide setup still require
+explicit user action.
 
 ## Trigger During Repository Analysis
 
@@ -16,11 +18,13 @@ should include an AI tooling check after reading the project docs:
    disabled for measurement and skip setup.
 3. Read `docs/AI_TOOLS.md`, `docs/AI_CLIENTS.md`, and this file when present.
 4. Detect the active client when possible.
-5. Report whether Context7, Tokscale, Repomix CLI, and MCP examples are present.
-6. Ask before writing local config, adding secrets, generating
-   `repomix-output.md`, starting MCP servers, logging in, or submitting usage
-   data.
-7. Continue normal project analysis even when optional tooling is missing.
+5. Run `bash scripts/ai-tools.sh check` when present.
+6. Report whether Context7, Tokscale, Repomix CLI, MCP examples, global
+   `tokscale`, Tokscale login, and selected client syncs are available.
+7. Offer `bash scripts/ai-tools.sh setup-machine` when machine-wide setup is missing.
+8. Ask before writing local config, adding secrets, starting MCP servers,
+   logging in, or changing machine-wide client integrations.
+9. Continue normal project analysis even when optional tooling is missing.
 
 ## Measurement Mode
 
@@ -35,8 +39,8 @@ Supported modes:
 
 - `AGENTS_CONTEXT_MODE=baseline`: skip optional `lean-context` accelerators and
   AI tool bootstrap unless the user explicitly asks.
-- `AGENTS_CONTEXT_MODE=lean-context`: use the normal template workflow and ask
-  before enabling optional tools.
+- `AGENTS_CONTEXT_MODE=lean-context`: use the normal template workflow, run the
+  configured checks, and guide setup for missing tools.
 
 See `docs/AI_MEASUREMENT.md` for the full A/B workflow.
 
@@ -45,23 +49,30 @@ See `docs/AI_MEASUREMENT.md` for the full A/B workflow.
 Use the local automation script to run every active tool:
 
 ```bash
-scripts/ai-tools.sh check
-scripts/ai-tools.sh run
+bash scripts/ai-tools.sh check
+bash scripts/ai-tools.sh setup-machine
+bash scripts/ai-tools.sh run
+bash scripts/ai-tools.sh dashboard
 ```
 
-The script reads `.agents.env` and runs only tools marked as `on`.
+The script reads `.agents.env` and runs tools marked as `on`. The bundled
+defaults are enabled so new projects immediately produce local reports once
+required credentials and client caches exist.
 
 Execution order:
 
 1. Load `.agents.env`, `.env`, and process-level overrides.
 2. Validate Context7 only when enabled.
-3. Scan Tokscale client coverage.
-4. Run client-specific Tokscale sync steps for Cursor and Antigravity when
-   selected and enabled.
+3. Scan Tokscale client coverage and authentication state.
+4. Run client-specific Tokscale sync steps for Cursor, Antigravity, and Warp
+   when selected and enabled.
 5. Generate Tokscale local reports for the selected clients.
-6. Submit Tokscale data only when `AGENTS_TOKSCALE_SUBMIT=on`.
-7. Generate the bounded Repomix pack after tracking steps complete.
-8. Write local run summaries and append the aggregate usage report.
+6. Submit Tokscale data when `AGENTS_TOKSCALE_SUBMIT=on`, validate without
+   uploading when `dry-run`, or skip when `off`.
+7. Export Tokscale graph data for local dashboard and optimization reporting.
+8. Generate the bounded Repomix pack after tracking steps complete.
+9. Write local run summaries, append the aggregate usage report, and append the
+   optimization report.
 
 This order favors measurement integrity: client caches are refreshed before
 Tokscale reports, external submission happens only after the local report path
@@ -75,21 +86,25 @@ AGENTS_CONTEXT7=on
 AGENTS_REPOMIX=on
 AGENTS_TOKSCALE=on
 AGENTS_MCP=ask
-AGENTS_TOKSCALE_CLIENTS=codex
-AGENTS_TOKSCALE_CURSOR_SYNC=off
-AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=off
-AGENTS_TOKSCALE_SUBMIT=off
+AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude,gemini,warp
+AGENTS_TOKSCALE_CURSOR_SYNC=on
+AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=on
+AGENTS_TOKSCALE_WARP_SYNC=on
+AGENTS_TOKSCALE_SUBMIT=on
 AGENTS_AUTO_RUN_ON_COMMIT=off
 AGENTS_USAGE_REPORT=on
 AGENTS_USAGE_REPORT_TARGET=docs/AI_USAGE_REPORT.md
+AGENTS_OPTIMIZATION_REPORT=on
+AGENTS_OPTIMIZATION_REPORT_TARGET=docs/AI_OPTIMIZATION_REPORT.md
 ```
 
 Outputs:
 
 - Raw local logs: `.ai-runs/<timestamp>/`.
 - Optional aggregate report: `docs/AI_USAGE_REPORT.md`.
+- Optional optimization report: `docs/AI_OPTIMIZATION_REPORT.md`.
 
-Agents should run `scripts/ai-tools.sh run` at the end of an iteration when
+Agents should run `bash scripts/ai-tools.sh run` at the end of an iteration when
 tools are active. Raw logs remain ignored; only aggregate summaries should be
 committed.
 
@@ -99,7 +114,7 @@ Use the repository hook when each committed iteration should automatically run
 the active tools:
 
 ```bash
-scripts/ai-tools.sh install-hooks
+bash scripts/ai-tools.sh install-hooks
 ```
 
 Then set this local flag:
@@ -111,7 +126,7 @@ AGENTS_AUTO_RUN_ON_COMMIT=on
 When enabled, `.githooks/pre-commit` runs:
 
 ```bash
-scripts/ai-tools.sh run-and-stage
+bash scripts/ai-tools.sh run-and-stage
 ```
 
 This executes active tools, writes raw outputs to `.ai-runs/`, appends the
@@ -163,10 +178,34 @@ Tokscale is usage observability. It can show local Codex usage and help compare
 baseline sessions against `lean-context` sessions, but it does not reduce token
 usage by itself.
 
+The automation uses `npx -y tokscale@latest` internally so it works even when
+the global `tokscale` command is not on the shell `PATH`. A global install is
+still recommended for Warp, zsh, and day-to-day local dashboard access:
+
+```bash
+npm install -g tokscale
+# or
+bun install -g tokscale
+
+command -v tokscale
+tokscale --help
+```
+
+If Warp cannot find `tokscale`, check the shell path from inside Warp:
+
+```bash
+npm prefix -g
+npm bin -g
+echo "$PATH"
+```
+
 Local commands:
 
 ```bash
 npx -y tokscale@latest clients
+npx -y tokscale@latest whoami
+npx -y tokscale@latest tui --today
+npx -y tokscale@latest graph --client codex --today --output .ai-runs/tokscale-graph.json
 npx -y tokscale@latest --client codex --today models
 npx -y tokscale@latest --client codex --today report
 ```
@@ -174,14 +213,14 @@ npx -y tokscale@latest --client codex --today report
 Use `AGENTS_TOKSCALE_CLIENTS` for multi-client measurement:
 
 ```text
-AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude
+AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude,gemini,warp
 ```
 
 The legacy `AGENTS_TOKSCALE_CLIENT` flag remains supported for single-client
 setups. Prefer `AGENTS_TOKSCALE_CLIENTS` when users switch between agents.
 
-Remote Tokscale login and submission are optional and controlled by
-`AGENTS_TOKSCALE_SUBMIT`:
+Remote Tokscale login and submission are controlled by `AGENTS_TOKSCALE_SUBMIT`.
+Templates default to `on`; users can opt down before running automation:
 
 ```bash
 npx -y tokscale@latest login
@@ -191,20 +230,19 @@ npx -y tokscale@latest submit --client codex --today
 
 Supported submit modes:
 
-- `off`: local reports only; nothing is uploaded.
-- `dry-run`: validate the upload set without submitting it.
 - `on`: submit usage data to the authenticated Tokscale account.
+- `dry-run`: validate the upload set without submitting it.
+- `off`: local reports only; nothing is uploaded.
 
-Only set `AGENTS_TOKSCALE_SUBMIT=on` after the user approves sharing usage
-data. If `whoami` reports that Tokscale is not logged in, run
+If `whoami` reports that Tokscale is not logged in, run
 `npx -y tokscale@latest login` or set `TOKSCALE_API_TOKEN` in a local ignored
-secret store.
+secret store. Do not commit tokens.
 
 Long-running terminal sessions do not need the hook to stay open. Tokscale reads
 the supported client's local session data when the script runs, so the important
 requirement is that the client writes usage data to a supported local location.
 For commit-time automation, the hook captures the usage visible at commit time.
-If a terminal session remains open for hours, run `scripts/ai-tools.sh run`
+If a terminal session remains open for hours, run `bash scripts/ai-tools.sh run`
 manually before comparing results or wait for the next iteration commit.
 
 Coverage depends on the active client. Codex can be read through the `codex`
@@ -216,19 +254,20 @@ that client through:
 npx -y tokscale@latest clients
 ```
 
-When changing clients, update `AGENTS_TOKSCALE_CLIENT` in `.agents.env`.
+When changing clients, update `AGENTS_TOKSCALE_CLIENTS` in `.agents.env`.
 Some clients require their own cache or integration commands before Tokscale can
-read complete usage data. Tokscale's local client scan also reports whether a
-client currently has readable messages. At the time this workflow was written,
-Tokscale reported headless capture support for Codex CLI only; other clients
-should be treated as local-log/cache readers unless Tokscale documents otherwise.
+read complete usage data. Tokscale's local client scan reports whether a client
+currently has readable messages.
 
 Client-specific automation:
 
 - Codex: local sessions are read from Codex session storage. Headless capture is
   supported by Tokscale for Codex CLI.
-- Cursor: run `npx -y tokscale@latest cursor login` once, then enable
+- Cursor: run `cursor agent login`, then
+  `npx -y tokscale@latest cursor login` once, then enable
   `AGENTS_TOKSCALE_CURSOR_SYNC=on` to sync the Cursor API cache before reports.
+- Warp: run `npx -y tokscale@latest warp login` once, then enable
+  `AGENTS_TOKSCALE_WARP_SYNC=on` to sync Warp or Oz usage before reports.
 - Antigravity: keep Antigravity running, then enable
   `AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=on` to sync usage from running language
   servers before reports.
@@ -237,6 +276,28 @@ Client-specific automation:
 - Ollama: Tokscale does not expose an `ollama` client in the current CLI. Track
   Ollama through the calling agent if that agent writes supported local usage
   data, or use a separate observability layer.
+
+## Local Dashboard And Optimization Report
+
+Use Tokscale's built-in local TUI as the first dashboard:
+
+```bash
+npx -y tokscale@latest
+npx -y tokscale@latest tui --today
+bash scripts/ai-tools.sh dashboard
+```
+
+The repository automation also writes:
+
+- `.ai-runs/<timestamp>/tokscale-graph.json`: local Tokscale graph export.
+- `.ai-runs/<timestamp>/repomix-output.md`: bounded context pack.
+- `docs/AI_USAGE_REPORT.md`: aggregate usage observations.
+- `docs/AI_OPTIMIZATION_REPORT.md`: measured tokens, bounded context size,
+  client coverage, and savings notes.
+
+Do not claim real savings unless a baseline run and optimized run exist for the
+same task. Without a matched baseline, the optimization report should say that
+savings are not yet available.
 
 ## Repomix
 

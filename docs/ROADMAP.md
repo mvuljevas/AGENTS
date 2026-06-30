@@ -17,16 +17,18 @@ This roadmap is the primary source for next-step suggestions in this repository.
   guidance in `docs/AI_TOOLS.md`.
 - This repository has local Context7 MCP configuration and reusable setup
   examples without committed secrets.
-- Analysis prompts now trigger an optional multi-client AI tool setup check.
+- Analysis prompts now trigger a multi-client AI tool setup check.
 - Available templates include Codex, Cursor, generic MCP, Context7, Tokscale,
   and Repomix setup examples.
-- Available templates include baseline vs `lean-context` measurement flags and
-  log examples.
+- Available templates include baseline vs `lean-context` measurement flags, log
+  examples, default-on Tokscale submission, and opt-down modes.
 - AGENTS has an initial local `lean-context` usage report.
 - Active AI tools can be automated through `scripts/ai-tools.sh`.
 - Iteration commits can run active tools automatically through the optional
   `.githooks/pre-commit` flow.
 - Root, preset, and templates include the AI tool automation script.
+- Root, preset, and templates include local optimization reports and guided
+  Tokscale machine setup.
 
 ## Next Milestones
 
@@ -53,3 +55,5 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Baseline vs `lean-context` measurement workflow.
 - Initial AGENTS `lean-context` usage measurement.
 - Automated local AI tool execution for active tools.
+- Default-on Tokscale coverage, guided setup, local dashboard commands, and
+  optimization reports for root, preset, and templates.

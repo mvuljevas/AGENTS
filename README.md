@@ -105,6 +105,7 @@ All templates in this repository should share:
 - [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
 - [AI Tool Setup](docs/AI_TOOL_SETUP.md)
 - [AI Usage Report](docs/AI_USAGE_REPORT.md)
+- [AI Optimization Report](docs/AI_OPTIMIZATION_REPORT.md)
 - [Catalog](docs/CATALOG.md)
 - [Conventions](docs/CONVENTIONS.md)
 - [Naming](docs/NAMING.md)
@@ -113,18 +114,20 @@ All templates in this repository should share:
 - [Snapshots](docs/SNAPSHOTS.md)
 - [Technical Debt](docs/TECHDEBT.md)
 
-Each available template also includes `docs/AI_TOOLS.md` with optional MCP,
+Each available template also includes `docs/AI_TOOLS.md` with MCP,
 usage-tracking, and token-reduction guidance for that project type.
 
-Use `scripts/ai-tools.sh run` to execute the configured local AI tools and
-append aggregate usage summaries when enabled. Use
-`scripts/ai-tools.sh install-hooks` with `AGENTS_AUTO_RUN_ON_COMMIT=on` to run
-active tools automatically before each iteration commit. Tokscale dashboard
-submission is available through `AGENTS_TOKSCALE_SUBMIT=off|dry-run|on` and is
-disabled by default in templates. Multi-client measurement is available through
-`AGENTS_TOKSCALE_CLIENTS`. Each template includes ready-to-use
-`.agents.env.example` profiles for local-only automation, commit-time runs,
-multi-client tracking, and dashboard publication.
+Use `bash scripts/ai-tools.sh check` during repository analysis, then
+`bash scripts/ai-tools.sh setup-machine` when Tokscale or client setup is missing.
+Use `bash scripts/ai-tools.sh run` to execute configured AI tools, append aggregate
+usage summaries, and append optimization observations when enabled. Use
+`bash scripts/ai-tools.sh dashboard` for Tokscale TUI and report locations.
+
+Template defaults enable Context7, Repomix, Tokscale, usage reports,
+optimization reports, and Tokscale submit. Users can opt down with
+`AGENTS_TOKSCALE_SUBMIT=dry-run` or `AGENTS_TOKSCALE_SUBMIT=off`.
+Multi-client measurement is available through `AGENTS_TOKSCALE_CLIENTS`, with
+ready defaults for Codex, Cursor, Antigravity, Claude, Gemini, and Warp.
 
 ## License
 

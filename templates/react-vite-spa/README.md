@@ -38,6 +38,7 @@ The authoritative version source is `package.json`.
 - [AI Clients](docs/AI_CLIENTS.md)
 - [AI Context](docs/AI_CONTEXT.md)
 - [AI Measurement](docs/AI_MEASUREMENT.md)
+- [AI Optimization Report](docs/AI_OPTIMIZATION_REPORT.md)
 - [AI Search](docs/AI_SEARCH.md)
 - [AI Token Budget](docs/AI_TOKEN_BUDGET.md)
 - [AI Tool Setup](docs/AI_TOOL_SETUP.md)

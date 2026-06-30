@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.18.2.
+- Current version: 0.19.0.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -33,6 +33,7 @@ This file is the compact project summary for agents working in this repository.
 │   ├── AI_MEASUREMENT.md
 │   ├── AI_TOOL_SETUP.md
 │   ├── AI_USAGE_REPORT.md
+│   ├── AI_OPTIMIZATION_REPORT.md
 │   ├── AI_TOKEN_BUDGET.md
 │   ├── CATALOG.md
 │   ├── CONVENTIONS.md
@@ -84,13 +85,15 @@ git diff --check
 - `docs/TECHDEBT.md`: fallback source for next-step suggestions and debt
   automation.
 - `docs/AI_TOOL_SETUP.md`: local setup guide for optional Context7, Tokscale,
-  Repomix, and MCP optimization tooling.
+  Repomix, Tokscale dashboard, and MCP optimization tooling.
 - `docs/AI_CLIENTS.md`: client-specific setup matrix for Codex, Cursor, Claude,
-  Gemini, Antigravity, OpenCode, and local-model workflows.
+  Gemini, Antigravity, Warp, OpenCode, and local-model workflows.
 - `docs/AI_MEASUREMENT.md`: baseline vs `lean-context` measurement workflow.
 - `docs/AI_USAGE_REPORT.md`: aggregate usage observations for this repository.
+- `docs/AI_OPTIMIZATION_REPORT.md`: aggregate optimization observations for
+  measured usage, bounded context size, and client coverage.
 - `scripts/ai-tools.sh`: local automation for Context7, Tokscale, Repomix, and
-  aggregate usage reporting based on `.agents.env`.
+  aggregate usage and optimization reporting based on `.agents.env`.
 - `.githooks/pre-commit`: optional commit-time automation for active AI tools
   when `AGENTS_AUTO_RUN_ON_COMMIT=on`.
 - `.agents/skills/context7-mcp/SKILL.md`: project-local Context7 usage skill
@@ -114,32 +117,33 @@ git diff --check
 - `lean-context` is both stored as a preset and applied to this repository.
 - Agents should recommend templates and presets before copying or applying them.
 - Agents must check `docs/CATALOG.md` before claiming a template can be copied.
-- Templates recommend optional MCPs and tracking tools, but agents must ask
-  before enabling them.
+- Templates recommend MCPs and tracking tools, but agents must ask before
+  writing secrets or changing machine-wide integrations.
 - Local Context7 is configured for this repository through ignored project
   configuration; examples are versioned without secrets.
 - Analysis prompts trigger an optional AI tool check before implementation work.
-- Templates include Codex, Cursor, generic MCP, Context7, Tokscale, and Repomix
-  setup examples while keeping real config files ignored.
+- Templates include Codex, Cursor, Warp, generic MCP, Context7, Tokscale, and
+  Repomix setup examples while keeping real config files ignored.
 - Templates include `.agents.env.example` and `.ai-usage-log.example.md` for
   comparable baseline vs `lean-context` runs.
 - This repository has local ignored measurement files active and an initial
   aggregate usage report.
-- Active tools can be automated with `scripts/ai-tools.sh run`.
+- Active tools can be automated with `bash scripts/ai-tools.sh run`.
 - Root, preset, and templates now include the same AI tool automation script.
 - Commit-time automation is available through
-  `scripts/ai-tools.sh install-hooks` and `.githooks/pre-commit`.
+  `bash scripts/ai-tools.sh install-hooks` and `.githooks/pre-commit`.
 - Tokscale remote dashboard submission is available through
-  `AGENTS_TOKSCALE_SUBMIT=off|dry-run|on`; templates default to `off`.
+  `AGENTS_TOKSCALE_SUBMIT=on|dry-run|off`; templates default to `on`.
 - Tokscale coverage is client-dependent and must be checked with
   `npx -y tokscale@latest clients` when users switch agents or IDEs.
 - Tokscale is authenticated locally for this repository and a successful Codex
   submission was recorded for 2026-06-29.
 - Tokscale automation supports multi-client measurement through
-  `AGENTS_TOKSCALE_CLIENTS` and optional Cursor/Antigravity sync commands.
-- Template `.agents.env.example` files include ready-to-use profiles for
-  local-only automation, commit hooks, multi-client tracking, and dashboard
-  publication.
+  `AGENTS_TOKSCALE_CLIENTS` and optional Cursor, Antigravity, and Warp sync
+  commands.
+- Template `.agents.env.example` files default to active Context7, Repomix,
+  Tokscale, usage reports, optimization reports, and Tokscale submit, with
+  documented opt-down modes for dry-run and local-only runs.
 - A blind non-Codex coverage probe showed that unsupported local agents can run
   successfully while Tokscale records only supported local client data.
 - Tokscale is treated as observability only; Repomix compression and MCP

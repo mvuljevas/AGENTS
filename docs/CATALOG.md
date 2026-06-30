@@ -30,11 +30,11 @@ They also include `.agents.env.example`, `.ai-usage-log.example.md`, and
 `docs/AI_MEASUREMENT.md` for baseline vs `lean-context` comparisons.
 They include `scripts/ai-tools.sh` and `.githooks/pre-commit` to automate every
 active local tool declared in `.agents.env` before iteration commits when the
-hook is installed. Tokscale dashboard submission is supported through
-`AGENTS_TOKSCALE_SUBMIT`, but templates keep it `off` by default.
+hook is installed. Tokscale dashboard submission defaults to `on` through
+`AGENTS_TOKSCALE_SUBMIT`; users can opt down to `dry-run` or `off`.
 Agents must read `docs/AI_CLIENTS.md` during analysis to adapt setup for Codex,
-Cursor, Claude, Gemini, Antigravity, OpenCode, DeepSeek, Ollama, or another
-client.
+Cursor, Claude, Gemini, Antigravity, Warp, OpenCode, DeepSeek, Ollama, or
+another client.
 
 ## Presets
 

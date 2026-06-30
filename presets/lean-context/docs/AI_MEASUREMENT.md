@@ -68,7 +68,7 @@ Expected behavior:
 To automate active tools in each repository:
 
 ```bash
-scripts/ai-tools.sh run
+bash scripts/ai-tools.sh run
 ```
 
 Set `AGENTS_USAGE_REPORT=on` to append an aggregate summary to
@@ -77,17 +77,17 @@ Set `AGENTS_USAGE_REPORT=on` to append an aggregate summary to
 For automatic iteration closure, install the versioned pre-commit hook:
 
 ```bash
-scripts/ai-tools.sh install-hooks
+bash scripts/ai-tools.sh install-hooks
 ```
 
 Then set `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`. Each commit runs
-`scripts/ai-tools.sh run-and-stage` before the commit is created, so the active
+`bash scripts/ai-tools.sh run-and-stage` before the commit is created, so the active
 tool run and aggregate report are captured with the iteration.
 
-If remote Tokscale publication is desired, set
-`AGENTS_TOKSCALE_SUBMIT=dry-run` first and inspect the generated
-`.ai-runs/<timestamp>/tokscale-submit.txt`. Set `AGENTS_TOKSCALE_SUBMIT=on`
-only after the user approves external submission.
+Tokscale submit defaults to `on` in this repository and templates. For local
+validation without publishing, set `AGENTS_TOKSCALE_SUBMIT=dry-run` and inspect
+the generated `.ai-runs/<timestamp>/tokscale-submit.txt`. For local-only
+measurement, set `AGENTS_TOKSCALE_SUBMIT=off`.
 
 ## Suggested Prompt
 

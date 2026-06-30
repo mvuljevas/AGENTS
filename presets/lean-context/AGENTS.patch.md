@@ -74,16 +74,27 @@ Do not invent a next step when neither roadmap nor technical debt provides one.
 - Do not expose secrets, `.env` files, dependency folders, build output, or
   private credentials through MCP resources.
 - Keep MCP outputs bounded and summarize large results.
-- During repository analysis, check `docs/AI_TOOLS.md` and
-  `docs/AI_CLIENTS.md` when present, then ask before enabling MCPs, writing
-  secrets, generating context packs, or submitting usage data.
+- During repository analysis, check `docs/AI_TOOLS.md`,
+  `docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md` when present.
+- During repository analysis, run `bash scripts/ai-tools.sh check` when present.
+- Report whether Context7, Tokscale, Repomix CLI, MCP config examples, global
+  Tokscale access, Tokscale login, and selected client syncs are available.
+- Offer `bash scripts/ai-tools.sh setup-machine` when machine-wide Tokscale or
+  client setup is missing.
+- Ask before writing secrets, changing machine-wide integrations, or enabling
+  MCP servers.
 - During repository analysis, check `.agents.env` when present. If
   `AGENTS_CONTEXT_MODE=baseline`, skip optional `lean-context` accelerators for
   measurement unless the user explicitly asks.
-- When `scripts/ai-tools.sh` exists, run `scripts/ai-tools.sh run` at the end of
+- When `scripts/ai-tools.sh` exists, run `bash scripts/ai-tools.sh run` at the end of
   an iteration when `.agents.env` marks one or more tools as `on`.
+- Use `bash scripts/ai-tools.sh dashboard` when the user wants Tokscale TUI commands,
+  local graph export guidance, or report locations.
 - When `.githooks/pre-commit` exists and the user wants automatic iteration
-  closure, run `scripts/ai-tools.sh install-hooks` once and set
+  closure, run `bash scripts/ai-tools.sh install-hooks` once and set
   `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`.
 - With commit automation enabled, the pre-commit hook runs
-  `scripts/ai-tools.sh run-and-stage` before the iteration commit.
+  `bash scripts/ai-tools.sh run-and-stage` before the iteration commit.
+- Tokscale submit is controlled by `AGENTS_TOKSCALE_SUBMIT=on|dry-run|off`.
+  Templates default to `on`; use `dry-run` or `off` for validation or
+  local-only runs.
