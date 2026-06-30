@@ -57,6 +57,20 @@ new agent or IDE is being measured. A supported client with `0` readable
 messages is not actually covered until its local cache or integration has been
 configured.
 
+Use `AGENTS_TOKSCALE_CLIENTS` for multi-client projects:
+
+```text
+AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude
+AGENTS_TOKSCALE_CURSOR_SYNC=on
+AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=on
+```
+
+Cursor requires a one-time `npx -y tokscale@latest cursor login`. Antigravity
+requires a running Antigravity language server for `antigravity sync` to
+discover sessions. Claude Code is transcript-based. Ollama is not a Tokscale
+client in the current CLI; measure it through the invoking agent or another
+observability tool.
+
 Do not run upload or social sharing commands unless the user approves:
 
 ```bash

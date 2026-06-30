@@ -50,6 +50,9 @@ AI tool automation
 - Context7: ${AGENTS_CONTEXT7}
 - Repomix: ${AGENTS_REPOMIX}
 - Tokscale: ${AGENTS_TOKSCALE}
+- Tokscale clients: ${AGENTS_TOKSCALE_CLIENTS}
+- Tokscale Cursor sync: ${AGENTS_TOKSCALE_CURSOR_SYNC}
+- Tokscale Antigravity sync: ${AGENTS_TOKSCALE_ANTIGRAVITY_SYNC}
 - Tokscale submit: ${AGENTS_TOKSCALE_SUBMIT}
 - MCP: ${AGENTS_MCP}
 - auto run on commit: ${AGENTS_AUTO_RUN_ON_COMMIT}
@@ -89,8 +92,8 @@ run_context7() {
 
 run_tokscale() {
   ensure_run_dir
-  local client period
-  client="$(value_for AGENTS_TOKSCALE_CLIENT "codex")"
+  local clients period
+  clients="$AGENTS_TOKSCALE_CLIENTS"
   period="$(value_for AGENTS_TOKSCALE_PERIOD "today")"
 
   local period_arg=""
@@ -99,15 +102,70 @@ run_tokscale() {
     *) period_arg="--today" ;;
   esac
 
-  if npx -y tokscale@latest --client "$client" "$period_arg" report > "$RUN_DIR/tokscale-report.raw" 2> "$RUN_DIR/tokscale-report.err"; then
+  if npx -y tokscale@latest clients > "$RUN_DIR/tokscale-clients-before.raw" 2> "$RUN_DIR/tokscale-clients-before.err"; then
+    strip_ansi < "$RUN_DIR/tokscale-clients-before.raw" > "$RUN_DIR/tokscale-clients-before.txt"
+    TOKSCALE_COVERAGE_STATUS="ok: see ${RUN_DIR}/tokscale-clients-before.txt"
+  else
+    strip_ansi < "$RUN_DIR/tokscale-clients-before.raw" > "$RUN_DIR/tokscale-clients-before.txt" 2>/dev/null || true
+    TOKSCALE_COVERAGE_STATUS="failed: see ${RUN_DIR}/tokscale-clients-before.err"
+  fi
+
+  if printf '%s' "$clients" | rg -q '(^|,)(cursor|all)(,|$)'; then
+    npx -y tokscale@latest cursor status > "$RUN_DIR/tokscale-cursor-status.raw" 2> "$RUN_DIR/tokscale-cursor-status.err" || true
+    strip_ansi < "$RUN_DIR/tokscale-cursor-status.raw" > "$RUN_DIR/tokscale-cursor-status.txt" 2>/dev/null || true
+    if bool_on "$AGENTS_TOKSCALE_CURSOR_SYNC"; then
+      if npx -y tokscale@latest cursor sync > "$RUN_DIR/tokscale-cursor-sync.raw" 2> "$RUN_DIR/tokscale-cursor-sync.err"; then
+        strip_ansi < "$RUN_DIR/tokscale-cursor-sync.raw" > "$RUN_DIR/tokscale-cursor-sync.txt"
+        if rg -q "Sync failed|Not authenticated|No saved Cursor accounts" "$RUN_DIR/tokscale-cursor-sync.txt" "$RUN_DIR/tokscale-cursor-status.txt" 2>/dev/null; then
+          TOKSCALE_CURSOR_STATUS="sync failed: Cursor not authenticated"
+        else
+          TOKSCALE_CURSOR_STATUS="sync ok"
+        fi
+      else
+        strip_ansi < "$RUN_DIR/tokscale-cursor-sync.raw" > "$RUN_DIR/tokscale-cursor-sync.txt" 2>/dev/null || true
+        TOKSCALE_CURSOR_STATUS="sync failed: see ${RUN_DIR}/tokscale-cursor-sync.err"
+      fi
+    else
+      TOKSCALE_CURSOR_STATUS="sync skipped: ${AGENTS_TOKSCALE_CURSOR_SYNC}"
+    fi
+  else
+    TOKSCALE_CURSOR_STATUS="not selected"
+  fi
+
+  if printf '%s' "$clients" | rg -q '(^|,)(antigravity|all)(,|$)'; then
+    npx -y tokscale@latest antigravity status > "$RUN_DIR/tokscale-antigravity-status.raw" 2> "$RUN_DIR/tokscale-antigravity-status.err" || true
+    strip_ansi < "$RUN_DIR/tokscale-antigravity-status.raw" > "$RUN_DIR/tokscale-antigravity-status.txt" 2>/dev/null || true
+    if bool_on "$AGENTS_TOKSCALE_ANTIGRAVITY_SYNC"; then
+      if npx -y tokscale@latest antigravity sync > "$RUN_DIR/tokscale-antigravity-sync.raw" 2> "$RUN_DIR/tokscale-antigravity-sync.err"; then
+        strip_ansi < "$RUN_DIR/tokscale-antigravity-sync.raw" > "$RUN_DIR/tokscale-antigravity-sync.txt"
+        if rg -q "cached sessions after sync:[[:space:]]+0|detected sessions:[[:space:]]+0" "$RUN_DIR/tokscale-antigravity-sync.txt" 2>/dev/null; then
+          TOKSCALE_ANTIGRAVITY_STATUS="sync ok: no sessions detected"
+        else
+          TOKSCALE_ANTIGRAVITY_STATUS="sync ok"
+        fi
+      else
+        strip_ansi < "$RUN_DIR/tokscale-antigravity-sync.raw" > "$RUN_DIR/tokscale-antigravity-sync.txt" 2>/dev/null || true
+        TOKSCALE_ANTIGRAVITY_STATUS="sync failed: see ${RUN_DIR}/tokscale-antigravity-sync.err"
+      fi
+    else
+      TOKSCALE_ANTIGRAVITY_STATUS="sync skipped: ${AGENTS_TOKSCALE_ANTIGRAVITY_SYNC}"
+    fi
+  else
+    TOKSCALE_ANTIGRAVITY_STATUS="not selected"
+  fi
+
+  npx -y tokscale@latest clients > "$RUN_DIR/tokscale-clients-after.raw" 2> "$RUN_DIR/tokscale-clients-after.err" || true
+  strip_ansi < "$RUN_DIR/tokscale-clients-after.raw" > "$RUN_DIR/tokscale-clients-after.txt" 2>/dev/null || true
+
+  if npx -y tokscale@latest --client "$clients" "$period_arg" report > "$RUN_DIR/tokscale-report.raw" 2> "$RUN_DIR/tokscale-report.err"; then
     strip_ansi < "$RUN_DIR/tokscale-report.raw" > "$RUN_DIR/tokscale-report.txt"
-    TOKSCALE_STATUS="ok: ${client} ${period}"
+    TOKSCALE_STATUS="ok: ${clients} ${period}"
   else
     strip_ansi < "$RUN_DIR/tokscale-report.raw" > "$RUN_DIR/tokscale-report.txt" 2>/dev/null || true
     TOKSCALE_STATUS="failed: see ${RUN_DIR}/tokscale-report.err"
   fi
 
-  npx -y tokscale@latest --client "$client" "$period_arg" models > "$RUN_DIR/tokscale-models.raw" 2> "$RUN_DIR/tokscale-models.err" || true
+  npx -y tokscale@latest --client "$clients" "$period_arg" models > "$RUN_DIR/tokscale-models.raw" 2> "$RUN_DIR/tokscale-models.err" || true
   strip_ansi < "$RUN_DIR/tokscale-models.raw" > "$RUN_DIR/tokscale-models.txt" 2>/dev/null || true
 
   case "$AGENTS_TOKSCALE_SUBMIT" in
@@ -115,9 +173,9 @@ run_tokscale() {
       TOKSCALE_SUBMIT_STATUS="skipped: ${AGENTS_TOKSCALE_SUBMIT}"
       ;;
     dry-run)
-      if npx -y tokscale@latest submit --client "$client" "$period_arg" --dry-run > "$RUN_DIR/tokscale-submit.raw" 2> "$RUN_DIR/tokscale-submit.err"; then
+      if npx -y tokscale@latest submit --client "$clients" "$period_arg" --dry-run > "$RUN_DIR/tokscale-submit.raw" 2> "$RUN_DIR/tokscale-submit.err"; then
         strip_ansi < "$RUN_DIR/tokscale-submit.raw" > "$RUN_DIR/tokscale-submit.txt"
-        TOKSCALE_SUBMIT_STATUS="dry-run ok: ${client} ${period}"
+        TOKSCALE_SUBMIT_STATUS="dry-run ok: ${clients} ${period}"
       else
         strip_ansi < "$RUN_DIR/tokscale-submit.raw" > "$RUN_DIR/tokscale-submit.txt" 2>/dev/null || true
         TOKSCALE_SUBMIT_STATUS="dry-run failed: see ${RUN_DIR}/tokscale-submit.err"
@@ -128,9 +186,9 @@ run_tokscale() {
         strip_ansi < "$RUN_DIR/tokscale-whoami.raw" > "$RUN_DIR/tokscale-whoami.txt"
         if rg -q "Not logged in" "$RUN_DIR/tokscale-whoami.txt"; then
           TOKSCALE_SUBMIT_STATUS="submit failed: not logged in"
-        elif npx -y tokscale@latest submit --client "$client" "$period_arg" > "$RUN_DIR/tokscale-submit.raw" 2> "$RUN_DIR/tokscale-submit.err"; then
+        elif npx -y tokscale@latest submit --client "$clients" "$period_arg" > "$RUN_DIR/tokscale-submit.raw" 2> "$RUN_DIR/tokscale-submit.err"; then
           strip_ansi < "$RUN_DIR/tokscale-submit.raw" > "$RUN_DIR/tokscale-submit.txt"
-          TOKSCALE_SUBMIT_STATUS="submitted: ${client} ${period}"
+          TOKSCALE_SUBMIT_STATUS="submitted: ${clients} ${period}"
         else
           strip_ansi < "$RUN_DIR/tokscale-submit.raw" > "$RUN_DIR/tokscale-submit.txt" 2>/dev/null || true
           TOKSCALE_SUBMIT_STATUS="submit failed: see ${RUN_DIR}/tokscale-submit.err"
@@ -231,6 +289,9 @@ EOF
     echo
     echo "- Context7: ${CONTEXT7_STATUS}."
     echo "- Tokscale: ${TOKSCALE_STATUS}."
+    echo "- Tokscale coverage: ${TOKSCALE_COVERAGE_STATUS}."
+    echo "- Tokscale Cursor sync: ${TOKSCALE_CURSOR_STATUS}."
+    echo "- Tokscale Antigravity sync: ${TOKSCALE_ANTIGRAVITY_STATUS}."
     echo "- Tokscale submit: ${TOKSCALE_SUBMIT_STATUS}."
     echo "- Repomix: ${REPOMIX_STATUS}."
     echo "- MCP: ${AGENTS_MCP}."
@@ -245,6 +306,9 @@ EOF
       echo "| Repomix bounded pack | Not available for this run. |"
     fi
     echo "| Tokscale local report | Generated locally at \`${RUN_DIR}/tokscale-report.txt\` when enabled. |"
+    echo "| Tokscale coverage scan | ${TOKSCALE_COVERAGE_STATUS}. |"
+    echo "| Tokscale Cursor sync | ${TOKSCALE_CURSOR_STATUS}. |"
+    echo "| Tokscale Antigravity sync | ${TOKSCALE_ANTIGRAVITY_STATUS}. |"
     echo "| Tokscale submit | ${TOKSCALE_SUBMIT_STATUS}. |"
     echo "| Context7 validation | ${CONTEXT7_STATUS}. |"
     echo
@@ -263,6 +327,9 @@ write_summary() {
 - Context mode: ${AGENTS_CONTEXT_MODE}
 - Context7: ${CONTEXT7_STATUS}
 - Tokscale: ${TOKSCALE_STATUS}
+- Tokscale coverage: ${TOKSCALE_COVERAGE_STATUS}
+- Tokscale Cursor sync: ${TOKSCALE_CURSOR_STATUS}
+- Tokscale Antigravity sync: ${TOKSCALE_ANTIGRAVITY_STATUS}
 - Tokscale submit: ${TOKSCALE_SUBMIT_STATUS}
 - Repomix: ${REPOMIX_STATUS}
 - MCP: ${AGENTS_MCP}
@@ -306,6 +373,10 @@ AGENTS_CONTEXT_MODE="$(value_for AGENTS_CONTEXT_MODE "lean-context")"
 AGENTS_CONTEXT7="$(value_for AGENTS_CONTEXT7 "ask")"
 AGENTS_REPOMIX="$(value_for AGENTS_REPOMIX "ask")"
 AGENTS_TOKSCALE="$(value_for AGENTS_TOKSCALE "ask")"
+AGENTS_TOKSCALE_CLIENT="$(value_for AGENTS_TOKSCALE_CLIENT "codex")"
+AGENTS_TOKSCALE_CLIENTS="$(value_for AGENTS_TOKSCALE_CLIENTS "$AGENTS_TOKSCALE_CLIENT")"
+AGENTS_TOKSCALE_CURSOR_SYNC="$(value_for AGENTS_TOKSCALE_CURSOR_SYNC "off")"
+AGENTS_TOKSCALE_ANTIGRAVITY_SYNC="$(value_for AGENTS_TOKSCALE_ANTIGRAVITY_SYNC "off")"
 AGENTS_TOKSCALE_SUBMIT="$(value_for AGENTS_TOKSCALE_SUBMIT "off")"
 AGENTS_MCP="$(value_for AGENTS_MCP "ask")"
 AGENTS_AUTO_RUN_ON_COMMIT="$(value_for AGENTS_AUTO_RUN_ON_COMMIT "off")"
@@ -322,6 +393,9 @@ fi
 
 CONTEXT7_STATUS="not run"
 TOKSCALE_STATUS="not run"
+TOKSCALE_COVERAGE_STATUS="not run"
+TOKSCALE_CURSOR_STATUS="not run"
+TOKSCALE_ANTIGRAVITY_STATUS="not run"
 TOKSCALE_SUBMIT_STATUS="not run"
 REPOMIX_STATUS="not run"
 

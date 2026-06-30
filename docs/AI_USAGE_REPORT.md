@@ -273,3 +273,117 @@ Notes:
 
 - Local raw outputs are stored under `.ai-runs/20260629T234347Z/` and remain ignored.
 - Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-06-30 - Automated AI Tool Run 20260630T004027Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex,cursor,antigravity,claude today.
+- Tokscale coverage: ok: see .ai-runs/20260630T004027Z/tokscale-clients-before.txt.
+- Tokscale Cursor sync: sync ok.
+- Tokscale Antigravity sync: sync ok.
+- Tokscale submit: submitted: codex,cursor,antigravity,claude today.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 112 files, 86,994 tokens, 339,121 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260630T004027Z/tokscale-report.txt` when enabled. |
+| Tokscale coverage scan | ok: see .ai-runs/20260630T004027Z/tokscale-clients-before.txt. |
+| Tokscale Cursor sync | sync ok. |
+| Tokscale Antigravity sync | sync ok. |
+| Tokscale submit | submitted: codex,cursor,antigravity,claude today. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260630T004027Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-06-30 - Automated AI Tool Run 20260630T004219Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex,cursor,antigravity,claude today.
+- Tokscale coverage: ok: see .ai-runs/20260630T004219Z/tokscale-clients-before.txt.
+- Tokscale Cursor sync: sync failed: Cursor not authenticated.
+- Tokscale Antigravity sync: sync ok: no sessions detected.
+- Tokscale submit: skipped: off.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 112 files, 88,080 tokens, 342,993 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260630T004219Z/tokscale-report.txt` when enabled. |
+| Tokscale coverage scan | ok: see .ai-runs/20260630T004219Z/tokscale-clients-before.txt. |
+| Tokscale Cursor sync | sync failed: Cursor not authenticated. |
+| Tokscale Antigravity sync | sync ok: no sessions detected. |
+| Tokscale submit | skipped: off. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260630T004219Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-06-30 - Automated AI Tool Run 20260630T004338Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex,cursor,antigravity,claude today.
+- Tokscale coverage: ok: see .ai-runs/20260630T004338Z/tokscale-clients-before.txt.
+- Tokscale Cursor sync: sync failed: Cursor not authenticated.
+- Tokscale Antigravity sync: sync ok: no sessions detected.
+- Tokscale submit: skipped: off.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 112 files, 88,455 tokens, 344,337 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260630T004338Z/tokscale-report.txt` when enabled. |
+| Tokscale coverage scan | ok: see .ai-runs/20260630T004338Z/tokscale-clients-before.txt. |
+| Tokscale Cursor sync | sync failed: Cursor not authenticated. |
+| Tokscale Antigravity sync | sync ok: no sessions detected. |
+| Tokscale submit | skipped: off. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260630T004338Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.

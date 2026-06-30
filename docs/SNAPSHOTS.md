@@ -604,6 +604,46 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
   so context can be exposed through bounded read-only resources.
 
+## 2026-06-29 - Block 022: Multi-Client Tokscale Automation
+
+Branch:
+
+- `main`
+
+Current state:
+
+- `scripts/ai-tools.sh` supports `AGENTS_TOKSCALE_CLIENTS` for multi-client
+  reports and submissions.
+- Cursor status and optional `cursor sync` are captured when `cursor` is in the
+  client list.
+- Antigravity status and optional `antigravity sync` are captured when
+  `antigravity` is in the client list.
+- Root, preset, and templates include the same multi-client automation.
+- This repository is locally configured for
+  `codex,cursor,antigravity,claude`.
+- Repository version has been updated to `0.18.0`.
+- Template versions have been updated to `0.9.0`.
+
+Decisions:
+
+- Templates default to single-client `codex` and disabled Cursor/Antigravity
+  sync.
+- Project owners can enable multi-client measurement without changing scripts.
+- Ollama is not treated as a Tokscale client because the current Tokscale CLI
+  does not expose an `ollama` client.
+
+Risks:
+
+- Cursor coverage requires a separate Tokscale Cursor login before sync works.
+- Antigravity coverage requires running language servers or readable cache
+  artifacts.
+- Claude Desktop is not equivalent to Claude Code transcript coverage.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: implement the first `project-context-mcp` prototype
+  so context can be exposed through bounded read-only resources.
+
 ## 2026-06-29 - Block 021: Tokscale Dashboard Submission
 
 Branch:

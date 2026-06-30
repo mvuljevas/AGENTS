@@ -58,6 +58,9 @@ AGENTS_CONTEXT7=on
 AGENTS_REPOMIX=on
 AGENTS_TOKSCALE=on
 AGENTS_MCP=ask
+AGENTS_TOKSCALE_CLIENTS=codex
+AGENTS_TOKSCALE_CURSOR_SYNC=off
+AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=off
 AGENTS_TOKSCALE_SUBMIT=off
 AGENTS_AUTO_RUN_ON_COMMIT=off
 AGENTS_USAGE_REPORT=on
@@ -151,6 +154,15 @@ npx -y tokscale@latest --client codex --today models
 npx -y tokscale@latest --client codex --today report
 ```
 
+Use `AGENTS_TOKSCALE_CLIENTS` for multi-client measurement:
+
+```text
+AGENTS_TOKSCALE_CLIENTS=codex,cursor,antigravity,claude
+```
+
+The legacy `AGENTS_TOKSCALE_CLIENT` flag remains supported for single-client
+setups. Prefer `AGENTS_TOKSCALE_CLIENTS` when users switch between agents.
+
 Remote Tokscale login and submission are optional and controlled by
 `AGENTS_TOKSCALE_SUBMIT`:
 
@@ -193,6 +205,21 @@ read complete usage data. Tokscale's local client scan also reports whether a
 client currently has readable messages. At the time this workflow was written,
 Tokscale reported headless capture support for Codex CLI only; other clients
 should be treated as local-log/cache readers unless Tokscale documents otherwise.
+
+Client-specific automation:
+
+- Codex: local sessions are read from Codex session storage. Headless capture is
+  supported by Tokscale for Codex CLI.
+- Cursor: run `npx -y tokscale@latest cursor login` once, then enable
+  `AGENTS_TOKSCALE_CURSOR_SYNC=on` to sync the Cursor API cache before reports.
+- Antigravity: keep Antigravity running, then enable
+  `AGENTS_TOKSCALE_ANTIGRAVITY_SYNC=on` to sync usage from running language
+  servers before reports.
+- Claude Code: Tokscale reads Claude Code JSONL transcripts when present.
+  Claude Desktop chat storage is not equivalent coverage.
+- Ollama: Tokscale does not expose an `ollama` client in the current CLI. Track
+  Ollama through the calling agent if that agent writes supported local usage
+  data, or use a separate observability layer.
 
 ## Repomix
 
