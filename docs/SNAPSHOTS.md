@@ -762,6 +762,36 @@ Next suggested step:
 
 - Test the package from a clean external project with `npm pack` or local link.
 
+## 2026-06-30 - Block 028: Technical Debt Registration
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Newly identified follow-up risks are now tracked in `docs/TECHDEBT.md`.
+- Added debt items for clean external package install validation, version
+  consistency automation, and package-lock policy.
+- Repository version has been updated to `0.20.2`.
+
+Decisions:
+
+- Keep technical debt in `docs/TECHDEBT.md` as the fallback source for next-step
+  suggestions when roadmap items are not applicable.
+- Do not create remote GitHub issues or Project cards without explicit approval
+  during this cleanup.
+
+Risks:
+
+- The new debt items still need GitHub issue and Project card linkage if the
+  user wants full board automation for this iteration.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
+  project using `npm pack` or local link.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:
