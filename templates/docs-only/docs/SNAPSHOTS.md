@@ -152,3 +152,28 @@ Risks:
 Next suggested step:
 
 - Run `npm run agents:doctor` after creating a project from this template.
+
+## 2026-07-01 - Block 007: Lightweight Template Shell
+
+Branch:
+
+- `main`
+
+Current state:
+
+- The template is now a lightweight AGENTS shell.
+- Removed package manifests, generated app files, tool scripts, and heavy
+  optional AI-tool docs from the template copy.
+- Template version has been updated to `0.14.0`.
+
+Decisions:
+
+- Populate real project files only after the user describes the project goal.
+
+Risks:
+
+- External install validation is still pending.
+
+Next suggested step:
+
+- Run `agents doctor` after creating a project from this template.

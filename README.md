@@ -9,9 +9,9 @@ rules, snapshots, versioning, naming, and repeatable delivery workflows.
 AGENTS also ships a project CLI:
 
 ```bash
-npx @mvuljevas/agents --help
-npx @mvuljevas/agents --setup
-npx @mvuljevas/agents --dashboard
+npx @mvuljevas/agents help
+npx @mvuljevas/agents setup
+npx @mvuljevas/agents dashboard
 ```
 
 When installed as a project dependency, use the `agents` command directly.
@@ -71,8 +71,10 @@ docs/
   TECHDEBT.md
 ```
 
-Future reusable project templates should live under `templates/`, grouped by
-project type.
+Reusable project templates live under `templates/`, grouped by project type.
+Templates are AGENTS shells, not complete generated applications. They provide
+governance, minimal project docs, ignores, and setup context; real application
+files are created after the user describes what should be built.
 
 Reusable workflow modules should live under `presets/`. Presets are not full
 projects; they are reusable layers that templates can adopt.
@@ -109,6 +111,7 @@ All templates in this repository should share:
 
 - [Agent rules](AGENTS.md)
 - [AGENTS CLI](docs/AGENTS_CLI.md)
+- [Installation](docs/INSTALLATION.md)
 - [AI Context](docs/AI_CONTEXT.md)
 - [AI Clients](docs/AI_CLIENTS.md)
 - [AI Search](docs/AI_SEARCH.md)
@@ -126,13 +129,10 @@ All templates in this repository should share:
 - [Snapshots](docs/SNAPSHOTS.md)
 - [Technical Debt](docs/TECHDEBT.md)
 
-Each available template also includes `docs/AI_TOOLS.md` with MCP,
-usage-tracking, and token-reduction guidance for that project type.
-
-Use `agents --doctor` during repository analysis, then `agents --setup` when
-tooling or dashboard setup is missing. Use `agents --run` to execute configured
+Use `agents doctor` during repository analysis, then `agents setup` when
+tooling or dashboard setup is missing. Use `agents run` to execute configured
 AI tools, append aggregate usage summaries, and append optimization observations
-when enabled. Use `agents --dashboard` for the local AGENTS dashboard.
+when enabled. Use `agents dashboard` for the local AGENTS dashboard.
 
 `scripts/ai-tools.sh` remains available as a compatibility backend for existing
 templates and hooks.

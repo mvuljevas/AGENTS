@@ -13,8 +13,9 @@ This roadmap is the primary source for next-step suggestions in this repository.
   - `chrome-extension-vanilla`
 - GitHub Project, labels, project fields, and initial issue automation are in
   place.
-- Available templates include optional MCP, Tokscale, and token-reduction
-  guidance in `docs/AI_TOOLS.md`.
+- Available templates are lightweight AGENTS shells. Optional MCP, Tokscale, and
+  token-reduction guidance lives in root/preset documentation and CLI setup
+  flows.
 - This repository has local Context7 MCP configuration and reusable setup
   examples without committed secrets.
 - Analysis prompts now trigger a multi-client AI tool setup check.
@@ -30,18 +31,22 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Root, preset, and templates include local optimization reports and guided
   Tokscale machine setup.
 - AGENTS now ships an npm package with the `agents` CLI for professional
-  help, doctor, setup, dashboard, run, suggest, and MCP scaffold flows.
+  subcommands: help, doctor, setup, dashboard, run, suggest, and MCP scaffold
+  flows.
+- Templates are lightweight AGENTS shells. They no longer include generated
+  application files, stack package manifests, or runtime scaffolding.
 
 ## Next Milestones
 
-1. Publish or locally pack `@mvuljevas/agents` and test installation in a clean
+1. Resolve the final public package and binary name for AGENTS.
+2. Publish or locally pack `@mvuljevas/agents` and test installation in a clean
    external project.
-2. Measure whether `lean-context` reduces token usage in real sessions.
-3. Validate the recommendation flow with real new-project prompts.
-4. Refine the first template based on real adoption feedback.
-5. Expand `agents --mcp-create` into a full read-only MCP server runtime.
-6. Add template usage examples or copy/adoption instructions.
-7. Review third-party MCP, tracking, and compression recommendations for
+3. Measure whether `lean-context` reduces token usage in real sessions.
+4. Validate the recommendation flow with real new-project prompts.
+5. Refine the first template based on real adoption feedback.
+6. Expand `agents mcp-create` into a full read-only MCP server runtime.
+7. Add template usage examples or copy/adoption instructions.
+8. Review third-party MCP, tracking, and compression recommendations for
    freshness before adding automation.
 
 ## Completed Milestones
@@ -66,3 +71,4 @@ This roadmap is the primary source for next-step suggestions in this repository.
 - Professionalized AGENTS CLI interaction with clearer help, stack-aware
   diagnostics, safe non-interactive setup behavior, and useful base-file
   previews for projects with or without Node.
+- Simplified CLI usage around subcommands and lightweight template shells.

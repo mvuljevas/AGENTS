@@ -1,6 +1,6 @@
 {
   "name": "@mvuljevas/agents",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Reusable AGENTS templates, workflows, and guided AI tooling setup.",
   "license": "MIT",
   "type": "module",
@@ -18,20 +18,20 @@
     "presets/",
     "scripts/",
     "templates/",
+    "templates/**/.gitignore",
     ".agents.env.example",
     ".aiignore",
     ".rgignore",
     "repomix.config.json"
   ],
   "scripts": {
-    "agents": "node cli/agents.js",
-    "agents:help": "node cli/agents.js --help",
-    "agents:init": "node cli/agents.js --init",
-    "agents:setup": "node cli/agents.js --setup",
-    "agents:doctor": "node cli/agents.js --doctor",
-    "agents:dashboard": "node cli/agents.js --dashboard",
-    "agents:dev": "node cli/agents.js --run -- npm run dev",
-    "test": "node cli/agents.js --doctor && node cli/agents.js --setup --dry-run && node cli/agents.js --mcp-create --dry-run && node cli/agents.js --suggest --idea \"React PWA\" --issue --dry-run"
+    "agents": "node cli/agents.js doctor",
+    "agents:help": "node cli/agents.js help",
+    "agents:init": "node cli/agents.js init",
+    "agents:setup": "node cli/agents.js setup",
+    "agents:dashboard": "node cli/agents.js dashboard",
+    "agents:dev": "node cli/agents.js run -- npm run dev",
+    "test": "node cli/agents.js doctor && node cli/agents.js setup --dry-run && node cli/agents.js mcp-create --dry-run && node cli/agents.js suggest --idea \"React PWA\" --issue --dry-run"
   },
   "engines": {
     "node": ">=20"

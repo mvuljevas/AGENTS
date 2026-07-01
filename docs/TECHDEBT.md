@@ -11,6 +11,7 @@ Track accepted shortcuts, risks, and cleanup items for this repository.
 | TD-003 | High | AI Context | `lean-context` is behaviorally useful but does not yet prove token savings with real measurements. | Users may adopt extra docs and workflow steps without actually reducing AI token usage. | Add a lightweight measurement protocol and compare baseline vs `lean-context` sessions. | [#5](https://github.com/mvuljevas/AGENTS/issues/5) |
 | TD-004 | High | Packaging | `@mvuljevas/agents` has not been validated from a clean external project install. | The CLI may work in this repository but fail when consumed as an npm dependency. | Test `npm pack` or local link from a clean project and document the verified install path. | [#8](https://github.com/mvuljevas/AGENTS/issues/8) |
 | TD-005 | Medium | Versioning | Repository, package, and template versions are updated manually. | Version drift can happen between root `VERSION`, `package.json`, template files, snapshots, and tags. | Add a version consistency check for root and template version sources. | [#7](https://github.com/mvuljevas/AGENTS/issues/7) |
+| TD-007 | High | Packaging | The desired unscoped npm package name `agents` is already taken. | Public install docs cannot honestly promise `npm i agents`, and the binary/package naming strategy remains unresolved. | Choose a final package and binary naming strategy, then update installation docs and release automation. | [#9](https://github.com/mvuljevas/AGENTS/issues/9) |
 
 ## Resolved
 

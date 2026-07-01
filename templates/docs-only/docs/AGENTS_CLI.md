@@ -18,14 +18,14 @@ other projects can run it through `npx` without adding Node project artifacts.
 ## Commands
 
 ```bash
-agents --help                         Show commands, common flows, safety rules, and detected state.
-agents --doctor                       Inspect the current repository and print readiness checks.
-agents --init [--dry-run] [--yes]     Prepare a new project with AGENTS workflow files.
-agents --setup [--dry-run] [--yes]    Adopt AGENTS in an existing project without overwriting conventions.
-agents --run -- <command>             Run a command with the AGENTS dashboard lifecycle.
-agents --dashboard [--no-open]        Start the local dashboard.
-agents --suggest --idea "..."         Recommend a template and preset from a project idea.
-agents --mcp-create [--dry-run]       Scaffold a read-only project MCP.
+agents help                         Show commands, common flows, safety rules, and detected state.
+agents doctor                       Inspect the current repository and print readiness checks.
+agents init [--dry-run] [--yes]     Prepare a new project with AGENTS workflow files.
+agents setup [--dry-run] [--yes]    Adopt AGENTS in an existing project without overwriting conventions.
+agents run -- <command>             Run a command with the AGENTS dashboard lifecycle.
+agents dashboard [--no-open]        Start the local dashboard.
+agents suggest --idea "..."         Recommend a template and preset from a project idea.
+agents mcp-create [--dry-run]       Scaffold a read-only project MCP.
 ```
 
 ## Safe Defaults
@@ -45,18 +45,17 @@ agents --mcp-create [--dry-run]       Scaffold a read-only project MCP.
 
 ## Recommended Scripts
 
-When a project has `package.json`, `agents --setup` can add these scripts:
+When a project has `package.json`, `agents setup` can add these scripts:
 
 ```json
 {
   "scripts": {
-    "agents": "agents",
-    "agents:help": "agents --help",
-    "agents:init": "agents --init",
-    "agents:setup": "agents --setup",
-    "agents:doctor": "agents --doctor",
-    "agents:dashboard": "agents --dashboard",
-    "agents:dev": "agents --run -- npm run dev"
+    "agents": "agents doctor",
+    "agents:help": "agents help",
+    "agents:init": "agents init",
+    "agents:setup": "agents setup",
+    "agents:dashboard": "agents dashboard",
+    "agents:dev": "agents run -- npm run dev"
   }
 }
 ```
@@ -67,28 +66,28 @@ approves a deeper integration.
 Projects without `package.json` should use:
 
 ```bash
-npx -y @mvuljevas/agents --doctor
-npx -y @mvuljevas/agents --setup
+npx -y @mvuljevas/agents doctor
+npx -y @mvuljevas/agents setup
 ```
 
-When running through npm scripts, pass CLI flags after `--`:
+When running through npm scripts, prefer named scripts:
 
 ```bash
 npm run agents
 npm run agents:help
-npm run agents -- --doctor
+npm run agents:setup
 ```
 
-`npm run agents --help` shows npm's own help because npm consumes that flag
-before the script receives it.
+`npm run agents` runs the default project diagnosis. Avoid `npm run agents
+--help`: npm consumes that flag before AGENTS receives it.
 
 ## Dashboard
 
 The dashboard starts with AGENTS-managed flows:
 
 ```bash
-agents --dashboard
-agents --run -- npm run dev
+agents dashboard
+agents run -- npm run dev
 npm run agents:dev
 ```
 
@@ -101,17 +100,17 @@ Savings are only reported when comparable baseline and optimized runs exist.
 For a new project:
 
 ```bash
-agents --init
+agents init
 ```
 
 For a repository freshly created on GitHub with only `README.md`, `.gitignore`,
 `LICENSE`, and `.git`, AGENTS treats the repository as conceptually new:
 
 ```bash
-agents --doctor
-agents --suggest --idea "Describe the app you want to build"
-agents --init --dry-run
-agents --init
+agents doctor
+agents suggest --idea "Describe the app you want to build"
+agents init --dry-run
+agents init
 ```
 
 AGENTS treats these files as placeholders for a new project. It can complete a
@@ -121,19 +120,19 @@ complete `.gitattributes` after preview and confirmation.
 For an existing project:
 
 ```bash
-agents --doctor
-agents --setup --dry-run
-agents --setup
+agents doctor
+agents setup --dry-run
+agents setup
 ```
 
 For template selection:
 
 ```bash
-agents --suggest --idea "Laravel CRM with React"
+agents suggest --idea "Laravel CRM with React"
 ```
 
 ## Error Handling
 
 Errors should explain what failed and how to recover. Unsupported options point
-back to `agents --help`. Setup does not write files from non-interactive shells
+back to `agents help`. Setup does not write files from non-interactive shells
 unless `--yes` is provided.

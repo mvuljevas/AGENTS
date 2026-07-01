@@ -2,27 +2,20 @@
 
 ## Project
 
-- Name: Chrome Extension Vanilla.
-- Purpose: Manifest V3 Chrome extension starter with AGENTS and lean-context.
-- Current version: 0.13.0.
-- Version source: `manifest.json`.
+- Name: Chrome Extension Vanilla Shell.
+- Purpose: AGENTS shell for a future Chrome extension using vanilla HTML, CSS, and JavaScript.
+- Current version: 0.14.0.
+- Version source: `VERSION`.
 
 ## Stack
 
-- Platform: Chrome Extension.
-- Manifest: V3.
-- Code: vanilla JavaScript, HTML, and CSS.
+- Intended platform: Chrome Extension.
+- Intended manifest: Manifest V3.
+- Runtime files: none by default.
 
-## Key Commands
+## Start
 
-```bash
-python3 -m json.tool manifest.json >/dev/null
-node --check background.js
-node --check content.js
-```
-
-## Current Decisions
-
-- No framework or bundler by default.
-- Use packaged code and assets only.
-- Keep compliance notes in `docs/COMPLIANCE.md`.
+1. Read `README.md` and `AGENTS.md`.
+2. Ask what extension should be built and which permissions are needed.
+3. Generate `manifest.json`, scripts, popup, options, and assets only after the
+   user confirms scope.

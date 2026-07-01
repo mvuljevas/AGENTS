@@ -968,6 +968,49 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
   project using `npm pack` or local link.
 
+## 2026-07-01 - Block 034: CLI Subcommands And Template Shells
+
+Branch:
+
+- `main`
+
+Current state:
+
+- CLI usage now prefers subcommands: `agents doctor`, `agents setup`,
+  `agents init`, `agents dashboard`, `agents suggest`, `agents run`, and
+  `agents mcp-create`.
+- `npm run agents` now runs the default repository diagnosis instead of relying
+  on forwarded flags.
+- Templates have been reduced to lightweight AGENTS shells with no generated
+  application files, package manifests, runtime scaffolding, or stack-specific
+  starter code.
+- Templates now share a minimal structure: `AGENTS.md`, `README.md`, `VERSION`,
+  `.gitignore`, `.gitattributes`, `.agents.env.example`, and core docs.
+- Added `docs/INSTALLATION.md` with local test commands and future distribution
+  channels.
+- Added `TD-007` for unresolved public package and binary naming because the
+  unscoped npm package name `agents` is already taken.
+- Repository version has been updated to `0.23.0`.
+- Template versions have been updated to `0.14.0`.
+
+Decisions:
+
+- AGENTS templates are project-start shells, not prebuilt applications.
+- Real framework files should be generated only after the user describes the
+  project and approves the selected template/preset.
+- Keep flag-style commands as compatibility, but document subcommands as the
+  primary interface.
+
+Risks:
+
+- Public install commands cannot be finalized until the package name and binary
+  naming strategy are resolved.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: resolve the final public package and binary name for
+  AGENTS.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:

@@ -1,71 +1,32 @@
 # Agent Workflow
 
-This React/Vite project uses the AGENTS workflow and `lean-context`.
+This template is an AGENTS shell. It intentionally contains no application
+runtime files.
 
-## Core Rules
+## Start
 
-- Work in small, traceable blocks.
-- Read `README.md`, `AGENTS.md`, `docs/AI_CONTEXT.md`, and recent snapshots
-  before making changes.
-- Use `docs/AI_SEARCH.md` before opening broad directories.
-- Keep app code in `src/`.
-- Keep public static files in `public/`.
-- Do not add large dependencies without clear need.
-- Update docs when commands, routes, architecture, roadmap, or debt changes.
-- Do not push commits or tags without explicit user approval.
+When the user asks to analyze the repository:
 
-## Interactive Start
+1. Read `README.md`, `AGENTS.md`, `docs/AI_CONTEXT.md`, and recent snapshots.
+2. Run `agents doctor` when the CLI is available.
+3. Identify whether this is a new project or an existing project adopting the
+   template.
+4. Summarize the current state.
+5. Ask what the user wants to build or change next.
 
-When the user asks to analyze the repository, read `docs/AI_TOOLS.md`,
-`docs/AI_CLIENTS.md`, and `docs/AI_TOOL_SETUP.md` when present. Run
-`agents --doctor` when available; otherwise run `bash scripts/ai-tools.sh check` when the script exists. Report whether Context7,
-Tokscale, Repomix CLI, MCP config examples, global Tokscale access, Tokscale
-login, and selected client syncs are available. Offer
-`bash scripts/ai-tools.sh setup-machine` when machine-wide Tokscale or client setup
-is missing. Ask before writing secrets, changing machine-wide integrations, or
-enabling MCP servers.
+Recognize prompts such as:
 
-## Lean Context Loading
+```text
+Analiza el repo.
+Analyze this repository.
+Review the project structure.
+What is the current state of this project?
+```
 
-- Search before opening files.
-- Prefer file slices over complete files.
-- Respect `.aiignore` and `.rgignore`.
-- Avoid `node_modules`, `dist`, caches, lockfiles, and generated output unless
-  directly needed.
-- Treat `docs/AI_TOOLS.md` as optional setup guidance for MCPs, tracking, and
-  compression. Ask the user before enabling any external tool.
+## Rules
 
-## AI Tool Automation
-
-- Run `agents --doctor` when available; otherwise run `bash scripts/ai-tools.sh check` during repository analysis when AI tooling is
-  relevant.
-- Run `agents --setup` when available; otherwise run `bash scripts/ai-tools.sh setup-machine` when the user wants guided global
-  Tokscale and client setup.
-- Run `agents --dashboard` when available; otherwise run `bash scripts/ai-tools.sh dashboard` when the user wants local dashboard
-  commands or report locations.
-- Run `agents --run` when available; otherwise run `bash scripts/ai-tools.sh run` at the end of an iteration when `.agents.env`
-  marks one or more tools as `on`.
-- When `.githooks/pre-commit` exists and the user wants automatic iteration
-  closure, run `bash scripts/ai-tools.sh install-hooks` once and set
-  `AGENTS_AUTO_RUN_ON_COMMIT=on` in `.agents.env`.
-- With commit automation enabled, the pre-commit hook runs
-  `bash scripts/ai-tools.sh run-and-stage` before the iteration commit.
-- Keep raw outputs under `.ai-runs/`; commit only aggregate, non-sensitive
-  summaries such as `docs/AI_USAGE_REPORT.md` and
-  `docs/AI_OPTIMIZATION_REPORT.md`.
-- Tokscale submit is controlled by `AGENTS_TOKSCALE_SUBMIT=on|dry-run|off`.
-  Templates default to `dry-run`; use `on` only after user confirmation or `off` for local-only runs.
-
-## Versioning
-
-- Use Semantic Versioning: `X.Y.Z`.
-- Use tags formatted as `vX.Y.Z`.
-- Keep `package.json.version` synchronized with the matching tag.
-- If the package manager updates lockfile metadata, keep it synchronized too.
-
-## Next-Step Fallback
-
-At the end of every iteration, suggest the next logical step from
-`docs/ROADMAP.md`. If roadmap is missing or not actionable, use
-`docs/TECHDEBT.md`. If neither provides a clear next action, ask the user how
-they would like to proceed.
+- Do not generate application files until the user describes the project goal.
+- Preview changes before writing files.
+- Keep README, roadmap, snapshots, and technical debt updated.
+- Use `docs/ROADMAP.md` for next steps, then `docs/TECHDEBT.md` as fallback.
+- Do not push commits or tags without explicit approval.

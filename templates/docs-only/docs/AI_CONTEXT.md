@@ -2,36 +2,18 @@
 
 ## Project
 
-- Name:
-- Purpose:
-- Current version: 0.13.0.
+- Name: Docs Only Shell.
+- Purpose: AGENTS shell for documentation, workflow, governance, or planning repositories.
+- Current version: 0.14.0.
 - Version source: `VERSION`.
 
 ## Stack
 
-- Runtime: documentation-only.
-- Application code: none by default.
+- Application stack: unselected.
+- Runtime files: none by default.
 
-## Key Commands
+## Start
 
-```bash
-git status --short --branch
-rg "pattern"
-git diff --check
-```
-
-## Important Files
-
-- `README.md`: project overview.
-- `AGENTS.md`: agent workflow.
-- `docs/ROADMAP.md`: planned work.
-- `docs/SNAPSHOTS.md`: project memory.
-- `docs/TECHDEBT.md`: known debt.
-
-## Current Decisions
-
-- 
-
-## Current Risks
-
-- 
+1. Read `README.md` and `AGENTS.md`.
+2. Ask what documentation or governance structure should be built.
+3. Create real project files only after the user confirms scope.

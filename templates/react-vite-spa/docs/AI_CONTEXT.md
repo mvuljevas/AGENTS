@@ -2,27 +2,19 @@
 
 ## Project
 
-- Name: React Vite SPA.
-- Purpose: React SPA/Vite starter with AGENTS and lean-context.
-- Current version: 0.13.0.
-- Version source: `package.json`.
+- Name: React Vite SPA Shell.
+- Purpose: AGENTS shell for a future React, Vite, SPA, or PWA project.
+- Current version: 0.14.0.
+- Version source: `VERSION`.
 
 ## Stack
 
-- Runtime: Node.js.
-- Frontend: React + Vite.
-- Application root: `src/`.
+- Intended frontend: React + Vite.
+- Runtime files: none by default.
 
-## Key Commands
+## Start
 
-```bash
-npm install
-npm run dev
-npm run build
-```
-
-## Current Decisions
-
-- Keep app code in `src/`.
-- Keep public static assets in `public/`.
-- Use `package.json.version` as the release version source.
+1. Read `README.md` and `AGENTS.md`.
+2. Ask what application should be built.
+3. Generate `package.json`, HTML, source files, and Vite config only after the
+   user confirms scope.

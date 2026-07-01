@@ -23,7 +23,7 @@ The agent should:
 2. Inspect the repository tree.
 3. Inspect git branch and working tree state.
 4. Identify stack, commands, and documentation structure.
-5. Run `agents --doctor` when the CLI is available; otherwise run the
+5. Run `agents doctor` when the CLI is available; otherwise run the
    repository's compatibility checks.
 6. Summarize the current state.
 7. Ask a project-start question such as:
@@ -203,7 +203,7 @@ When `.agents.env` marks AI tools as active, each meaningful iteration should
 run the configured tool flow before the closing commit. Prefer the CLI:
 
 ```bash
-agents --run
+agents run
 ```
 
 The compatibility backend remains:

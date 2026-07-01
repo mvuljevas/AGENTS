@@ -2,28 +2,19 @@
 
 ## Project
 
-- Name: Laravel React.
-- Purpose: Laravel workflow foundation with React-capable frontend guidance.
-- Current version: 0.13.0.
-- Version source: existing app version source or `VERSION`.
+- Name: Laravel React Shell.
+- Purpose: AGENTS shell for a future Laravel application with a React-capable frontend.
+- Current version: 0.14.0.
+- Version source: `VERSION`.
 
 ## Stack
 
-- Backend: Laravel.
-- Frontend: React through Vite, Inertia, or React islands.
-- Database: project-specific.
+- Intended backend: Laravel.
+- Intended frontend: React, Inertia, Vite, or React islands.
+- Runtime files: none by default.
 
-## Key Commands
+## Start
 
-```bash
-composer install
-npm install
-php artisan migrate
-composer test
-npm run build
-```
-
-## Current Decisions
-
-- Apply this template after creating or identifying the Laravel app.
-- Keep `lean-context` docs active in the target project.
+1. Read `README.md` and `AGENTS.md`.
+2. Ask what Laravel application should be built.
+3. Generate framework files only after the user confirms architecture.

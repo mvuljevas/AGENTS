@@ -17,24 +17,18 @@ Agents must check this file before recommending a template or preset.
 | Name | Path | Status | Use When |
 | --- | --- | --- | --- |
 | `docs-only` | `templates/docs-only/` | available | Documentation, workflow, governance, or planning repositories. |
-| `react-vite-spa` | `templates/react-vite-spa/` | available | React SPA, Vite, or PWA applications. |
-| `laravel-react` | `templates/laravel-react/` | available | Laravel applications with a React-capable frontend or Inertia-style UI. |
-| `chrome-extension-vanilla` | `templates/chrome-extension-vanilla/` | available | Chrome extensions built with vanilla HTML, CSS, and JavaScript. |
+| `react-vite-spa` | `templates/react-vite-spa/` | available | New React, Vite, SPA, or PWA projects that should start from an AGENTS shell before app files are generated. |
+| `laravel-react` | `templates/laravel-react/` | available | New Laravel applications with a React-capable frontend or Inertia-style UI that should start from an AGENTS shell before framework files are generated. |
+| `chrome-extension-vanilla` | `templates/chrome-extension-vanilla/` | available | New Chrome extensions that should start from an AGENTS shell before manifest and runtime files are generated. |
 
-All available templates include `docs/AI_TOOLS.md` with optional project-specific
-MCP recommendations, Tokscale usage-tracking guidance, and token-reduction
-guidance. They also include `.env.example`, `.codex/config.example.toml`, and
-`repomix.config.json`, `.cursor/mcp.example.json`, and `.mcp.example.json` so
-users can opt in without writing setup files from scratch.
-They also include `.agents.env.example`, `.ai-usage-log.example.md`, and
-`docs/AI_MEASUREMENT.md` for baseline vs `lean-context` comparisons.
-They include AGENTS CLI guidance, `package.json` project tooling where useful,
-`scripts/ai-tools.sh`, and `.githooks/pre-commit` to automate every active local
-tool declared in `.agents.env` before iteration commits when the hook is
-installed. Tokscale dashboard submission defaults to `dry-run` through `AGENTS_TOKSCALE_SUBMIT`; users can opt into `on` or choose `off`.
-Agents must read `docs/AI_CLIENTS.md` during analysis to adapt setup for Codex,
-Cursor, Claude, Gemini, Antigravity, Warp, OpenCode, DeepSeek, Ollama, or
-another client.
+Available templates are intentionally lightweight shells. They include
+`AGENTS.md`, `README.md`, `VERSION`, `.gitignore`, `.gitattributes`,
+`.agents.env.example`, `docs/AI_CONTEXT.md`, `docs/ROADMAP.md`,
+`docs/SNAPSHOTS.md`, `docs/TECHDEBT.md`, and CLI guidance. They do not include
+framework runtime files, generated app files, or stack package manifests.
+
+Agents should populate real application files only after the user describes the
+project goal and approves the selected template/preset workflow.
 
 ## Presets
 

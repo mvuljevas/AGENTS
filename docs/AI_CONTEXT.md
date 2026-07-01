@@ -7,7 +7,7 @@ This file is the compact project summary for agents working in this repository.
 - Name: AGENTS.
 - Purpose: reusable documentation, workflow, preset, and template library for
   AI-assisted software projects.
-- Current version: 0.22.0.
+- Current version: 0.23.0.
 - Primary audience: Mauricio Vuljevas projects and future reusable project
   foundations.
 
@@ -42,6 +42,7 @@ This file is the compact project summary for agents working in this repository.
 │   ├── AI_TOKEN_BUDGET.md
 │   ├── CATALOG.md
 │   ├── CONVENTIONS.md
+│   ├── INSTALLATION.md
 │   ├── NAMING.md
 │   ├── ROADMAP.md
 │   ├── SNAPSHOTS.md
@@ -67,9 +68,9 @@ This file is the compact project summary for agents working in this repository.
 git status --short --branch
 
 # CLI
-node cli/agents.js --doctor
-node cli/agents.js --setup --dry-run
-node cli/agents.js --dashboard --no-open
+node cli/agents.js doctor
+node cli/agents.js setup --dry-run
+node cli/agents.js dashboard --no-open
 
 # search
 rg "pattern"
@@ -89,12 +90,14 @@ git diff --check
 - `AGENTS.md`: active agent workflow rules for this repository.
 - `VERSION`: authoritative version source for this repository.
 - `package.json`: npm package metadata for `@mvuljevas/agents`.
-- `cli/agents.js`: project CLI with `agents --help`, setup, doctor,
+- `cli/agents.js`: project CLI with `agents help`, setup, doctor,
   dashboard, suggest, run, and MCP scaffold commands.
 - `docs/AGENTS_CLI.md`: public CLI usage guide.
 - `docs/AI_TOOL_REGISTRY.md`: optional tool registry and adapter contract.
 - `docs/CATALOG.md`: source of truth for available and planned templates and
   presets.
+- `docs/INSTALLATION.md`: local package testing and future distribution
+  channels.
 - `docs/ROADMAP.md`: primary source for next-step suggestions.
 - `docs/SNAPSHOTS.md`: chronological project memory.
 - `docs/TECHDEBT.md`: fallback source for next-step suggestions and debt
@@ -119,9 +122,8 @@ git diff --check
 - `templates/`: available project templates.
 - `presets/lean-context/docs/RECOMMENDATION_FLOW.md`: guide for recommending a
   template and preset combination before adoption.
-- Template `docs/AI_TOOLS.md` files: optional project-specific MCP,
-  usage-tracking, and token-reduction guidance.
-- Template `docs/AI_CLIENTS.md` files: multi-client setup guidance.
+- Root and preset AI docs: optional MCP, usage-tracking, client setup, and
+  token-reduction guidance.
 
 ## Current Decisions
 
@@ -173,7 +175,7 @@ git diff --check
 
 ## Current Risks
 
-- `agents --mcp-create` creates an initial read-only MCP scaffold, but it is not
+- `agents mcp-create` creates an initial read-only MCP scaffold, but it is not
   a full MCP runtime implementation yet.
 - `lean-context` has not yet proven token savings with real measurements.
 - Third-party MCP, tracking, and compression tools can change quickly and should

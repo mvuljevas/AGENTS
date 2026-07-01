@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.22.0";
+const VERSION = "0.23.0";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -105,14 +105,27 @@ const LOWER_FLAGS = new Set([
   "--no-open"
 ]);
 
+const COMMANDS = new Set([
+  "help",
+  "version",
+  "init",
+  "setup",
+  "doctor",
+  "dashboard",
+  "run",
+  "suggest",
+  "mcp-create"
+]);
+
 main().catch((error) => {
   printError(error.message);
   process.exitCode = 1;
 });
 
 async function main() {
-  const args = process.argv.slice(2);
-  rejectUppercaseFlags(args);
+  const rawArgs = process.argv.slice(2);
+  rejectUppercaseFlags(rawArgs);
+  const args = normalizeArgs(rawArgs);
 
   if (args.length === 0 || args.includes("--help")) {
     printHelp();
@@ -147,16 +160,26 @@ async function main() {
     return;
   }
 
-  throw new Error(`unknown command. Run agents --help.`);
+  throw new Error(`unknown command. Run agents help.`);
+}
+
+function normalizeArgs(args) {
+  if (args.length === 0) return args;
+  const [first, ...rest] = args;
+  if (!COMMANDS.has(first)) return args;
+  if (first === "help") return ["--help", ...rest];
+  if (first === "version") return ["--version", ...rest];
+  if (first === "mcp-create") return ["--mcp-create", ...rest];
+  return [`--${first}`, ...rest];
 }
 
 function rejectUppercaseFlags(args) {
   for (const arg of args) {
     if (arg.startsWith("--") && /[A-Z]/.test(arg)) {
-      throw new Error(`Unsupported option ${arg}. Run agents --help to see supported commands.`);
+      throw new Error(`Unsupported option ${arg}. Run agents help to see supported commands.`);
     }
     if (arg.startsWith("--") && !LOWER_FLAGS.has(arg) && !arg.includes("=")) {
-      throw new Error(`Unsupported option ${arg}. Run agents --help to see supported commands.`);
+      throw new Error(`Unsupported option ${arg}. Run agents help to see supported commands.`);
     }
   }
 }
@@ -169,27 +192,27 @@ Project governance, AI-tool setup, local dashboard, and template guidance for
 new or existing repositories.
 
 Usage:
-  agents --help                         Show this guide.
-  agents --doctor                       Inspect the current repository.
-  agents --init [--dry-run] [--yes]     Prepare a new project.
-  agents --setup [--dry-run] [--yes]    Adopt AGENTS in an existing project.
-  agents --run -- <command>             Run a command with AGENTS dashboard.
-  agents --dashboard [--no-open]        Start the local dashboard.
-  agents --suggest --idea "..."         Recommend a template and preset.
-  agents --mcp-create [--dry-run]       Scaffold a read-only project MCP.
+  agents help                           Show this guide.
+  agents doctor                         Inspect the current repository.
+  agents init [--dry-run] [--yes]       Prepare a new project.
+  agents setup [--dry-run] [--yes]      Adopt AGENTS in an existing project.
+  agents run -- <command>               Run a command with AGENTS dashboard.
+  agents dashboard [--no-open]          Start the local dashboard.
+  agents suggest --idea "..."           Recommend a template and preset.
+  agents mcp-create [--dry-run]         Scaffold a read-only project MCP.
 
 Common flows:
   New project:
-    agents --init
+    agents init
 
   Existing project:
-    agents --doctor
-    agents --setup --dry-run
-    agents --setup
+    agents doctor
+    agents setup --dry-run
+    agents setup
 
   Project without Node artifacts:
-    npx -y @mvuljevas/agents --doctor
-    npx -y @mvuljevas/agents --setup
+    npx -y @mvuljevas/agents doctor
+    npx -y @mvuljevas/agents setup
 
 Safety:
   - Setup always previews changes before writing.
@@ -309,7 +332,7 @@ function assessProject(project) {
   items.push({
     level: project.hasAgents ? "ok" : "warn",
     label: "Governance",
-    message: project.hasAgents ? "AGENTS.md is present." : "AGENTS.md is missing; run agents --setup to add project rules."
+    message: project.hasAgents ? "AGENTS.md is present." : "AGENTS.md is missing; run agents setup to add project rules."
   });
   items.push({
     level: project.env ? "ok" : "warn",
@@ -324,7 +347,7 @@ function assessProject(project) {
   items.push({
     level: project.stack.name === "unselected" || project.stack.confidence === "low" ? "warn" : "ok",
     label: "Stack",
-    message: project.stack.name === "unselected" ? "No application stack has been selected yet; use agents --suggest --idea to choose one." : project.stack.confidence === "low" ? "Stack was not recognized; use agents --suggest --idea to choose a template." : `Detected ${project.stack.name}.`
+    message: project.stack.name === "unselected" ? "No application stack has been selected yet; use agents suggest --idea to choose one." : project.stack.confidence === "low" ? "Stack was not recognized; use agents suggest --idea to choose a template." : `Detected ${project.stack.name}.`
   });
   items.push({
     level: project.tools.some((tool) => tool.available) ? "ok" : "info",
@@ -335,11 +358,11 @@ function assessProject(project) {
 }
 
 function recommendedCommand(project) {
-  if (project.projectState === "github-minimal") return "Run agents --suggest --idea \"...\" to choose a template, then agents --init --dry-run.";
-  if (!project.hasAgents) return "Run agents --setup --dry-run, then agents --setup after reviewing the preview.";
-  if (!project.env) return "Run agents --setup --dry-run to create local non-secret AGENTS config.";
-  if (!project.hasAiRuns) return "Run agents --run to generate the first local usage and optimization reports.";
-  return "Run agents --dashboard to review coverage, reports, and next actions.";
+  if (project.projectState === "github-minimal") return "Run agents suggest --idea \"...\" to choose a template, then agents init --dry-run.";
+  if (!project.hasAgents) return "Run agents setup --dry-run, then agents setup after reviewing the preview.";
+  if (!project.env) return "Run agents setup --dry-run to create local non-secret AGENTS config.";
+  if (!project.hasAiRuns) return "Run agents run to generate the first local usage and optimization reports.";
+  return "Run agents dashboard to review coverage, reports, and next actions.";
 }
 
 function printSetupIntro(project, initMode) {
@@ -407,8 +430,8 @@ async function setupProject({ initMode, dryRun, yes }) {
   }
   applyChanges(changes);
   printSection("Setup complete");
-  console.log("- Run agents --doctor to verify repository readiness.");
-  console.log("- Run agents --dashboard to inspect local usage and tooling status.");
+  console.log("- Run agents doctor to verify repository readiness.");
+  console.log("- Run agents dashboard to inspect local usage and tooling status.");
 }
 
 function buildSetupChanges(project, answers) {
@@ -471,13 +494,12 @@ function buildSetupChanges(project, answers) {
     const nextPackage = structuredClone(project.packageJson);
     nextPackage.scripts = nextPackage.scripts || {};
     const scripts = {
-      agents: "agents",
-      "agents:help": "agents --help",
-      "agents:init": "agents --init",
-      "agents:setup": "agents --setup",
-      "agents:doctor": "agents --doctor",
-      "agents:dashboard": "agents --dashboard",
-      "agents:dev": "agents --run -- npm run dev"
+      agents: "agents doctor",
+      "agents:help": "agents help",
+      "agents:init": "agents init",
+      "agents:setup": "agents setup",
+      "agents:dashboard": "agents dashboard",
+      "agents:dev": "agents run -- npm run dev"
     };
     let changed = false;
     for (const [key, value] of Object.entries(scripts)) {
@@ -572,15 +594,15 @@ Define what this project will build.
 ## Start
 
 \`\`\`bash
-agents --doctor
-agents --setup --dry-run
-agents --dashboard
+agents doctor
+agents setup --dry-run
+agents dashboard
 \`\`\`
 
 If this project does not use Node, run AGENTS through \`npx\`:
 
 \`\`\`bash
-npx -y @mvuljevas/agents --doctor
+npx -y @mvuljevas/agents doctor
 \`\`\`
 
 ## Documentation
@@ -915,7 +937,7 @@ function nextActions(project) {
   const actions = [];
   if (!project.tools.find((tool) => tool.id === "tokscale")?.available) actions.push("Install or use npx Tokscale for usage measurement.");
   if (!project.tools.find((tool) => tool.id === "tokless")?.available) actions.push("Tokless is optional; install it only if you want prompt/plugin optimization.");
-  if (!project.hasAgents) actions.push("Add AGENTS.md or run agents --setup to adopt governance rules.");
+  if (!project.hasAgents) actions.push("Add AGENTS.md or run agents setup to adopt governance rules.");
   if (actions.length === 0) actions.push("Run a matched baseline vs optimized task before claiming savings.");
   return actions;
 }
@@ -1106,7 +1128,7 @@ function printError(message) {
   console.error("------------");
   console.error(message);
   console.error("");
-  console.error("Run agents --help for usage and examples.");
+  console.error("Run agents help for usage and examples.");
 }
 
 function matchLast(text, regex) {
