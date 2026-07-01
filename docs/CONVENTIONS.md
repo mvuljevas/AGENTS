@@ -63,6 +63,17 @@ Agents should update documentation proactively when work changes:
 Documentation changes should be part of the same work block as the related
 implementation whenever practical.
 
+## Package Lock Policy
+
+This repository publishes a reusable CLI and template library, not a deployed
+application. The root package currently has no runtime or development
+dependencies, so the root `package-lock.json` is ignored by default.
+
+Template projects may include lockfiles when the target stack benefits from a
+reproducible application install. If the root package later adds meaningful
+runtime or development dependencies, revisit this policy and commit an updated
+lockfile only as an intentional packaging decision.
+
 ## Public Metadata
 
 Do not include AI agent names, AI tool names, model names, provider names, or

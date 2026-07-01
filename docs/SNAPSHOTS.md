@@ -825,6 +825,37 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
   project using `npm pack` or local link.
 
+## 2026-06-30 - Block 030: Package Lock Policy
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Root `package-lock.json` is ignored because the root package has no
+  dependencies and acts as a reusable CLI/template library.
+- Template projects may include lockfiles when their target stack benefits from
+  reproducible application installs.
+- `TD-006` has been moved to resolved technical debt.
+- Repository version has been updated to `0.20.4`.
+
+Decisions:
+
+- Do not commit a root package lockfile until the root package has meaningful
+  runtime or development dependencies and the lockfile is an intentional
+  packaging decision.
+
+Risks:
+
+- If root dependencies are added later, this policy must be revisited before
+  publishing.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
+  project using `npm pack` or local link.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:

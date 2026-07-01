@@ -24,6 +24,9 @@ repomix-output.md
 tokscale-*.json
 tokscale-*.md
 
+# Root package policy
+package-lock.json
+
 # Logs
 *.log
 logs/
