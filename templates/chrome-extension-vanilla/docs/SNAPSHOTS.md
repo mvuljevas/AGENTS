@@ -128,3 +128,29 @@ Risks:
 Next suggested step:
 
 - Run `npm run agents:doctor` after creating a project from this template.
+
+## 2026-07-01 - Block 006: CLI Script And GitHub Minimal Completion
+
+Branch:
+
+- `main`
+
+Current state:
+
+- AGENTS CLI docs now explain GitHub-minimal repository completion and npm
+  script flag forwarding.
+- Template npm scripts expose `agents` and `agents:help`.
+- Template version has been updated to `0.13.0`.
+
+Decisions:
+
+- GitHub-created minimal files are treated as new-project placeholders that can
+  be completed after preview.
+
+Risks:
+
+- Clean external install validation is still pending.
+
+Next suggested step:
+
+- Run `npm run agents:doctor` after creating a project from this template.

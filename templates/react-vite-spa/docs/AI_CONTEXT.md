@@ -4,7 +4,7 @@
 
 - Name: React Vite SPA.
 - Purpose: React SPA/Vite starter with AGENTS and lean-context.
-- Current version: 0.12.0.
+- Current version: 0.13.0.
 - Version source: `package.json`.
 
 ## Stack

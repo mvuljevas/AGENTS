@@ -2,13 +2,14 @@
   "name": "chrome-extension-vanilla",
   "private": true,
   "scripts": {
-    "agents": "agents --help",
+    "agents": "agents",
+    "agents:help": "agents --help",
     "agents:init": "agents --init",
     "agents:setup": "agents --setup",
     "agents:doctor": "agents --doctor",
     "agents:dashboard": "agents --dashboard"
   },
   "devDependencies": {
-    "@mvuljevas/agents": "^0.21.0"
+    "@mvuljevas/agents": "^0.22.0"
   }
 }

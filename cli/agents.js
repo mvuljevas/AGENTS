@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.21.1";
+const VERSION = "0.22.0";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -296,6 +296,14 @@ function isGithubMinimalRepo(cwd) {
   return entries.every((entry) => allowed.has(entry));
 }
 
+function isMinimalReadme(path) {
+  const text = readText(path).trim();
+  if (!text) return true;
+  const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  if (lines.length <= 3 && lines[0]?.startsWith("# ")) return true;
+  return !/##\s+(Start|Installation|Usage|Documentation|Project Goal|Roadmap)/i.test(text);
+}
+
 function assessProject(project) {
   const items = [];
   items.push({
@@ -342,7 +350,7 @@ function printSetupIntro(project, initMode) {
   console.log("");
   if (project.projectState === "github-minimal") {
     console.log("This looks like a freshly created GitHub repository with only minimal files.");
-    console.log("AGENTS will treat it as a new project and preserve README, .gitignore, and LICENSE.");
+    console.log("AGENTS will treat it as a new project and can complete README, .gitignore, and .gitattributes after preview.");
   }
   console.log("This wizard can create local AGENTS configuration, rollback notes, optional npm scripts when package.json exists, and safe AI-tool defaults.");
   console.log("No external tool is mandatory.");
@@ -419,6 +427,26 @@ function buildSetupChanges(project, answers) {
       mode: "create",
       content: renderProjectReadme(project)
     });
+  } else if (project.projectState === "github-minimal" && isMinimalReadme(join(ROOT, "README.md"))) {
+    changes.push({
+      path: join(ROOT, "README.md"),
+      mode: "update",
+      content: renderProjectReadme(project)
+    });
+  }
+  if (project.projectState === "github-minimal") {
+    const gitignorePath = join(ROOT, ".gitignore");
+    const gitattributesPath = join(ROOT, ".gitattributes");
+    changes.push({
+      path: gitignorePath,
+      mode: existsSync(gitignorePath) ? "update" : "create",
+      content: mergeGitignore(readText(gitignorePath))
+    });
+    changes.push({
+      path: gitattributesPath,
+      mode: existsSync(gitattributesPath) ? "update" : "create",
+      content: mergeGitattributes(readText(gitattributesPath))
+    });
   }
   const docs = {
     "docs/AI_CONTEXT.md": renderProjectAiContext(project),
@@ -443,7 +471,8 @@ function buildSetupChanges(project, answers) {
     const nextPackage = structuredClone(project.packageJson);
     nextPackage.scripts = nextPackage.scripts || {};
     const scripts = {
-      agents: "agents --help",
+      agents: "agents",
+      "agents:help": "agents --help",
       "agents:init": "agents --init",
       "agents:setup": "agents --setup",
       "agents:doctor": "agents --doctor",
@@ -536,6 +565,10 @@ function renderProjectReadme(project) {
 
 Project initialized with AGENTS workflow guidance.
 
+## Project Goal
+
+Define what this project will build.
+
 ## Start
 
 \`\`\`bash
@@ -558,6 +591,54 @@ npx -y @mvuljevas/agents --doctor
 - \`docs/SNAPSHOTS.md\`: project memory.
 - \`docs/TECHDEBT.md\`: accepted debt and cleanup items.
 `;
+}
+
+function mergeGitignore(current) {
+  const block = [
+    "# AGENTS local configuration",
+    ".agents.env",
+    ".agents/",
+    "!.agents/skills/",
+    "",
+    "# AI tool outputs",
+    ".ai-runs/",
+    "repomix-output.md",
+    "tokscale-*.json",
+    "tokscale-*.md",
+    "",
+    "# Local secrets",
+    ".env",
+    ".env.*",
+    "!.env.example",
+    "",
+    "# Operating system files",
+    ".DS_Store",
+    "Thumbs.db"
+  ].join("\n");
+  return appendBlock(current, "# AGENTS", block);
+}
+
+function mergeGitattributes(current) {
+  const block = [
+    "# Normalize text files",
+    "* text=auto eol=lf",
+    "",
+    "# Common binary files",
+    "*.png binary",
+    "*.jpg binary",
+    "*.jpeg binary",
+    "*.gif binary",
+    "*.webp binary",
+    "*.ico binary",
+    "*.pdf binary"
+  ].join("\n");
+  return appendBlock(current, "# AGENTS", block);
+}
+
+function appendBlock(current, marker, block) {
+  const text = current.trimEnd();
+  if (text.includes(marker)) return `${text}\n`;
+  return `${text ? `${text}\n\n` : ""}${block}\n`;
 }
 
 function renderProjectAiContext(project) {

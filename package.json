@@ -1,6 +1,6 @@
 {
   "name": "@mvuljevas/agents",
-  "version": "0.21.1",
+  "version": "0.22.0",
   "description": "Reusable AGENTS templates, workflows, and guided AI tooling setup.",
   "license": "MIT",
   "type": "module",
@@ -24,7 +24,8 @@
     "repomix.config.json"
   ],
   "scripts": {
-    "agents": "node cli/agents.js --help",
+    "agents": "node cli/agents.js",
+    "agents:help": "node cli/agents.js --help",
     "agents:init": "node cli/agents.js --init",
     "agents:setup": "node cli/agents.js --setup",
     "agents:doctor": "node cli/agents.js --doctor",

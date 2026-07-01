@@ -40,6 +40,8 @@ agents --mcp-create [--dry-run]       Scaffold a read-only project MCP.
 - Missing base files are created only when absent: `AGENTS.md`, `README.md`,
   `docs/AI_CONTEXT.md`, `docs/ROADMAP.md`, `docs/SNAPSHOTS.md`, and
   `docs/TECHDEBT.md`.
+- GitHub-minimal repositories can complete placeholder `README.md`, `.gitignore`,
+  and `.gitattributes` after preview and confirmation.
 
 ## Recommended Scripts
 
@@ -48,7 +50,8 @@ When a project has `package.json`, `agents --setup` can add these scripts:
 ```json
 {
   "scripts": {
-    "agents": "agents --help",
+    "agents": "agents",
+    "agents:help": "agents --help",
     "agents:init": "agents --init",
     "agents:setup": "agents --setup",
     "agents:doctor": "agents --doctor",
@@ -67,6 +70,17 @@ Projects without `package.json` should use:
 npx -y @mvuljevas/agents --doctor
 npx -y @mvuljevas/agents --setup
 ```
+
+When running through npm scripts, pass CLI flags after `--`:
+
+```bash
+npm run agents
+npm run agents:help
+npm run agents -- --doctor
+```
+
+`npm run agents --help` shows npm's own help because npm consumes that flag
+before the script receives it.
 
 ## Dashboard
 
@@ -100,8 +114,9 @@ agents --init --dry-run
 agents --init
 ```
 
-AGENTS preserves the minimal files created by GitHub and creates only the
-missing workflow files.
+AGENTS treats these files as placeholders for a new project. It can complete a
+minimal `README.md`, append AGENTS-safe defaults to `.gitignore`, and create or
+complete `.gitattributes` after preview and confirmation.
 
 For an existing project:
 

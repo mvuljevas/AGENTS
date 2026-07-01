@@ -939,3 +939,43 @@ Notes:
 
 - Local raw outputs are stored under `.ai-runs/20260701T025113Z/` and remain ignored.
 - Treat Tokscale grouping as approximate unless validated manually.
+
+## 2026-07-01 - Automated AI Tool Run 20260701T030052Z
+
+Scope:
+
+- Repository: AGENTS.
+- Context mode: `lean-context`.
+- Experiment ID: `agents-repo-token-measurement`.
+- Experiment run: `lean-context-local-001`.
+- Task: Configure AGENTS repository for lean-context usage measurement.
+
+Tool state:
+
+- Context7: ok: /vitejs/vite.
+- Tokscale: ok: codex,cursor,antigravity,claude,gemini,warp today.
+- Tokscale coverage: ok: see .ai-runs/20260701T030052Z/tokscale-clients-before.txt.
+- Tokscale Cursor sync: sync failed: Cursor not authenticated.
+- Tokscale Antigravity sync: sync ok: no sessions detected.
+- Tokscale Warp sync: sync failed: Warp not authenticated.
+- Tokscale submit: skipped: off.
+- Repomix: ok.
+- MCP: ask.
+
+Measurements:
+
+| Source | Result |
+| --- | --- |
+| Repomix bounded pack | 134 files, 135,739 tokens, 532,066 chars. |
+| Tokscale local report | Generated locally at `.ai-runs/20260701T030052Z/tokscale-report.txt` when enabled. |
+| Tokscale coverage scan | ok: see .ai-runs/20260701T030052Z/tokscale-clients-before.txt. |
+| Tokscale Cursor sync | sync failed: Cursor not authenticated. |
+| Tokscale Antigravity sync | sync ok: no sessions detected. |
+| Tokscale Warp sync | sync failed: Warp not authenticated. |
+| Tokscale submit | skipped: off. |
+| Context7 validation | ok: /vitejs/vite. |
+
+Notes:
+
+- Local raw outputs are stored under `.ai-runs/20260701T030052Z/` and remain ignored.
+- Treat Tokscale grouping as approximate unless validated manually.

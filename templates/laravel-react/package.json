@@ -2,7 +2,8 @@
   "name": "laravel-react",
   "private": true,
   "scripts": {
-    "agents": "agents --help",
+    "agents": "agents",
+    "agents:help": "agents --help",
     "agents:init": "agents --init",
     "agents:setup": "agents --setup",
     "agents:doctor": "agents --doctor",
@@ -10,6 +11,6 @@
     "agents:dev": "agents --run -- npm run dev"
   },
   "devDependencies": {
-    "@mvuljevas/agents": "^0.21.0"
+    "@mvuljevas/agents": "^0.22.0"
   }
 }
