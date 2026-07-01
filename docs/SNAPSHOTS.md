@@ -894,6 +894,43 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
   project using `npm pack` or local link.
 
+## 2026-07-01 - Block 032: GitHub Minimal Repository Detection
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Repositories containing only GitHub bootstrap files such as `.git`,
+  `README.md`, `.gitignore`, `LICENSE`, and `.gitattributes` are now detected
+  as `github-minimal`.
+- `github-minimal` repositories use stack `unselected` instead of being treated
+  as `docs-only`.
+- `agents --doctor` now recommends `agents --suggest --idea "..."` before
+  initialization for conceptually new repositories.
+- `agents --setup --dry-run` preserves GitHub-created `README.md`, `.gitignore`,
+  and `LICENSE` while previewing missing AGENTS workflow files.
+- Repository version has been updated to `0.21.1`.
+
+Decisions:
+
+- Minimal GitHub bootstrap files are not enough evidence to classify a project
+  as existing or documentation-only.
+- AGENTS should treat this common workflow as a new project until a stack,
+  template, or implementation artifact is present.
+
+Risks:
+
+- Some genuine documentation-only repositories with only a README may first be
+  classified as `github-minimal`; users can still choose `docs-only` through
+  `agents --suggest`.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: test `@mvuljevas/agents` from a clean external
+  project using `npm pack` or local link.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:

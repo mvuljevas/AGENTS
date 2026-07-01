@@ -90,6 +90,19 @@ For a new project:
 agents --init
 ```
 
+For a repository freshly created on GitHub with only `README.md`, `.gitignore`,
+`LICENSE`, and `.git`, AGENTS treats the repository as conceptually new:
+
+```bash
+agents --doctor
+agents --suggest --idea "Describe the app you want to build"
+agents --init --dry-run
+agents --init
+```
+
+AGENTS preserves the minimal files created by GitHub and creates only the
+missing workflow files.
+
 For an existing project:
 
 ```bash

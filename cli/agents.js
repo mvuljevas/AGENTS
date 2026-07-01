@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.21.0";
+const VERSION = "0.21.1";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -209,6 +209,7 @@ function detectProject(cwd) {
   const env = readEnv(join(cwd, ".agents.env")) || readEnv(join(cwd, ".agents.env.example"));
   const templates = listTemplates();
   const stack = detectStack(cwd, packageJson);
+  const projectState = detectProjectState(cwd, packageJson);
   return {
     cwd,
     isGit: existsSync(join(cwd, ".git")),
@@ -219,7 +220,7 @@ function detectProject(cwd) {
     packageJson,
     packageManager: detectPackageManager(cwd),
     stack,
-    projectState: detectProjectState(cwd, packageJson),
+    projectState,
     scripts: packageJson?.scripts || {},
     hasAiRuns: existsSync(join(cwd, ".ai-runs")),
     env,
@@ -274,7 +275,9 @@ function detectStack(cwd, packageJson) {
     return { name: "react-vite-spa", confidence: packageJson.dependencies?.react || packageJson.devDependencies?.react ? "high" : "medium" };
   }
   if (packageJson) return { name: "node", confidence: "medium" };
-  if (existsSync(join(cwd, "README.md")) || existsSync(join(cwd, "docs"))) return { name: "docs-only", confidence: "medium" };
+  if (isGithubMinimalRepo(cwd)) return { name: "unselected", confidence: "high" };
+  if (existsSync(join(cwd, "docs"))) return { name: "docs-only", confidence: "medium" };
+  if (existsSync(join(cwd, "README.md"))) return { name: "docs-only", confidence: "low" };
   return { name: "unknown", confidence: "low" };
 }
 
@@ -282,7 +285,15 @@ function detectProjectState(cwd, packageJson) {
   if (existsSync(join(cwd, "AGENTS.md")) && existsSync(join(cwd, ".agents.env"))) return "agents-configured";
   if (existsSync(join(cwd, "AGENTS.md"))) return "agents-partial";
   if (packageJson || existsSync(join(cwd, "composer.json")) || existsSync(join(cwd, "artisan")) || existsSync(join(cwd, "manifest.json"))) return "existing-project";
+  if (isGithubMinimalRepo(cwd)) return "github-minimal";
   return "new-or-empty";
+}
+
+function isGithubMinimalRepo(cwd) {
+  const entries = safeReaddir(cwd).filter((entry) => !entry.startsWith(".DS_Store"));
+  if (entries.length === 0) return true;
+  const allowed = new Set([".git", "README.md", "LICENSE", "LICENSE.md", ".gitignore", ".gitattributes"]);
+  return entries.every((entry) => allowed.has(entry));
 }
 
 function assessProject(project) {
@@ -303,9 +314,9 @@ function assessProject(project) {
     message: project.hasReadme ? "README.md is present." : "README.md is missing; templates should include one."
   });
   items.push({
-    level: project.stack.confidence === "low" ? "warn" : "ok",
+    level: project.stack.name === "unselected" || project.stack.confidence === "low" ? "warn" : "ok",
     label: "Stack",
-    message: project.stack.confidence === "low" ? "Stack was not recognized; use agents --suggest --idea to choose a template." : `Detected ${project.stack.name}.`
+    message: project.stack.name === "unselected" ? "No application stack has been selected yet; use agents --suggest --idea to choose one." : project.stack.confidence === "low" ? "Stack was not recognized; use agents --suggest --idea to choose a template." : `Detected ${project.stack.name}.`
   });
   items.push({
     level: project.tools.some((tool) => tool.available) ? "ok" : "info",
@@ -316,6 +327,7 @@ function assessProject(project) {
 }
 
 function recommendedCommand(project) {
+  if (project.projectState === "github-minimal") return "Run agents --suggest --idea \"...\" to choose a template, then agents --init --dry-run.";
   if (!project.hasAgents) return "Run agents --setup --dry-run, then agents --setup after reviewing the preview.";
   if (!project.env) return "Run agents --setup --dry-run to create local non-secret AGENTS config.";
   if (!project.hasAiRuns) return "Run agents --run to generate the first local usage and optimization reports.";
@@ -328,6 +340,10 @@ function printSetupIntro(project, initMode) {
   printKV("Detected stack", `${project.stack.name} (${project.stack.confidence})`);
   printKV("Detected state", project.projectState);
   console.log("");
+  if (project.projectState === "github-minimal") {
+    console.log("This looks like a freshly created GitHub repository with only minimal files.");
+    console.log("AGENTS will treat it as a new project and preserve README, .gitignore, and LICENSE.");
+  }
   console.log("This wizard can create local AGENTS configuration, rollback notes, optional npm scripts when package.json exists, and safe AI-tool defaults.");
   console.log("No external tool is mandatory.");
 }
@@ -976,6 +992,14 @@ function readText(path) {
     return readFileSync(path, "utf8");
   } catch {
     return "";
+  }
+}
+
+function safeReaddir(path) {
+  try {
+    return readdirSync(path);
+  } catch {
+    return [];
   }
 }
 
