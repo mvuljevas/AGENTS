@@ -39,14 +39,16 @@ This roadmap is the primary source for next-step suggestions in this repository.
 ## Next Milestones
 
 1. Resolve the final public package and binary name for AGENTS.
-2. Publish or locally pack `@mvuljevas/agents` and test installation in a clean
+2. Design and implement a real local AGENTS dashboard or remove the command
+   until it exists.
+3. Publish or locally pack `@mvuljevas/agents` and test installation in a clean
    external project.
-3. Measure whether `lean-context` reduces token usage in real sessions.
-4. Validate the recommendation flow with real new-project prompts.
-5. Refine the first template based on real adoption feedback.
-6. Expand `agents mcp-create` into a full read-only MCP server runtime.
-7. Add template usage examples or copy/adoption instructions.
-8. Review third-party MCP, tracking, and compression recommendations for
+4. Measure whether `lean-context` reduces token usage in real sessions.
+5. Validate the recommendation flow with real new-project prompts.
+6. Refine the first template based on real adoption feedback.
+7. Expand `agents mcp-create` into a full read-only MCP server runtime.
+8. Add template usage examples or copy/adoption instructions.
+9. Review third-party MCP, tracking, and compression recommendations for
    freshness before adding automation.
 
 ## Completed Milestones

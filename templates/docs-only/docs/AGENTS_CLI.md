@@ -8,7 +8,7 @@ dependency or through `npx`.
 ## Purpose
 
 Use `agents` to inspect a repository, initialize AGENTS workflow files, adopt
-AGENTS in an existing project, choose templates, start the local dashboard, and
+AGENTS in an existing project, choose templates, report dashboard status, and
 scaffold optional AI tooling.
 
 The CLI is designed to work in any project type. Node projects can install it
@@ -23,7 +23,7 @@ agents doctor                       Inspect the current repository and print rea
 agents init [--dry-run] [--yes]     Prepare a new project with AGENTS workflow files.
 agents setup [--dry-run] [--yes]    Adopt AGENTS in an existing project without overwriting conventions.
 agents run -- <command>             Run a command with the AGENTS dashboard lifecycle.
-agents dashboard [--no-open]        Start the local dashboard.
+agents dashboard [--no-open]        Show dashboard status. The real UI is planned, not implemented.
 agents suggest --idea "..."         Recommend a template and preset from a project idea.
 agents mcp-create [--dry-run]       Scaffold a read-only project MCP.
 ```
@@ -83,17 +83,38 @@ npm run agents:setup
 
 ## Dashboard
 
-The dashboard starts with AGENTS-managed flows:
+The real dashboard UI is not implemented yet. Until then, use:
 
 ```bash
-agents dashboard
-agents run -- npm run dev
-npm run agents:dev
+agents doctor
+agents run
 ```
 
-It shows detected agents, tool status, usage reports, optimization reports,
-estimated spend, optimized context size, baseline availability, and setup gaps.
-Savings are only reported when comparable baseline and optimized runs exist.
+`agents dashboard` reports the current dashboard status and points to available
+reports. It should not be treated as a complete dashboard UI until the roadmap
+item is implemented.
+
+## Interactive Setup
+
+`agents setup` uses interactive selectors when the terminal supports them.
+
+- Enter accepts the value shown as the default.
+- Single-choice prompts show explicit shortcuts, for example `[c]`, `[b]`, and
+  `[g]`.
+- Tool selection is grouped by category and supports multiple selections.
+- Space toggles a tool; Enter continues.
+- `None` skips a category.
+
+Tool categories:
+
+- Measurement tools: Tokscale, Cursor Teams, and future usage analytics.
+- Optimization and context tools: Tokless, Repomix, and future reducers.
+- MCPs and documentation context: Context7, MCP compression tools, and paid
+  context providers.
+
+The wizard explains when tools overlap. For example, Tokscale and Cursor Teams
+can both report usage, and Tokless plus MCP compression can both affect context.
+AGENTS should recommend measuring one change before stacking multiple optimizers.
 
 ## Recommended Start
 

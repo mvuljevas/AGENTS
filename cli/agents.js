@@ -4,10 +4,11 @@ import { spawn, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { emitKeypressEvents } from "node:readline";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.23.0";
+const VERSION = "0.24.0";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -17,6 +18,7 @@ const TOOL_REGISTRY = [
     id: "tokscale",
     name: "Tokscale",
     category: "measurement",
+    group: "Measurement tools",
     maturity: "stable",
     defaultSelected: false,
     commands: ["tokscale", "npx -y tokscale@latest"],
@@ -26,15 +28,17 @@ const TOOL_REGISTRY = [
     id: "repomix",
     name: "Repomix",
     category: "context-packaging",
+    group: "Context packaging",
     maturity: "stable",
     defaultSelected: true,
     commands: ["repomix", "npx -y repomix@latest"],
-    description: "Builds bounded repository context packs for AI agents."
+    description: "Builds bounded repository context packs. This is context reduction, not a runtime optimizer."
   },
   {
     id: "tokless",
     name: "Tokless",
     category: "optimization",
+    group: "Optimization tools",
     maturity: "stable",
     defaultSelected: true,
     commands: ["tokless"],
@@ -44,6 +48,7 @@ const TOOL_REGISTRY = [
     id: "context7",
     name: "Context7",
     category: "documentation",
+    group: "Documentation MCPs",
     maturity: "stable",
     defaultSelected: false,
     commands: ["ctx7", "npx -y ctx7@latest"],
@@ -53,6 +58,7 @@ const TOOL_REGISTRY = [
     id: "mcp-compressor",
     name: "mcp-compressor",
     category: "mcp-optimization",
+    group: "Optimization MCPs",
     maturity: "optional",
     defaultSelected: false,
     commands: ["mcp-compressor"],
@@ -62,6 +68,7 @@ const TOOL_REGISTRY = [
     id: "token-optimizer-mcp",
     name: "token-optimizer-mcp",
     category: "experimental",
+    group: "Optimization MCPs",
     maturity: "verify-before-use",
     defaultSelected: false,
     commands: ["token-optimizer-mcp"],
@@ -71,6 +78,7 @@ const TOOL_REGISTRY = [
     id: "sourcegraph-cody",
     name: "Sourcegraph Cody Enterprise",
     category: "paid-context",
+    group: "Paid context tools",
     maturity: "paid",
     defaultSelected: false,
     commands: ["src"],
@@ -80,6 +88,7 @@ const TOOL_REGISTRY = [
     id: "cursor-teams",
     name: "Cursor Teams",
     category: "paid-measurement",
+    group: "Measurement tools",
     maturity: "paid",
     defaultSelected: false,
     commands: ["cursor"],
@@ -140,7 +149,7 @@ async function main() {
     return;
   }
   if (args.includes("--dashboard")) {
-    await startDashboard({ keepAlive: true, open: !args.includes("--no-open"), port: numberArg(args, "--port") });
+    printDashboardUnavailable(detectProject(ROOT));
     return;
   }
   if (args.includes("--run")) {
@@ -197,7 +206,7 @@ Usage:
   agents init [--dry-run] [--yes]       Prepare a new project.
   agents setup [--dry-run] [--yes]      Adopt AGENTS in an existing project.
   agents run -- <command>               Run a command with AGENTS dashboard.
-  agents dashboard [--no-open]          Start the local dashboard.
+  agents dashboard [--no-open]          Show dashboard status; real UI is planned.
   agents suggest --idea "..."           Recommend a template and preset.
   agents mcp-create [--dry-run]         Scaffold a read-only project MCP.
 
@@ -284,6 +293,26 @@ function printDoctor(project) {
 
   printSection("Recommended next step");
   console.log(`- ${recommendedCommand(project)}`);
+}
+
+function printDashboardUnavailable(project) {
+  printSection("AGENTS dashboard");
+  console.log("A real AGENTS dashboard UI is not implemented yet.");
+  console.log("");
+  console.log("Available now:");
+  console.log("- agents doctor: repository readiness and tool status.");
+  console.log("- agents run: execute configured local AI tooling and append reports.");
+  console.log("- docs/AI_USAGE_REPORT.md: aggregate usage observations.");
+  console.log("- docs/AI_OPTIMIZATION_REPORT.md: aggregate optimization observations.");
+  console.log("");
+  console.log("Detected status:");
+  printKV("Repository", project.cwd);
+  printKV("Dashboard data", project.hasAiRuns ? "present" : "missing");
+  printKV("Tools available", `${project.tools.filter((tool) => tool.available).length}/${project.tools.length}`);
+  console.log("");
+  console.log("Next:");
+  console.log("- Use agents doctor for current status.");
+  console.log("- Track the real dashboard as a roadmap item before exposing this as a UI.");
 }
 
 function detectStack(cwd, packageJson) {
@@ -386,6 +415,88 @@ function recommendationReason(template) {
   return "No stack-specific signal was detected, so the docs-only foundation is safest.";
 }
 
+async function selectTools(project, answers) {
+  const selected = new Set();
+  const groups = [
+    {
+      title: "Measurement tools",
+      description: "Track usage, cost, or coverage. Multiple tools can be selected.",
+      ids: ["tokscale", "cursor-teams"]
+    },
+    {
+      title: "Optimization and context tools",
+      description: "Reduce or package context before it reaches an AI client.",
+      ids: ["tokless", "repomix"]
+    },
+    {
+      title: "MCPs and documentation context",
+      description: "Add read-only context sources or MCP helpers.",
+      ids: ["context7", "mcp-compressor", "token-optimizer-mcp", "sourcegraph-cody"]
+    }
+  ];
+
+  for (const group of groups) {
+    const tools = group.ids.map((id) => TOOL_REGISTRY.find((tool) => tool.id === id)).filter(Boolean);
+    const values = await selectMany({
+      title: group.title,
+      description: group.description,
+      options: tools.map((tool) => ({
+        value: tool.id,
+        label: tool.name,
+        description: `${tool.description} ${tool.available ? "(available)" : "(not installed)"}`
+      })),
+      defaults: tools.filter((tool) => answers.selectedTools.includes(tool.id)).map((tool) => tool.id)
+    });
+    for (const value of values) selected.add(value);
+  }
+
+  printToolConflictNotes([...selected], project);
+  await guideSelectedTools([...selected], answers);
+  return [...selected];
+}
+
+function printToolConflictNotes(selectedTools, project) {
+  printSection("Tool compatibility");
+  if (selectedTools.length === 0) {
+    console.log("- No optional tools selected.");
+    return;
+  }
+  if (selectedTools.includes("tokscale") && selectedTools.includes("cursor-teams")) {
+    console.log("- Tokscale and Cursor Teams can both measure usage. Keep both only if you want local plus team-level reporting.");
+  }
+  if (selectedTools.includes("tokless") && selectedTools.includes("mcp-compressor")) {
+    console.log("- Tokless and MCP compression tools may both alter context. Enable one first, measure, then add the other if needed.");
+  }
+  if (selectedTools.includes("repomix")) {
+    console.log("- Repomix packages context. It is useful for lean context, but it is not a live optimizer by itself.");
+  }
+  for (const id of selectedTools) {
+    const tool = project.tools.find((entry) => entry.id === id);
+    if (tool && !tool.available) console.log(`- ${id} is not installed. AGENTS will write config guidance, not install it automatically.`);
+  }
+}
+
+async function guideSelectedTools(selectedTools, answers) {
+  if (selectedTools.length === 0) return;
+  printSection("Tool setup guidance");
+  for (const id of selectedTools) {
+    if (id === "tokscale") {
+      console.log("- Tokscale: requires login for remote dashboard submission.");
+      console.log(`  Selected submit mode: ${answers.privacy}.`);
+      console.log("  Run later: npx -y tokscale@latest login");
+    } else if (id === "context7") {
+      console.log("- Context7: requires an API key. Store it in a local ignored secret file, not in committed docs.");
+      console.log("  Example local key name: CONTEXT7_API_KEY.");
+    } else if (id === "tokless") {
+      console.log("- Tokless: configure only the plugins you intend to use. Measure before and after enabling it.");
+    } else if (id === "repomix") {
+      console.log("- Repomix: use strict ignores and bounded output. It prepares context packs for AI clients.");
+    } else if (id.includes("mcp")) {
+      console.log(`- ${id}: keep read-only by default and restrict roots before exposing project context.`);
+    }
+  }
+}
+
 async function setupProject({ initMode, dryRun, yes }) {
   const project = detectProject(ROOT);
   const interactive = process.stdin.isTTY && !yes;
@@ -399,14 +510,33 @@ async function setupProject({ initMode, dryRun, yes }) {
   printSetupIntro(project, initMode);
 
   if (interactive) {
-    const rl = createInterface({ input, output });
-    answers.projectMode = await ask(rl, "Project mode [new/existing]", answers.projectMode);
-    answers.profile = await ask(rl, "Setup profile [conservative/balanced/aggressive]", answers.profile);
-    answers.privacy = await ask(rl, "AI submit mode [off/dry-run/on]", answers.privacy);
-    const defaults = answers.selectedTools.join(",");
-    const tools = await ask(rl, "Optional tools to enable [comma list]", defaults);
-    answers.selectedTools = tools.split(",").map((item) => item.trim()).filter(Boolean);
-    await rl.close();
+    answers.projectMode = await selectOne({
+      title: "Project mode",
+      options: [
+        { value: "new", label: "New project", shortcut: "n", description: "Start from a GitHub-minimal or empty repository." },
+        { value: "existing", label: "Existing project", shortcut: "e", description: "Adopt AGENTS without overwriting existing conventions." }
+      ],
+      defaultValue: answers.projectMode
+    });
+    answers.profile = await selectOne({
+      title: "Setup profile",
+      options: [
+        { value: "conservative", label: "Conservative", shortcut: "c", description: "Minimum local files, no external tooling enabled." },
+        { value: "balanced", label: "Balanced", shortcut: "b", description: "Recommended local setup with safe optional defaults." },
+        { value: "aggressive", label: "Aggressive", shortcut: "g", description: "Offer more tooling, still confirmed before writing." }
+      ],
+      defaultValue: answers.profile
+    });
+    answers.privacy = await selectOne({
+      title: "Usage submission",
+      options: [
+        { value: "off", label: "Off", shortcut: "o", description: "Local-only. Do not submit usage externally." },
+        { value: "dry-run", label: "Dry run", shortcut: "d", description: "Prepare reports without remote submission." },
+        { value: "on", label: "On", shortcut: "s", description: "Submit usage when the selected tool is authenticated." }
+      ],
+      defaultValue: answers.privacy
+    });
+    answers.selectedTools = await selectTools(project, answers);
   }
 
   const changes = buildSetupChanges(project, answers);
@@ -1138,6 +1268,114 @@ function matchLast(text, regex) {
 
 function ask(rl, question, defaultValue) {
   return rl.question(`${question} (${defaultValue}): `).then((answer) => answer.trim() || defaultValue);
+}
+
+async function selectOne({ title, options, defaultValue }) {
+  const defaultIndex = Math.max(0, options.findIndex((option) => option.value === defaultValue));
+  const selected = await interactiveMenu({
+    title,
+    instructions: "Use arrow keys, Enter to choose. Shortcuts are shown in brackets.",
+    options,
+    cursor: defaultIndex,
+    multi: false,
+    defaults: [defaultValue]
+  });
+  return selected[0] || defaultValue;
+}
+
+async function selectMany({ title, description, options, defaults = [] }) {
+  const noneOption = { value: "__none__", label: "None", shortcut: "0", description: "Skip this category." };
+  const selected = await interactiveMenu({
+    title,
+    description,
+    instructions: "Use arrows, Space to toggle, Enter to continue. Press 0 for None.",
+    options: [...options, noneOption],
+    cursor: 0,
+    multi: true,
+    defaults
+  });
+  return selected.includes("__none__") ? [] : selected;
+}
+
+function interactiveMenu({ title, description = "", instructions, options, cursor, multi, defaults }) {
+  if (!input.isTTY || !output.isTTY) {
+    return Promise.resolve(defaults.filter(Boolean));
+  }
+  return new Promise((resolve) => {
+    const selected = new Set(defaults.filter(Boolean));
+    let index = cursor;
+    let done = false;
+    const wasRaw = input.isRaw;
+
+    emitKeypressEvents(input);
+    input.setRawMode(true);
+    input.resume();
+
+    const render = () => {
+      output.write("\x1b[2J\x1b[H");
+      console.log(title);
+      console.log("-".repeat(title.length));
+      if (description) console.log(description);
+      console.log(instructions);
+      console.log("Enter accepts the shown default when no change is made.");
+      console.log("");
+      options.forEach((option, optionIndex) => {
+        const pointer = optionIndex === index ? ">" : " ";
+        const mark = multi ? (selected.has(option.value) ? "[x]" : "[ ]") : (option.value === options[index]?.value ? "(*)" : "( )");
+        const shortcut = option.shortcut ? ` [${option.shortcut}]` : "";
+        console.log(`${pointer} ${mark} ${option.label}${shortcut}`);
+        if (optionIndex === index && option.description) console.log(`    ${option.description}`);
+      });
+    };
+
+    const cleanup = () => {
+      input.off("keypress", onKeypress);
+      input.setRawMode(wasRaw);
+      output.write("\n");
+    };
+
+    const finish = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+      if (multi) resolve([...selected]);
+      else resolve([options[index]?.value].filter(Boolean));
+    };
+
+    const onKeypress = (_str, key) => {
+      if (key.name === "c" && key.ctrl) {
+        cleanup();
+        process.exit(130);
+      }
+      if (key.name === "up") index = (index - 1 + options.length) % options.length;
+      else if (key.name === "down") index = (index + 1) % options.length;
+      else if (key.name === "space" && multi) toggleMenuValue(selected, options[index].value);
+      else if (key.name === "return") finish();
+      else {
+        const match = options.findIndex((option) => option.shortcut === key.name);
+        if (match >= 0) {
+          index = match;
+          if (multi) toggleMenuValue(selected, options[index].value);
+          else finish();
+        }
+      }
+      if (!done) render();
+    };
+
+    input.on("keypress", onKeypress);
+    render();
+  });
+}
+
+function toggleMenuValue(selected, value) {
+  if (value === "__none__") {
+    selected.clear();
+    selected.add(value);
+    return;
+  }
+  selected.delete("__none__");
+  if (selected.has(value)) selected.delete(value);
+  else selected.add(value);
 }
 
 function valueArg(args, flag) {

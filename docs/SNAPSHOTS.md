@@ -1011,6 +1011,47 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: resolve the final public package and binary name for
   AGENTS.
 
+## 2026-07-01 - Block 035: Interactive Setup Shortcuts
+
+Branch:
+
+- `main`
+
+Current state:
+
+- `agents setup` now uses interactive selectors when the terminal supports TTY
+  input.
+- Single-choice prompts show explicit shortcuts and explain that Enter accepts
+  the displayed default.
+- Tool setup is grouped into Measurement, Optimization/context, and MCP/context
+  categories.
+- Multi-select tool prompts support arrows, Space to toggle, Enter to continue,
+  and `0` for None.
+- Tool guidance now warns about overlapping measurement tools and context
+  optimization conflicts.
+- `agents dashboard` now reports that a real dashboard UI is not implemented
+  and points to available commands/reports instead of pretending the dashboard
+  is complete.
+- Added `TD-008` and GitHub issue #10 for the real AGENTS dashboard.
+- Repository version has been updated to `0.24.0`.
+
+Decisions:
+
+- Keep AGENTS dependency-free for now; implement terminal selection with Node's
+  built-in readline/key handling.
+- Do not collect or write secrets such as Context7 API keys directly into
+  committed files. Guide users to local ignored secret storage instead.
+
+Risks:
+
+- The interactive selector needs testing on Windows shells and terminals with
+  limited raw-mode support.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: resolve public package naming, then design the real
+  AGENTS dashboard.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:
