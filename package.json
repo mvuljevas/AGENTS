@@ -1,6 +1,6 @@
 {
   "name": "@mvuljevas/agents",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "description": "Reusable AGENTS templates, workflows, and guided AI tooling setup.",
   "license": "MIT",
   "type": "module",

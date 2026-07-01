@@ -1052,6 +1052,43 @@ Next suggested step:
 - Follow `docs/ROADMAP.md`: resolve public package naming, then design the real
   AGENTS dashboard.
 
+## 2026-07-01 - Block 036: Multi-Select Wizard Clarity
+
+Branch:
+
+- `main`
+
+Current state:
+
+- Multi-select setup screens now explain that `Space` toggles the highlighted
+  item and `Enter` continues with the checked items currently shown.
+- The `None` option now says it clears the current category instead of only
+  saying it skips the category.
+- When `None` is highlighted while tools are already selected, the wizard shows
+  which tools will be cleared.
+- `docs/AGENTS_CLI.md` and template/preset CLI docs now document the same
+  multi-select behavior.
+- The ignored local root `package-lock.json` was refreshed to match the current
+  project version because it was still declaring `0.21.1`.
+- Repository version has been updated to `0.24.1`.
+
+Decisions:
+
+- Keep `0` as the shortcut for `None` because it avoids ambiguous letter
+  shortcuts across categories.
+- Treat this as a patch release because it clarifies existing CLI behavior and
+  fixes version metadata drift.
+
+Risks:
+
+- Arrow-key interaction should still be manually verified in the user's active
+  terminals because raw-mode behavior can differ across shells.
+
+Next suggested step:
+
+- Follow `docs/ROADMAP.md`: resolve public package naming, then design the real
+  AGENTS dashboard.
+
 ## 2026-06-30 - Block 023: AI Tool Script Structure Audit
 
 Branch:

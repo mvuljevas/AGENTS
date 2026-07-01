@@ -8,7 +8,7 @@ import { emitKeypressEvents } from "node:readline";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-const VERSION = "0.24.0";
+const VERSION = "0.24.1";
 const ROOT = process.cwd();
 const CLI_DIR = dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = resolve(CLI_DIR, "..");
@@ -1284,11 +1284,16 @@ async function selectOne({ title, options, defaultValue }) {
 }
 
 async function selectMany({ title, description, options, defaults = [] }) {
-  const noneOption = { value: "__none__", label: "None", shortcut: "0", description: "Skip this category." };
+  const noneOption = {
+    value: "__none__",
+    label: "None",
+    shortcut: "0",
+    description: "Clear this category and continue without these tools."
+  };
   const selected = await interactiveMenu({
     title,
     description,
-    instructions: "Use arrows, Space to toggle, Enter to continue. Press 0 for None.",
+    instructions: "Use Up/Down to move, Space to select or unselect, Enter to continue. Press 0 for None.",
     options: [...options, noneOption],
     cursor: 0,
     multi: true,
@@ -1317,14 +1322,19 @@ function interactiveMenu({ title, description = "", instructions, options, curso
       console.log("-".repeat(title.length));
       if (description) console.log(description);
       console.log(instructions);
-      console.log("Enter accepts the shown default when no change is made.");
+      console.log(menuEnterHint(multi, selected, defaults));
       console.log("");
       options.forEach((option, optionIndex) => {
         const pointer = optionIndex === index ? ">" : " ";
         const mark = multi ? (selected.has(option.value) ? "[x]" : "[ ]") : (option.value === options[index]?.value ? "(*)" : "( )");
         const shortcut = option.shortcut ? ` [${option.shortcut}]` : "";
         console.log(`${pointer} ${mark} ${option.label}${shortcut}`);
-        if (optionIndex === index && option.description) console.log(`    ${option.description}`);
+        if (optionIndex === index && option.description) {
+          console.log(`    ${option.description}`);
+          if (multi && option.value === "__none__" && selected.size > 0 && !selected.has("__none__")) {
+            console.log(`    Selecting None will clear: ${selectedLabels(options, selected).join(", ")}.`);
+          }
+        }
       });
     };
 
@@ -1365,6 +1375,21 @@ function interactiveMenu({ title, description = "", instructions, options, curso
     input.on("keypress", onKeypress);
     render();
   });
+}
+
+function menuEnterHint(multi, selected, defaults) {
+  if (!multi) return "Enter chooses the highlighted option. Shortcuts choose immediately.";
+  const current = [...selected].filter((value) => value !== "__none__");
+  if (selected.has("__none__")) return "Enter continues with no tools in this category.";
+  if (current.length > 0) return `Enter continues with selected tools: ${current.length}.`;
+  if (defaults.filter(Boolean).length > 0) return "Enter keeps the current default selections.";
+  return "Enter continues without selecting tools unless you toggle one first.";
+}
+
+function selectedLabels(options, selected) {
+  return options
+    .filter((option) => option.value !== "__none__" && selected.has(option.value))
+    .map((option) => option.label);
 }
 
 function toggleMenuValue(selected, value) {

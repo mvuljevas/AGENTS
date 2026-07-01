@@ -306,3 +306,26 @@ Coverage:
 - Antigravity: sync ok: no sessions detected.
 - Warp: sync failed: Warp not authenticated.
 - Ollama: not directly supported by Tokscale; measure through the invoking agent or a separate telemetry layer.
+
+## 2026-07-01 - Optimization Run 20260701T043033Z
+
+Measured usage:
+
+- Tokscale clients: `codex,cursor,antigravity,claude,gemini,warp`.
+- Measured tokens: 19385821.
+- Measured cost: 13.739757999999998.
+- Tokscale graph export: `.ai-runs/20260701T043033Z/tokscale-graph.json`.
+
+Context size:
+
+- Optimized Repomix pack: 78 files, 78,665 tokens, 322,866 chars.
+- Unoptimized baseline: not available unless a matched baseline run is captured.
+- Estimated savings: not claimed without matched baseline and optimized runs.
+
+Coverage:
+
+- Codex and selected clients: ok: see .ai-runs/20260701T043033Z/tokscale-clients-before.txt.
+- Cursor: sync failed: Cursor not authenticated.
+- Antigravity: sync ok: no sessions detected.
+- Warp: sync failed: Warp not authenticated.
+- Ollama: not directly supported by Tokscale; measure through the invoking agent or a separate telemetry layer.

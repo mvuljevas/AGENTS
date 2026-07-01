@@ -102,8 +102,12 @@ item is implemented.
 - Single-choice prompts show explicit shortcuts, for example `[c]`, `[b]`, and
   `[g]`.
 - Tool selection is grouped by category and supports multiple selections.
-- Space toggles a tool; Enter continues.
-- `None` skips a category.
+- In multi-select prompts, `Space` selects or unselects the highlighted item.
+- In multi-select prompts, `Enter` continues with the checked items currently
+  shown on screen.
+- In multi-select prompts, `0` selects `None`.
+- `None` clears the current category and continues without tools from that
+  category.
 
 Tool categories:
 
